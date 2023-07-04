@@ -1,0 +1,49 @@
+
+.LoginWeb h1{
+    color: blue;
+}
+
+.LoginWeb form {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25%;
+}
+
+.FormGroup {
+    border: 2px solid;
+    border-radius: 5px;
+    margin: 10px;
+    position: relative;
+    height: 40px;
+}
+
+.FormGroup label {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background-color: white;
+}
+
+.FormGroup input {
+    box-sizing: border-box;
+    border: none;
+    border-radius: 3px;
+    width: 100%;
+    height: 100%;
+    outline: none;
+}
+
+.FormGroup input[type="submit"] {
+    background-color: darkblue;
+    color: white;
+    font-size: 20px;
+}
+
+.FormGroup input[type="submit"]:hover {
+    background-color: #0000fb;
+}
+
+.FormGroup input[type="submit"]:active {
+    background-color: #000020;
+}
