@@ -8,4 +8,5 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Mapper
 public abstract class CreateUserRequestToUser {
     public abstract User toUser(CreateUserRequest request);
+    public abstract CreateUserRequest toCreateUserRequest(User user);
 }

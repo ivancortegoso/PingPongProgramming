@@ -9,12 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginDto {
-    private String email;
     private String username;
     private String password;
-
-    @JsonIgnore
-    public String getUsernameOrEmail() {
-        return this.username == null? this.email: this.username;
-    }
 }
