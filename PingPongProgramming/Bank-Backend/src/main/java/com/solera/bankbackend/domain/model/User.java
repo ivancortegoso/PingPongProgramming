@@ -3,6 +3,7 @@ package com.solera.bankbackend.domain.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +31,18 @@ public class User {
     private String password;
     @Column(nullable = false, unique = true)
     private String email;
+    private boolean enabled;
+    private boolean tokenExpired;
 
     @OneToMany
     private List<User> friends;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
 }

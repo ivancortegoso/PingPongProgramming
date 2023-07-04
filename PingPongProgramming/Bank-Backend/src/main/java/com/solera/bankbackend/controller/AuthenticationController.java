@@ -1,7 +1,10 @@
 package com.solera.bankbackend.controller;
 
+import com.solera.bankbackend.domain.dto.LoginDto;
 import com.solera.bankbackend.domain.dto.exceptions.ApiErrorException;
 import com.solera.bankbackend.domain.dto.request.CreateUserRequest;
+import com.solera.bankbackend.domain.dto.responses.JWTAuthResponse;
+import com.solera.bankbackend.service.AuthServiceImpl;
 import com.solera.bankbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +19,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
     @Autowired
     protected UserService userService;
+    @Autowired
+    private AuthServiceImpl authService;
 
+    // Build Login REST API
+    @PostMapping("login")
+    public ResponseEntity<JWTAuthResponse> authenticate(@RequestBody LoginDto loginDto){
+        String token = authService.login(loginDto);
+
+        JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
+        jwtAuthResponse.setAccessToken(token);
+
+        return ResponseEntity.ok(jwtAuthResponse);
+    }
     @PostMapping(path = "register")
     public ResponseEntity<?> register(@RequestBody CreateUserRequest request) throws ApiErrorException {
         if (userService.findByEmail(request.getEmail()) != null) {
