@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PingPongProgramming.iml" filepath="$PROJECT_DIR$/PingPongProgramming.iml" />
+      <module fileurl="file://$PROJECT_DIR$/back-spring/back-spring.iml" filepath="$PROJECT_DIR$/back-spring/back-spring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/front-react.iml" filepath="$PROJECT_DIR$/front-react.iml" />
+    </modules>
+  </component>
+</project>
