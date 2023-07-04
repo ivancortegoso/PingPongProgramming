@@ -14,6 +14,7 @@
 .links-styles:hover {
     background-color: grey;
 }
+
 .links-styles:active {
     background-color: darkslategrey;
 }

@@ -18,9 +18,10 @@ export class SignUpWeb extends React.Component {
             lastName: e.target.lastName.value,
             birthDate: e.target.birthDate.value,
             address: e.target.address.value,
-            dni: e.target.dni.value,
-            username: e.target.username.value,
+            documentId: e.target.documentId.value,
+            phoneNumber: e.target.phoneNumber.value,
             email: e.target.email.value,
+            username: e.target.username.value,
             password: e.target.password.value
         };
 
@@ -48,7 +49,10 @@ export class SignUpWeb extends React.Component {
                         <label>Address</label> <input type="text" name="address" defaultValue="" placeholder="Address"/>
                     </div>
                     <div className="FormGroup">
-                        <label>DNI</label> <input type="text" name="dni" defaultValue="" placeholder="DNI"/>
+                        <label>Document Id</label> <input type="text" name="documentId" defaultValue="" placeholder="Document Id"/>
+                    </div>
+                    <div className="FormGroup">
+                        <label>Phone number</label> <input type="tel" name="phoneNumber" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Phone number"/>
                     </div>
                     <div className="FormGroup">
                         <label>Username</label> <input type="text" name="username" defaultValue="" placeholder="Username"/>

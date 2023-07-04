@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  display: flex;
 }
 
 .App-logo {
@@ -13,9 +14,14 @@
   }
 }
 
+.Web {
+  width: 100%;
+}
+
 .App-header {
   background-color: #282c34;
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -36,6 +42,10 @@
   }
 }
 
+.AccountMenuButton {
+  position: absolute;
+  left: 0;
+}
 
 
 .FormGroup {
