@@ -1,0 +1,10 @@
+
+.SignUpWeb h1{
+    color: blue;
+}
+
+.SignUpWeb form {
+    margin-left: auto;
+    margin-right: auto;
+    width: 25%;
+}

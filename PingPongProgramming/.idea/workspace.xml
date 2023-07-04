@@ -5,10 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="03f33a61-d4eb-4f9e-b15c-f9194e379170" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/front-react/src/webs/LoginWeb.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-react/src/components/SignUpStyle.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front-react/src/components/SignUpWeb.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-react/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-react/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-react/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front-react/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-react/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-react/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-react/src/components/LoginWeb.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-react/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front-react/src/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,6 +109,7 @@
       <updated>1688472949573</updated>
       <workItem from="1688472950577" duration="1511000" />
       <workItem from="1688475009335" duration="234000" />
+      <workItem from="1688475250418" duration="957000" />
     </task>
     <servers />
   </component>
