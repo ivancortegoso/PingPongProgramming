@@ -65,7 +65,6 @@ public class UserController {
         if(userRepository.findByUsername(request.getUsername()).isPresent()) {
             User friend = userRepository.findByUsername(request.getUsername()).get();
             user.getFriends().add(friend);
-            friend.getFriends().add(user);
             userRepository.save(user);
             return ResponseEntity.ok(new FriendResponse(request.getUsername()));
         } else {
@@ -86,6 +85,7 @@ public class UserController {
             Transaction transaction = transactionMapper.toTransaction(request);
             if (sender.getBalance() >= request.getBalance()) {
                 transactionRepository.save(transaction);
+                sender.getTransactionList().add(transaction);
                 sender.setBalance(sender.getBalance() - request.getBalance());
                 receiver.setBalance(receiver.getBalance() + request.getBalance());
                 bankAccountRepository.save(sender);
