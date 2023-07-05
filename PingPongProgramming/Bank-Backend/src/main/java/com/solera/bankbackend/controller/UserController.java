@@ -1,7 +1,9 @@
 package com.solera.bankbackend.controller;
 
 import com.solera.bankbackend.domain.dto.request.CreateBankAccountRequest;
+import com.solera.bankbackend.domain.dto.request.FriendRequest;
 import com.solera.bankbackend.domain.dto.request.TransactionRequest;
+import com.solera.bankbackend.domain.dto.responses.FriendResponse;
 import com.solera.bankbackend.domain.mapper.CreateBankAccountRequestToBankAccount;
 import com.solera.bankbackend.domain.mapper.TransactionRequestToTransaction;
 import com.solera.bankbackend.domain.mapper.UserAccountInformationToUser;
@@ -10,6 +12,7 @@ import com.solera.bankbackend.domain.model.Transaction;
 import com.solera.bankbackend.domain.model.User;
 import com.solera.bankbackend.repository.IBankAccountRepository;
 import com.solera.bankbackend.repository.ITransactionRepository;
+import com.solera.bankbackend.repository.IUserRepository;
 import com.solera.bankbackend.service.UserService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,8 @@ public class UserController {
     IBankAccountRepository bankAccountRepository;
     @Autowired
     ITransactionRepository transactionRepository;
+    @Autowired
+    IUserRepository userRepository;
     UserAccountInformationToUser userAccountInformationToUserMapper = Mappers.getMapper(UserAccountInformationToUser.class);
     TransactionRequestToTransaction transactionMapper = Mappers.getMapper(TransactionRequestToTransaction.class);
     CreateBankAccountRequestToBankAccount bankAccountMapper = Mappers.getMapper(CreateBankAccountRequestToBankAccount.class);
@@ -53,7 +58,20 @@ public class UserController {
         bankAccountRepository.save(newBankAccount);
         return ResponseEntity.ok(newBankAccount.getName());
     }
-
+    @PostMapping("/addfriend")
+    @ResponseBody
+    public ResponseEntity<?> addFriend(@RequestBody FriendRequest request) {
+        User user = userService.getLogged();
+        if(userRepository.findByUsername(request.getUsername()).isPresent()) {
+            User friend = userRepository.findByUsername(request.getUsername()).get();
+            user.getFriends().add(friend);
+            friend.getFriends().add(user);
+            userRepository.save(user);
+            return ResponseEntity.ok(new FriendResponse(request.getUsername()));
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User with username " + request.getUsername() + " does not exist");
+        }
+    }
     @PostMapping(path = "/create/transaction")
     @ResponseBody
     public ResponseEntity<?> createTransaction(@RequestBody TransactionRequest request) {
