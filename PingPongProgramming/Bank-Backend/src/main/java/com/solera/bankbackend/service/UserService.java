@@ -9,6 +9,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 
 @Service
-public class UserService extends CommonService<User, IUserRepository> {
+public class UserService extends CommonService<User, IUserRepository> implements UserDetailsService {
     @Autowired
     protected IRoleRepository roleRepository;
     @Autowired
@@ -37,9 +38,8 @@ public class UserService extends CommonService<User, IUserRepository> {
         user = repository.save(user);
         return user;
     }
-    @Transactional(readOnly = true)
     public User getLogged() {
-        return loadUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
     @Transactional(readOnly = true)
     public User loadUserByUsername(String username) {

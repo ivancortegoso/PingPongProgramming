@@ -9,6 +9,4 @@ import org.mapstruct.Mapper;
 public abstract class CreateUserRequestToUser {
     public abstract User toUser(CreateUserRequest request);
     public abstract CreateUserRequest toCreateUserRequest(User user);
-    public abstract User toUser(UserAccountInformation request);
-    public abstract UserAccountInformation toUserAccountInformation(User user);
 }
