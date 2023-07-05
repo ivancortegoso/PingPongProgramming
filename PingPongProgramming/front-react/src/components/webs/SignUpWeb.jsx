@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/SignUpStyle.css'
+import '../styles/FormStyle.css'
 
 export class SignUpWeb extends React.Component {
     constructor(props) {
@@ -40,7 +40,7 @@ export class SignUpWeb extends React.Component {
         return (
             <div className="SignUpWeb">
                 <h3>Sign Up</h3>
-                <form onSubmit={this.submit}>
+                <form className={"BaseForm"} onSubmit={this.submit}>
                     <div className="FormGroup">
                         <label>First name</label> <input type="text" name="firstName" defaultValue="" placeholder="First name"/>
                     </div>
@@ -68,7 +68,7 @@ export class SignUpWeb extends React.Component {
                     <div className="FormGroup">
                         <label>Password</label> <input type="password" name="password" defaultValue="" placeholder="Password"/>
                     </div>
-                    <input className="StandardFormSubmit" type="submit"/>
+                    <input className="StandardFormSubmit" type="submit" value={"Register"}/>
                 </form>
             </div>
         )

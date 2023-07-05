@@ -1,9 +1,9 @@
 
-.SignUpWeb h1{
-    color: blue;
+.LogInWeb {
+
 }
 
-.SignUpWeb form {
+.BaseForm {
     margin-left: auto;
     margin-right: auto;
     width: 25%;

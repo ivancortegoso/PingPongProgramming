@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/LogInStyle.css'
+import '../styles/FormStyle.css'
 
 export class LogInWeb extends React.Component {
     constructor() {
@@ -34,14 +34,14 @@ export class LogInWeb extends React.Component {
         return (
             <div className="LogInWeb">
                 <h3>Log In</h3>
-                <form onSubmit={this.submit}>
+                <form className={"BaseForm"} onSubmit={this.submit}>
                     <div className="FormGroup">
                         <label>Username</label><input type="text" name="username" placeholder="Username"/>
                     </div>
                     <div className="FormGroup">
                         <label>Password</label><input type="password" name="password" placeholder="Password"/>
                     </div>
-                    <input className="StandardFormSubmit" type="submit"/>
+                    <input className="StandardFormSubmit" type="submit" value={"Log In"}/>
                 </form>
             </div>
         );

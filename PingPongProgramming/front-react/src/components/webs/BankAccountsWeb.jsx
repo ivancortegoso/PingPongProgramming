@@ -18,7 +18,8 @@ export class BankAccountsWeb extends React.Component {
             }
         });
         const bankList = await response.json();
-        this.setState({bankAccountsList: bankList});
+        if(!bankList.empty())
+            this.setState({bankAccountsList: bankList});
     }
 
     async fetchCreate() {

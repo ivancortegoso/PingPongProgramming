@@ -8,6 +8,8 @@ import {Menu} from "./components/Menu";
 import {AccountMenu} from "./components/AccountMenu";
 import {TransactionsWeb} from "./components/webs/TransactionsWeb";
 import {TransactionDetailWeb} from "./components/webs/TransactionDetailWeb";
+import {Auth} from "./Auth";
+import {TransactionCreateWeb} from "./components/webs/TransactionCreateWeb";
 
 export class App extends React.Component {
     constructor() {
@@ -42,6 +44,7 @@ export class App extends React.Component {
                         <Route path="/bankaccounts" element={<BankAccountsWeb/>}/>
                         <Route path="/transactions" element={<TransactionsWeb/>}/>
                         <Route path="/transaction" element={<TransactionDetailWeb/>}/>
+                        <Route path="/transaction/create" element={<TransactionCreateWeb/>}/>
                     </Routes>
 
                 </div>
