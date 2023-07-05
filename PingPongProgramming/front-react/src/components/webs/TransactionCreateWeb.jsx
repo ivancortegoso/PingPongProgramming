@@ -11,15 +11,19 @@ export class TransactionCreateWeb extends React.Component {
     }
 
     async fetchCreateTransaction(data) {
-        const response = await fetch("/api/create/transaction", {
+        const response = await fetch("http://localhost:8080/api/user/create/transaction", {
             method: 'post',
             headers:{
-                'Authentication' : Auth.GetAuth(),
+                'Authorization' : Auth.GetAuth(),
                 'Content-Type' : 'application/json'
             },
             body: JSON.stringify(data)
         });
-        const dd = await response.json();
+        try {
+            const dd = await response.json();
+        } catch(e) {
+
+        }
     }
 
     submit(e) {
@@ -39,7 +43,7 @@ export class TransactionCreateWeb extends React.Component {
             <div className={"TransactionCreateWeb BaseFormBox ShadowBox"}>
                 <h3>Create transaction</h3>
                 <div className={"HSeparator"}></div>
-                <form className={"BaseForm"}>
+                <form className={"BaseForm"} onSubmit={this.submit}>
                     <div className={"FormGroup"}><label>Sender ID</label><input type={"number"} name={"senderID"} placeholder={"Sender ID"}/></div>
                     <div className={"FormGroup"}><label>Receiver ID</label><input type={"number"} name={"receiverID"} placeholder={"Receiver ID"}/></div>
                     <div className={"FormGroup"}><label>Balance</label><input type={"number"} name={"balance"} placeholder={"0.0"}/></div>
