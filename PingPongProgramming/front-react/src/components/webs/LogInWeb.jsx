@@ -15,9 +15,14 @@ export class LogInWeb extends React.Component {
             headers:{'Content-Type' : 'application/json'},
             body: JSON.stringify(data)
         });
-        const dd = await response.json();
-        console.log(dd);
-        localStorage.setItem("token", "Bearer " + dd["token"]);
+        try {
+            const dd = await response.json();
+            console.log(dd);
+            localStorage.setItem("token", "Bearer " + dd["token"]);
+            window.location.reload();
+        } catch(e) {
+
+        }
     }
 
     submit(e) {
@@ -32,8 +37,9 @@ export class LogInWeb extends React.Component {
     }
     render() {
         return (
-            <div className="LogInWeb">
+            <div className="LogInWeb BaseFormBox ShadowBox">
                 <h3>Log In</h3>
+                <div className={"HSeparator"}></div>
                 <form className={"BaseForm"} onSubmit={this.submit}>
                     <div className="FormGroup">
                         <label>Username</label><input type="text" name="username" placeholder="Username"/>

@@ -1,5 +1,6 @@
 import React from 'react'
 import {BankAccountItem} from "../BankAccountItem";
+import {Link} from "react-router-dom";
 
 
 export class BankAccountsWeb extends React.Component {
@@ -22,10 +23,6 @@ export class BankAccountsWeb extends React.Component {
             this.setState({bankAccountsList: bankList});
     }
 
-    async fetchCreate() {
-
-    }
-
     componentDidMount() {
         this.fetchList()
     }
@@ -36,13 +33,13 @@ export class BankAccountsWeb extends React.Component {
                 <div className={"BankAccountsWeb-List ShadowBox"}>
                     <div className={"BankAccountsWeb-Header Space-Between"}>
                         <label>Bank Accounts</label>
-                        <button className={"StandardButton"}>CREATE</button>
+                        <Link to={"/bankaccount/create"}>
+                            <button className={"StandardButton"}>CREATE</button>
+                        </Link>
                     </div>
 
                     {this.state.bankAccountsList.length > 0 ? <div className={"HSeparator"}></div> : ""}
-                    {
-                        this.state.bankAccountsList.map((item) => <BankAccountItem item={item}/>)
-                    }
+                    {this.state.bankAccountsList.map((item) => <BankAccountItem item={item}/>)}
                 </div>
             </div>
         )

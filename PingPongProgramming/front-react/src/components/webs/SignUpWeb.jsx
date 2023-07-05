@@ -38,8 +38,9 @@ export class SignUpWeb extends React.Component {
 
     render() {
         return (
-            <div className="SignUpWeb">
+            <div className="SignUpWeb BaseFormBox ShadowBox">
                 <h3>Sign Up</h3>
+                <div className={"HSeparator"}></div>
                 <form className={"BaseForm"} onSubmit={this.submit}>
                     <div className="FormGroup">
                         <label>First name</label> <input type="text" name="firstName" defaultValue="" placeholder="First name"/>
