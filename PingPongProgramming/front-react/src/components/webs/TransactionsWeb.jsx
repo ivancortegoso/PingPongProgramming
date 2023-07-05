@@ -7,15 +7,15 @@ export class TransactionsWeb extends React.Component {
     constructor() {
         super();
         this.state = {
-            list: [0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,56,7,8],
+            transactionList: [],
         }
         this.fetchTransactions = this.fetchTransactions.bind(this)
     }
 
     async fetchTransactions() {
         const response = await fetch("http://localhost:8080/api/transactions");
-        const transactionList = await response.json();
-        this.setState({list: transactionList});
+        const transList = await response.json();
+        this.setState({transactionList: transList});
     }
 
     componentDidMount() {
@@ -28,7 +28,7 @@ export class TransactionsWeb extends React.Component {
                 <div className={"TransactionsWeb-List ShadowBox"}>
                     Transactions
                     {
-                        this.state.list.map((item, index) => {
+                        this.state.transactionList.map((item, index) => {
                             return(
                                 <>
                                     {index == 0 ? "" : <div className={"HSeparator"}></div>}
