@@ -1,0 +1,17 @@
+
+.AccountMenu {
+    transition: 0.5s;
+    border: 1px solid lightgrey;
+}
+
+.AccountMenu-Enable {
+    width: 20%;
+}
+
+.AccountMenu-Disable {
+    width: 0;
+}
+
+.AccountMenu-Disable>* {
+    display: none;
+}
