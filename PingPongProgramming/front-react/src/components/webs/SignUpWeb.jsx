@@ -2,17 +2,23 @@ import React from 'react'
 import '../styles/SignUpStyle.css'
 
 export class SignUpWeb extends React.Component {
+    constructor(props) {
+        super(props);
 
+        this.signup = this.signup.bind(this);
+        this.submit = this.submit.bind(this);
+    }
 
     async signup(data) {
-        const response = await fetch("/api/signup", {
-            method: 'put',
+        const response = await fetch("http://localhost:8080/api/public/register", {
+            method: 'post',
             headers:{'Content-Type' : 'application/json'},
             body: JSON.stringify(data)
         });
     }
 
     submit(e) {
+        e.preventDefault();
         const data = {
             firstName: e.target.firstName.value,
             lastName: e.target.lastName.value,
@@ -25,10 +31,9 @@ export class SignUpWeb extends React.Component {
             password: e.target.password.value
         };
 
-        //this.signup(data)
+        this.signup(data);
 
         console.log(data);
-        e.preventDefault();
     }
 
     render() {
@@ -52,7 +57,7 @@ export class SignUpWeb extends React.Component {
                         <label>Document Id</label> <input type="text" name="documentId" defaultValue="" placeholder="Document Id"/>
                     </div>
                     <div className="FormGroup">
-                        <label>Phone number</label> <input type="tel" name="phoneNumber" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Phone number"/>
+                        <label>Phone number</label> <input type="tel" name="phoneNumber"  placeholder="Phone number"/>
                     </div>
                     <div className="FormGroup">
                         <label>Email</label> <input type="text" name="email" defaultValue="" placeholder="Email"/>
