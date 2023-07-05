@@ -1,6 +1,7 @@
 import React from 'react'
 import '../styles/TransactionsStyle.css'
 import {TransactionItem} from "../TransactionItem";
+import {Auth} from "../../Auth";
 
 export class TransactionsWeb extends React.Component {
 
@@ -13,7 +14,11 @@ export class TransactionsWeb extends React.Component {
     }
 
     async fetchTransactions() {
-        const response = await fetch("http://localhost:8080/api/transactions");
+        const response = await fetch("http://localhost:8080/api/transaction/all", {
+            headers: {
+                'Authorization' : Auth.GetAuth()
+            }
+        });
         const transList = await response.json();
         this.setState({transactionList: transList});
     }
