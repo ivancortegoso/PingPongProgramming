@@ -65,10 +65,12 @@ public class UserController {
         if(userRepository.findByUsername(request.getUsername()).isPresent()) {
             User friend = userRepository.findByUsername(request.getUsername()).get();
             user.getFriends().add(friend);
+            friend.getFriends().add(user);
             userRepository.save(user);
+            userRepository.save(friend);
             return ResponseEntity.ok(new FriendResponse(request.getUsername()));
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User with username " + request.getUsername() + " does not exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with username " + request.getUsername() + " does not exist");
         }
     }
     @PostMapping(path = "/create/transaction")

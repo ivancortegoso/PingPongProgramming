@@ -36,7 +36,7 @@ public class User implements UserDetails {
     private boolean enabled;
     private boolean tokenExpired;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> friends = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -68,5 +68,27 @@ public class User implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof User) {
+            if (((User) obj).id == this.id) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
