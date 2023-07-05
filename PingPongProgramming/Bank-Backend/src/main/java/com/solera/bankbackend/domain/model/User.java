@@ -36,7 +36,7 @@ public class User implements UserDetails {
     private boolean enabled;
     private boolean tokenExpired;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<User> friends = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

@@ -3,6 +3,7 @@ package com.solera.bankbackend.domain.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -19,5 +20,5 @@ public class BankAccount {
     @ManyToOne
     private User user;
     @OneToMany
-    private List<Transaction> transactionList;
+    private List<Transaction> transactionList = new ArrayList<>();
 }
