@@ -11,6 +11,7 @@ import {TransactionDetailWeb} from "./components/webs/TransactionDetailWeb";
 import {Auth} from "./Auth";
 import {TransactionCreateWeb} from "./components/webs/TransactionCreateWeb";
 import {BankAccountCreateWeb} from "./components/webs/BankAccountCreateWeb";
+import {UserSettingsWeb} from "./components/webs/UserSettingsWeb";
 
 export class App extends React.Component {
     constructor() {
@@ -46,6 +47,7 @@ export class App extends React.Component {
                 <Route path="transaction/*" element={<TransactionDetailWeb/>}/>
                 <Route path="transaction/create" element={<TransactionCreateWeb/>}/>
                 <Route path="bankaccount/create" element={<BankAccountCreateWeb/>}/>
+                <Route path="user/settings" element={<UserSettingsWeb/>}/>
                 <Route path="*" element={<Navigate to={"bankaccounts"} replace/>}/>
             </React.Fragment>
         )

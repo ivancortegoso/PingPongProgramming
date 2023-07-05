@@ -10,7 +10,7 @@ export class BankAccountCreateWeb extends React.Component {
     }
 
     async fetchCreateBankAccount(data) {
-        const response = await fetch("/api/public/login", {
+        const response = await fetch("/api/create/bankaccount", {
             method: 'post',
             headers:{
                 'Authentication' : Auth.GetAuth(),

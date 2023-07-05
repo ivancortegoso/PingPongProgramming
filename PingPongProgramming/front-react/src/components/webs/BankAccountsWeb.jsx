@@ -1,6 +1,7 @@
 import React from 'react'
 import {BankAccountItem} from "../BankAccountItem";
 import {Link} from "react-router-dom";
+import {Auth} from "../../Auth";
 
 
 export class BankAccountsWeb extends React.Component {
@@ -13,14 +14,18 @@ export class BankAccountsWeb extends React.Component {
     }
 
     async fetchList() {
-        const response = await fetch("/api/bankaccounts", {
+        const response = await fetch("http://localhost:8080/api/user/bankaccounts", {
             headers: {
-                'Authorization': localStorage.getItem("token")
+                'Authorization': Auth.GetAuth()
             }
         });
-        const bankList = await response.json();
-        if(!bankList.empty())
+        try {
+            const bankList = await response.json();
             this.setState({bankAccountsList: bankList});
+
+        } catch(e) {
+
+        }
     }
 
     componentDidMount() {

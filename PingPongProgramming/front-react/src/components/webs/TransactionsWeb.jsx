@@ -13,7 +13,7 @@ export class TransactionsWeb extends React.Component {
     }
 
     async fetchTransactions() {
-        const response = await fetch("/api/transactions");
+        const response = await fetch("http://localhost:8080/api/transactions");
         const transactionList = await response.json();
         this.setState({list: transactionList});
     }

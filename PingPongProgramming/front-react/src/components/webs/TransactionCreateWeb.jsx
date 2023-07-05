@@ -11,7 +11,7 @@ export class TransactionCreateWeb extends React.Component {
     }
 
     async fetchCreateTransaction(data) {
-        const response = await fetch("/api/public/login", {
+        const response = await fetch("/api/create/transaction", {
             method: 'post',
             headers:{
                 'Authentication' : Auth.GetAuth(),

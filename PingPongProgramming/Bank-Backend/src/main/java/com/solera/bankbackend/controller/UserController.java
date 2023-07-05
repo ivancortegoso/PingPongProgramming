@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "/api/user")
-@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     @Autowired
     UserService userService;
@@ -40,6 +40,7 @@ public class UserController {
     @GetMapping(path = {""})
     @ResponseBody
     public ResponseEntity<?> getUserAccountInformation() {
+        System.out.println("HERE WE ARE");
         User user = userService.getLogged();
         return ResponseEntity.ok(userAccountInformationToUserMapper.toUserAccountInformation(user));
     }
