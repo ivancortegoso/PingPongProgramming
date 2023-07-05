@@ -1,0 +1,26 @@
+
+
+.BankAccountsWeb {
+
+}
+
+.BankAccountsWeb-List {
+    border: 2px solid transparent;
+    border-radius: 10px;
+    width: 50%;
+    margin: 20px auto;
+}
+
+.BankAccountsWeb-Header {
+    margin: 10px 20px 10px 20px;
+}
+
+.BankAccountItem {
+    margin: 10px 20px 10px 40px;
+}
+
+.BankAccountItem label {
+}
+
+.BankAccountItem button {
+}

@@ -1,5 +1,5 @@
 import React from 'react'
-import './LogInStyle.css'
+import '../styles/LogInStyle.css'
 
 export class LogInWeb extends React.Component {
 
@@ -10,6 +10,8 @@ export class LogInWeb extends React.Component {
             headers:{'Content-Type' : 'application/json'},
             body: JSON.stringify(data)
         });
+        const dd = response.json();
+        localStorage.setItem("token", dd["token"]);
     }
 
     submit(e) {

@@ -19,7 +19,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #3e4fb4;
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -43,10 +43,8 @@
 }
 
 .AccountMenuButton {
-  position: absolute;
-  left: 0;
+  float: left;
 }
-
 
 .FormGroup {
   border: 2px solid;
@@ -86,4 +84,25 @@
 
 .StandardFormSubmit:active {
   background-color: #000020;
+}
+
+.HSeparator {
+  border: 1px solid lightgrey;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.Space-Between {
+  justify-content: space-between;
+  display: flex;
+}
+
+.StandardButton {
+  box-shadow: 0px 2px 4px 0px grey;
+
+}
+
+.ShadowBox {
+  box-shadow: 0px 2px 5px 0px grey;
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import './SignUpStyle.css'
+import '../styles/SignUpStyle.css'
 
 export class SignUpWeb extends React.Component {
 
@@ -55,10 +55,10 @@ export class SignUpWeb extends React.Component {
                         <label>Phone number</label> <input type="tel" name="phoneNumber" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Phone number"/>
                     </div>
                     <div className="FormGroup">
-                        <label>Username</label> <input type="text" name="username" defaultValue="" placeholder="Username"/>
+                        <label>Email</label> <input type="text" name="email" defaultValue="" placeholder="Email"/>
                     </div>
                     <div className="FormGroup">
-                        <label>Email</label> <input type="text" name="email" defaultValue="" placeholder="Email"/>
+                        <label>Username</label> <input type="text" name="username" defaultValue="" placeholder="Username"/>
                     </div>
                     <div className="FormGroup">
                         <label>Password</label> <input type="password" name="password" defaultValue="" placeholder="Password"/>
