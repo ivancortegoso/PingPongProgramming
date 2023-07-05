@@ -1,0 +1,24 @@
+
+
+.Menu {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.links-styles {
+    color: white;
+    border: 2px solid white;
+    margin: 5px;
+}
+
+.links-styles:hover {
+    background-color: grey;
+}
+
+.links-styles:active {
+    background-color: darkslategrey;
+}
+
+.links-styles:visited {
+    color: white;
+}

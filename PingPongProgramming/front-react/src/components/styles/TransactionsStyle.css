@@ -1,0 +1,26 @@
+
+.TransactionsWeb {
+
+}
+
+.TransactionsWeb-List {
+    width: 60%;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 20px auto;
+
+}
+
+.TransactionItem {
+    margin: 10px 20px 10px 20px
+}
+
+.TransactionItem label {
+    display: inline-block;
+}
+
+.Balance {
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+}
