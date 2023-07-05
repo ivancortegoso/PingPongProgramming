@@ -3,6 +3,7 @@ package com.solera.bankbackend.domain.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -19,7 +20,6 @@ public class Transaction {
     private double balance;
     @Column(nullable = false)
     private int likes;
-
     @OneToMany
-    private List<Commentary> commentaries;
+    private List<Commentary> commentaries = new ArrayList<>();
 }

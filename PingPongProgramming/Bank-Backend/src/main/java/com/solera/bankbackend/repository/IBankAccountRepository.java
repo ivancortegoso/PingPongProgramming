@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface IBankAccountRepository extends JpaRepository<BankAccount, Long> {
-    List<BankAccount> findBankAccountByUser(User user);
+    Set<BankAccount> findAllByUser(User user);
 }
