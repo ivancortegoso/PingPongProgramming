@@ -39,7 +39,7 @@ public class User implements UserDetails {
     private boolean tokenExpired;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<User> friends = new HashSet<>();
+    private  List<User> friends = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
