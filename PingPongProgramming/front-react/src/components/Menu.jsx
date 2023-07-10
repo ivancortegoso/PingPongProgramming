@@ -7,11 +7,10 @@ export class Menu extends React.Component {
     render() {
         return (
             <div className="Menu">
-                <div><Link className="links-styles" to="/transactions">Everyone</Link></div>
-                <div><Link className="links-styles" to="/transactions">Friends</Link></div>
-                <div><Link className="links-styles" to="/transaction">Mine</Link></div>
+                <div><Link className="links-styles" to="/transactions/all">Everyone</Link></div>
+                <div><Link className="links-styles" to="/transactions/friends">Friends</Link></div>
+                <div><Link className="links-styles" to="/transactions/user">Mine</Link></div>
                 <div><Link className="links-styles" to="/transaction/create">Create</Link></div>
-                <div><Link className="links-styles" to="/bankaccount/create">Create bankaccount</Link></div>
             </div>
         );
     }

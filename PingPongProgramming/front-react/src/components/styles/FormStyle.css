@@ -4,7 +4,6 @@
 }
 
 .BaseFormBox {
-    border: 1px solid lightgrey;
     border-radius: 5px;
     width: fit-content;
     margin: 20px auto;

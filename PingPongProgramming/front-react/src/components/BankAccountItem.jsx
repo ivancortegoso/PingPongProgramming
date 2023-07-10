@@ -12,8 +12,11 @@ export class BankAccountItem extends React.Component {
     render() {
         return (
             <div className={"BankAccountItem Space-Between"}>
-                <label>{this.props.item["name"]}</label>
+                <label>[{this.props.item["id"]}] {this.props.item["name"]}</label>
+                <div>
+                    <label>Balance: {this.props.item["balance"]}€ </label>
                 <button className={"StandardButton"}>DELETE</button>
+                </div>
             </div>
         )
     }
