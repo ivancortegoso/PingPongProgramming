@@ -33,6 +33,8 @@ public class User implements UserDetails {
     private String password;
     @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
+    private double balance;
     private boolean enabled;
     private boolean tokenExpired;
 
@@ -90,5 +92,11 @@ public class User implements UserDetails {
         }
 
         return false;
+    }
+    public void depositBalance(double balance) {
+        this.setBalance(this.balance + balance);
+    }
+    public void withdrawBalance(double balance) {
+        this.setBalance(this.balance - balance);
     }
 }

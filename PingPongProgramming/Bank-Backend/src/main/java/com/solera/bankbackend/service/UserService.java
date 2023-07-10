@@ -35,6 +35,7 @@ public class UserService extends CommonService<User, IUserRepository> implements
         User user = mapper.toUser(request);
         user.setEnabled(true);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setBalance(20000);
         user = repository.save(user);
         return user;
     }
@@ -45,5 +46,13 @@ public class UserService extends CommonService<User, IUserRepository> implements
     public User loadUserByUsername(String username) {
         return repository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Username: %s, not found", username)));
+    }
+    public void depositMoney(double balance, User user) {
+        user.depositBalance(balance);
+        userRepository.save(user);
+    }
+    public void withdrawMoney(double balance, User user) {
+        user.withdrawBalance(balance);
+        userRepository.save(user);
     }
 }
