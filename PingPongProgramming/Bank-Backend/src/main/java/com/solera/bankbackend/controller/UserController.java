@@ -85,6 +85,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sender bank account not found");
         } else if(receiver == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Receiver bank account not found");
+        } else if(!sender.getUser().equals(user)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User logged is not the owner of the sender bank account");
         } else {
             Transaction transaction = transactionMapper.toTransaction(request);
             if (sender.getBalance() >= request.getBalance()) {
