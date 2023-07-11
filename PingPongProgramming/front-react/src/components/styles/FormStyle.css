@@ -1,13 +1,10 @@
 
-.LogInWeb {
-
-}
-
 .BaseFormBox {
     border-radius: 5px;
     width: fit-content;
     margin: 20px auto;
     padding: 10px;
+    background-color: white;
 }
 
 .BaseForm {
@@ -15,3 +12,35 @@
     margin-right: auto;
     width: 100%;
 }
+
+.FormGroup {
+    border: 2px solid;
+    border-radius: 5px;
+    margin: 15px;
+    position: relative;
+    height: 35px;
+  }
+  
+  .FormGroup label {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background-color: white;
+  }
+  
+  .FormGroup input {
+    box-sizing: border-box;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    outline: none;
+  }
+
+  .StandardFormSubmit:hover {
+    background-color: #0000fb;
+  }
+  
+  .StandardFormSubmit:active {
+    background-color: #000020;
+  }

@@ -1,5 +1,5 @@
 import React from 'react'
-import {BankAccountItem} from "../BankAccountItem";
+import {BankAccountItem} from "./BankAccountItem";
 import {Link} from "react-router-dom";
 import {Auth} from "../../Auth";
 
@@ -15,9 +15,9 @@ export class BankAccountsWeb extends React.Component {
 
     async fetchList() {
         const response = await fetch("http://localhost:8080/api/user/bankaccounts", {
-            headers: {
-                'Authorization': Auth.GetAuth()
-            }
+            headers:{
+                'Authorization' : Auth.GetAuth()
+            },
         });
         try {
             const bankList = await response.json();
@@ -37,14 +37,14 @@ export class BankAccountsWeb extends React.Component {
             <div className="BankAccountsWeb">
                 <div className={"BankAccountsWeb-List ShadowBox"}>
                     <div className={"BankAccountsWeb-Header Space-Between"}>
-                        <label>Bank Accounts</label>
+                        <b>Bank Accounts</b>
                         <Link to={"/bankaccount/create"}>
                             <button className={"StandardButton"}>CREATE</button>
                         </Link>
                     </div>
 
                     {this.state.bankAccountsList.length > 0 ? <div className={"HSeparator"}></div> : ""}
-                    {this.state.bankAccountsList.map((item) => <BankAccountItem item={item}/>)}
+                    {this.state.bankAccountsList.map((item) => <BankAccountItem key={item["id"]} item={item}/>)}
                 </div>
             </div>
         )

@@ -7,6 +7,8 @@
     width: 60%;
     border-radius: 5px;
     margin: 20px auto;
+    background-color: white;
+    
 
 }
 
@@ -22,4 +24,16 @@
     color: red;
     font-size: 20px;
     font-weight: bold;
+}
+
+.TransactionCreateWeb {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.TransactionCreateWeb-Close {
+    position: absolute;
+    right: 10px;
 }

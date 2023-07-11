@@ -1,9 +1,61 @@
 import React from 'react'
 import './styles/AccountMenuStyle.css'
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {Auth} from "../Auth";
+import {useState, useEffect} from 'react'
 
-export class AccountMenu extends React.Component {
+
+export const AccountMenu = (props) => {
+    const [info, setInfo] = useState([]);
+    const navigate = useNavigate();
+
+    const fetchInfo = async() => {
+        const response = await fetch("http://localhost:8080/api/user", {
+            headers:{
+                'Authorization' : Auth.GetAuth()
+            },
+        });
+        try{
+            const recvInfo = await response.json();
+            console.log(recvInfo);
+            setInfo(recvInfo);
+        } catch(e) {
+
+        }
+    }
+
+    useEffect(() => {
+        if(Auth.IsLogged())
+            fetchInfo();
+    }, [])
+
+    const LogOut = () => {
+        Auth.SetAuth("");
+        navigate("/login", {replace: true});
+    }
+
+    const ShowInfo = () => {
+        return (
+            <>
+                <div>Username: {info["username"]}</div>
+                <div>First name: {info["firstName"]}</div>
+                <div>Second name: {info["lastName"]}</div>
+            </>
+        )
+    }
+    return (
+        <div className={props.isShown ? "AccountMenu AccountMenu-Enable" : "AccountMenu AccountMenu-Disable"}>
+            <label>Account Menu</label>
+            {Auth.IsLogged() ? <div><button type="button" onClick={LogOut}>Log out</button></div> : <div><Link to="/login">Log in</Link></div>}
+            {Auth.IsLogged() ? "" : <div><Link to="/signup">Sign up</Link></div>}
+            {Auth.IsLogged() ? ShowInfo() : ""}
+            {Auth.IsLogged() ? <div><Link to="/user/settings">My Account</Link></div> : ""}
+            {Auth.IsLogged() ? <div><Link to="/bankaccounts">Bank Accounts</Link></div> : ""}
+        </div>
+    )
+}
+
+/*export class AccountMenu extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -33,6 +85,8 @@ export class AccountMenu extends React.Component {
             this.fetchInfo()
     }
 
+
+
     render() {
         return (
             <div className={this.props.isShown ? "AccountMenu AccountMenu-Enable" : "AccountMenu AccountMenu-Disable"}>
@@ -47,4 +101,4 @@ export class AccountMenu extends React.Component {
             </div>
         )
     }
-}
+}*/

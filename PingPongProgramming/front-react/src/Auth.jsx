@@ -1,5 +1,3 @@
-
-
 export class Auth {
     static SetAuth(token) {
         localStorage.setItem("token", token);
@@ -10,7 +8,7 @@ export class Auth {
     }
 
     static IsLogged() {
-        if(localStorage.getItem("token") == null) return false;
+        if(localStorage.getItem("token") === null) return false;
         return localStorage.getItem("token").length > 0;
     }
 }

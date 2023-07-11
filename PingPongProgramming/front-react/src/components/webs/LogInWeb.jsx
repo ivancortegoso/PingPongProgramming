@@ -12,8 +12,7 @@ export class LogInWeb extends React.Component {
     async login(data) {
         const response = await fetch("http://localhost:8080/api/public/login", {
             method: 'post',
-            headers:{'Content-Type' : 'application/json',
-                'Access-Control-Allow-Origin': '*'},
+            headers:{'Content-Type' : 'application/json'},
             body: JSON.stringify(data),
 
         });
