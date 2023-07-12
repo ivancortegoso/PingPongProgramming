@@ -7,8 +7,9 @@
 
 .links-styles {
     color: white;
-    border: 2px solid white;
-    margin: 5px;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 3px 10px 3px 10px;
 }
 
 .links-styles:hover {
@@ -21,4 +22,9 @@
 
 .links-styles:visited {
     color: white;
+}
+
+
+.popup-arrow {
+    background-color: transparent;
 }
