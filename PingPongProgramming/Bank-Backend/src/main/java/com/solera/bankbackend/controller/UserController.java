@@ -38,9 +38,7 @@ public class UserController {
     @Autowired
     IUserRepository userRepository;
     UserAccountInformationToUser userAccountInformationToUserMapper = Mappers.getMapper(UserAccountInformationToUser.class);
-    TransactionRequestToTransaction transactionMapper = Mappers.getMapper(TransactionRequestToTransaction.class);
-    CreateBankAccountRequestToBankAccount bankAccountMapper = Mappers.getMapper(CreateBankAccountRequestToBankAccount.class);
-    @GetMapping(path = {""})
+     @GetMapping(path = {""})
     @ResponseBody
     public ResponseEntity<?> getUserAccountInformation() {
         User user = userService.getLogged();
@@ -59,34 +57,6 @@ public class UserController {
             return ResponseEntity.ok(new FriendResponse(request.getUsername()));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with username " + request.getUsername() + " does not exist");
-        }
-    }
-    @PostMapping(path = "/create/transaction")
-    @ResponseBody
-    public ResponseEntity<?> createTransaction(@RequestBody TransactionRequest request) {
-        User user = userService.getLogged();
-        BankAccount sender = bankAccountRepository.findById(request.getSenderID()).isPresent() ? bankAccountRepository.findById(request.getSenderID()).get() : null;
-        BankAccount receiver = bankAccountRepository.findById(request.getReceiverID()).isPresent() ? bankAccountRepository.findById(request.getReceiverID()).get() : null;
-        if(sender == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sender bank account not found");
-        } else if(receiver == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Receiver bank account not found");
-        } else if(!sender.getUser().equals(user)){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User logged is not the owner of the sender bank account");
-        } else {
-            Transaction transaction = transactionMapper.toTransaction(request);
-            if (sender.getBalance() >= request.getBalance()) {
-                transactionRepository.save(transaction);
-                sender.getTransactionList().add(transaction);
-                sender.setBalance(sender.getBalance() - request.getBalance());
-                receiver.setBalance(receiver.getBalance() + request.getBalance());
-                bankAccountRepository.save(sender);
-                bankAccountRepository.save(receiver);
-
-                return ResponseEntity.ok(sender.getBalance());
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not enough balance");
-            }
         }
     }
     @PostMapping(path = "/deposit")

@@ -1,5 +1,7 @@
 package com.solera.bankbackend.controller;
 
+import com.solera.bankbackend.domain.dto.request.TransactionRequest;
+import com.solera.bankbackend.domain.mapper.TransactionRequestToTransaction;
 import com.solera.bankbackend.domain.model.BankAccount;
 import com.solera.bankbackend.domain.model.Transaction;
 import com.solera.bankbackend.domain.model.User;
@@ -7,7 +9,9 @@ import com.solera.bankbackend.repository.IBankAccountRepository;
 import com.solera.bankbackend.repository.ITransactionRepository;
 import com.solera.bankbackend.service.TransactionService;
 import com.solera.bankbackend.service.UserService;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +31,8 @@ public class TransactionController {
     ITransactionRepository transactionRepository;
     @Autowired
     TransactionService transactionService;
+    TransactionRequestToTransaction transactionMapper = Mappers.getMapper(TransactionRequestToTransaction.class);
+
     @GetMapping(path = {"id"})
     @ResponseBody
     public ResponseEntity<?> getTransactionById(@PathVariable(name = "id") Long transactionId) {
@@ -68,5 +74,33 @@ public class TransactionController {
             }
         }
         return ResponseEntity.ok(transactionService.transactionToTransactionResponse(transactions));
+    }
+    @PostMapping(path = "")
+    @ResponseBody
+    public ResponseEntity<?> createTransaction(@RequestBody TransactionRequest request) {
+        User user = userService.getLogged();
+        BankAccount sender = bankAccountRepository.findById(request.getSenderID()).isPresent() ? bankAccountRepository.findById(request.getSenderID()).get() : null;
+        BankAccount receiver = bankAccountRepository.findById(request.getReceiverID()).isPresent() ? bankAccountRepository.findById(request.getReceiverID()).get() : null;
+        if(sender == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sender bank account not found");
+        } else if(receiver == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Receiver bank account not found");
+        } else if(!sender.getUser().equals(user)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User logged is not the owner of the sender bank account");
+        } else {
+            Transaction transaction = transactionMapper.toTransaction(request);
+            if (sender.getBalance() >= request.getBalance()) {
+                transactionRepository.save(transaction);
+                sender.getTransactionList().add(transaction);
+                sender.setBalance(sender.getBalance() - request.getBalance());
+                receiver.setBalance(receiver.getBalance() + request.getBalance());
+                bankAccountRepository.save(sender);
+                bankAccountRepository.save(receiver);
+
+                return ResponseEntity.ok(sender.getBalance());
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not enough balance");
+            }
+        }
     }
 }
