@@ -10,7 +10,7 @@ export const BankAccountsWeb = () => {
     const [bankAccountsList, setBankAccountsList] = useState([]);
 
     const fetchList = async() => {
-        const response = await fetch("http://localhost:8080/api/user/bankaccounts", {
+        const response = await fetch("http://localhost:8080/api/bankaccount", {
             headers:{
                 'Authorization' : Auth.GetAuth()
             },

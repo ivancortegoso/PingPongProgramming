@@ -1,14 +1,22 @@
 import React from 'react'
 import '../styles/BankAccountsStyle.css'
 import '../styles/ButtonStyle.css'
+import {Auth} from "../../Auth";
 
 
 export const BankAccountItem = (props) => {
 
     const fetchDelete = async() => {
-        const response = await fetch("/api/bankaccounts/" + props.item["id"], {
-            method:"delete"
+        const response = await fetch("http://localhost:8080/api/bankaccount/" + props.item["id"], {
+            method:"delete",
+            headers:{
+                'Authorization' : Auth.GetAuth()
+            },
         });
+        if(response.ok)
+        {
+            window.location.reload(); // TODO THIS IS BULLSHIT
+        }
     }
 
     return (
@@ -18,7 +26,7 @@ export const BankAccountItem = (props) => {
                 <div className="BankAccount-Balance">
                     {props.item["balance"]}€ 
                 </div>
-                <button className={"StandardButton Delete-Button"} onClick={() => fetchDelete}>--</button>
+                <button className={"StandardButton Delete-Button"} onClick={() => fetchDelete()}>--</button>
             </div>
         </div>
     );
