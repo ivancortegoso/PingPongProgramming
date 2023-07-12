@@ -2,6 +2,8 @@ package com.solera.bankbackend.domain.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,7 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class User implements UserDetails {
     @Id
@@ -93,6 +96,7 @@ public class User implements UserDetails {
 
         return false;
     }
+
     public void depositBalance(double balance) {
         this.setBalance(this.balance + balance);
     }
