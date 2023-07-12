@@ -1,17 +1,68 @@
 
-.LogInWeb {
-
-}
-
 .BaseFormBox {
-    border-radius: 5px;
-    width: fit-content;
-    margin: 20px auto;
-    padding: 10px;
+  border-radius: 5px;
+  width: fit-content;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: white;
 }
 
 .BaseForm {
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+}
+
+.FormGroup {
+  border: 2px solid;
+  border-radius: 5px;
+  margin: 15px;
+  position: relative;
+  height: 35px;
+}
+
+.FormGroup label {
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  background-color: white;
+}
+
+.FormGroup input {
+  box-sizing: border-box;
+  border: none;
+  border-radius: 3px;
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+
+.StandardFormSubmit:hover {
+  background-color: #0000fb;
+}
+
+.StandardFormSubmit:active {
+  background-color: #000020;
+}
+
+.popup-overlay {
+  background: rgba(0,0,0, 0.5);
+}
+
+
+@keyframes anvil {
+  0% {
+    transform: scale(0.50) translateY(20px);
+    opacity: 0;
+  }
+
+
+  100% {
+    transform: scale(1) translateY(0px);
+    opacity: 1;
+  }
+}
+
+.popup-content {
+  animation: anvil 0.2s cubic-bezier(0.38, 0.1, 0.36, 0.9) forwards;
 }

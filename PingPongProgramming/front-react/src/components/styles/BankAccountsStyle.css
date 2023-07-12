@@ -9,6 +9,7 @@
     border-radius: 10px;
     width: 50%;
     margin: 20px auto;
+    background-color: white;
 }
 
 .BankAccountsWeb-Header {
@@ -19,8 +20,24 @@
     margin: 10px 20px 10px 40px;
 }
 
-.BankAccountItem label {
+.BankAccountCreateWeb {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.BankAccountItem button {
+.BankAccountCreateWeb-Close {
+    position: absolute;
+    right: 10px;
 }
+
+.BankAccount-Balance {
+    display: inline-block;
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin: 5px;
+    width: 120px;
+    text-align: right;
+}
+
