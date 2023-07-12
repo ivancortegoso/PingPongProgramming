@@ -43,7 +43,7 @@ export class App extends React.Component {
         return (
             <React.Fragment>
                 <Route path="bankaccounts" element={<BankAccountsWeb/>}/>
-                <Route path="transactions" element={<TransactionsWeb/>}/>
+                <Route path="transactions/:filter" element={<TransactionsWeb/>}/>
                 <Route path="transaction/*" element={<TransactionDetailWeb/>}/>
                 <Route path="transaction/create" element={<TransactionCreateWeb/>}/>
                 <Route path="bankaccount/create" element={<BankAccountCreateWeb/>}/>
