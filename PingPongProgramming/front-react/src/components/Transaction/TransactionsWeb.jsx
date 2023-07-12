@@ -23,7 +23,7 @@ export const TransactionsWeb = () => {
         setTransactionList(transList);
     }
 
-    useEffect(() => fetchTransactions(), [filter]);
+    useEffect(() => {fetchTransactions()}, [filter]);
 
     const prevPage = () => {
         let old = page;

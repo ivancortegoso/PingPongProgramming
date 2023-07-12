@@ -4,9 +4,7 @@ import '../styles/BankAccountsStyle.css'
 import { useNavigate } from 'react-router-dom';
 
 
-export const BankAccountCreateWeb = () => {
-    let navigate = useNavigate();
-
+export const BankAccountCreateWeb = (props) => {
     const fetchCreateBankAccount = async (data) => {
         const response = await fetch("http://localhost:8080/api/user/create/bankaccount", {
             method: 'post',
@@ -33,17 +31,14 @@ export const BankAccountCreateWeb = () => {
 
         fetchCreateBankAccount(data);
 
-        close();
+        props.onClose();
         console.log(data);
     }
 
-    const close = () => {
-        navigate(-1);
-    }
 
     return (
-        <div className={"BankAccountCreateWeb BaseFormBox ShadowBox"}>
-        <button className="BankAccountCreateWeb-Close" onClick={close}>X</button>
+        <div className={"BaseFormBox ShadowBox"}>
+        <button className="BankAccountCreateWeb-Close" onClick={props.onClose}>X</button>
             <h3>Create bank account</h3>
             <div className={"HSeparator"}></div>
             <form className={"BaseForm"} onSubmit={submit}>

@@ -1,19 +1,15 @@
 import React from 'react'
+import {useState, useEffect} from 'react'
 import {BankAccountItem} from "./BankAccountItem";
-import {Link} from "react-router-dom";
 import {Auth} from "../../Auth";
+import Popup from 'reactjs-popup';
+import { BankAccountCreateWeb } from './BankAccountCreateWeb';
 
 
-export class BankAccountsWeb extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            bankAccountsList: []
-        }
-        this.fetchList = this.fetchList.bind(this);
-    }
+export const BankAccountsWeb = () => {
+    const [bankAccountsList, setBankAccountsList] = useState([]);
 
-    async fetchList() {
+    const fetchList = async() => {
         const response = await fetch("http://localhost:8080/api/user/bankaccounts", {
             headers:{
                 'Authorization' : Auth.GetAuth()
@@ -21,32 +17,29 @@ export class BankAccountsWeb extends React.Component {
         });
         try {
             const bankList = await response.json();
-            this.setState({bankAccountsList: bankList});
+            setBankAccountsList(bankList);
+            console.log("something");
 
         } catch(e) {
 
         }
     }
 
-    componentDidMount() {
-        this.fetchList()
-    }
+    useEffect(() => {fetchList()}, []);
 
-    render() {
-        return (
-            <div className="BankAccountsWeb">
-                <div className={"BankAccountsWeb-List ShadowBox"}>
-                    <div className={"BankAccountsWeb-Header Space-Between"}>
-                        <b>Bank Accounts</b>
-                        <Link to={"/bankaccount/create"}>
-                            <button className={"StandardButton"}>CREATE</button>
-                        </Link>
-                    </div>
-
-                    {this.state.bankAccountsList.length > 0 ? <div className={"HSeparator"}></div> : ""}
-                    {this.state.bankAccountsList.map((item) => <BankAccountItem key={item["id"]} item={item}/>)}
+    return (
+        <div className="BankAccountsWeb">
+            <div className={"BankAccountsWeb-List ShadowBox"}>
+                <div className={"BankAccountsWeb-Header Space-Between"}>
+                    <b>Bank Accounts</b>
+                    <Popup trigger={<button className={"StandardButton"}>CREATE</button>} onClose={fetchList} modal nested>
+                        {close => (<BankAccountCreateWeb onClose={close}/>)}
+                    </Popup>
                 </div>
+
+                {bankAccountsList.length > 0 ? <div className={"HSeparator"}></div> : ""}
+                {bankAccountsList.map((item) => <BankAccountItem key={item["id"]} item={item}/>)}
             </div>
-        )
-    }
+        </div>
+    )
 }
