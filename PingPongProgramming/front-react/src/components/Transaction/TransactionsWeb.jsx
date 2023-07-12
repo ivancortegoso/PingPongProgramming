@@ -13,6 +13,7 @@ export const TransactionsWeb = () => {
     const [transactionList, setTransactionList] = useState([]);
     const [page, setPage] = useState(0);
     const {filter} = useParams();
+    const numberItemsPerPage = 18;
 
     const fetchTransactions = async () => {
         const response = await fetch("http://localhost:8080/api/transaction/" + filter, {
@@ -35,34 +36,48 @@ export const TransactionsWeb = () => {
 
     const nextPage = () => {
         let old = page;
-        if(old < Math.floor(transactionList.length / 9))
+        if(old < Math.floor(transactionList.length / numberItemsPerPage))
             old = old + 1;
         setPage(old);
     }
 
-    let sublist = transactionList.slice(page*9, page*9 + 9);
+    let sublist = transactionList.slice(page*numberItemsPerPage, page*numberItemsPerPage + numberItemsPerPage);
 
     return (
         <div className={"TransactionsWeb"}>
             <div className={"TransactionsWeb-List ShadowBox"}>
                 <div>
-                    <Popup trigger ={<button className='Menu-create-transaction StandardButton'>Create</button>} modal nested>
+                    <Popup trigger ={<button className='Menu-create-transaction StandardButton'>Create</button>} onClose={fetchTransactions} modal nested>
                         {close => (<TransactionCreateWeb onClose={close}/>)}
                     </Popup>
                     <h3>Transactions</h3>
                 </div>
-                { sublist.length > 0 &&
-                    sublist.map((item) => {
-                        return(
-                            <React.Fragment key={item["id"]}>
-                                <div className={"HSeparator"}/>
-                                <TransactionItem item={item}/>
-                            </React.Fragment>
-                        )
-                    })
-                }
+                <table className="TransactionsWeb-Table">
+                    <thead>
+                        <tr>
+                            <th>Sender</th>
+                            <th>Receiver</th>
+                            <th>Likes</th>
+                            <th>Comments</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        { sublist.length > 0 &&
+                            sublist.map((item, index) => {
+                                return(
+                                    <React.Fragment key={index}>
+                                        <TransactionItem item={item}/>
+                                    </React.Fragment>
+                                )
+                            })
+                        }
+                    </tbody>
+                    
+                </table>
+                
                 { sublist.length === 0 && <div>Empty</div>}
-                { transactionList.length > 9 &&
+                { transactionList.length > numberItemsPerPage &&
                     (<div>
                         <button onClick={prevPage}>{"<<"}</button>
                         <label> {page} </label>

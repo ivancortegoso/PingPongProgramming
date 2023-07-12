@@ -4,12 +4,12 @@ import '../styles/TransactionsStyle.css'
 
 export const TransactionItem = (props) => {
     return (
-        <div className='TransactionItem Space-Between'>
-            <div>
-                <div>{props.item["senderID"]} paid {props.item["receiverID"]}</div>
-                <div>Likes:{props.item["likes"]} - Comments:{props.item["commentaries"].length}</div>
-            </div>
-            <label className={"Balance"}>-{props.item["balance"]} €</label>
-        </div>
+        <tr className='Default-Row-Table'>
+            <td className="Default-Cell">{props.item["bankAccountSenderName"]}</td>
+            <td className="Default-Cell">{props.item["bankAccountReceiverName"]}</td>
+            <td className="Default-Cell">0</td>
+            <td className="Default-Cell">0</td>
+            <td className="Balance-Cell">-{props.item["balance"]} €</td>
+        </tr>
     )
 }

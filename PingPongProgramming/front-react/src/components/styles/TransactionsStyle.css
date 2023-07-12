@@ -8,22 +8,19 @@
     border-radius: 5px;
     margin: 20px auto;
     background-color: white;
+    overflow-x: scroll;
     
 
 }
 
 .TransactionItem {
-    margin: 10px 20px 10px 20px
+    margin: 5px;
 }
+
 
 .TransactionItem label {
     display: inline-block;
-}
-
-.Balance {
-    color: red;
-    font-size: 20px;
-    font-weight: bold;
+    margin: 0px 2px 0px 2px; /* TOP RIGHT BOTTOM LEFT */
 }
 
 .TransactionCreateWeb {
@@ -42,4 +39,39 @@
     margin-right: 30px;
     background-color: green;
     float: right;
+}
+
+.TransactionsWeb-Table {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse:separate; 
+    border-spacing: 0 6px;
+}
+
+
+.Default-Row-Table {
+    outline: thin solid;
+    border-radius: 5px;
+}
+
+.Default-Cell {
+    max-width: 150px;
+    border-right: 1px inset;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.Balance-Cell {
+    text-align: right;
+    width: 100%;
+    padding-right: 10px;
+    color: red;
+    font-size: 20px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

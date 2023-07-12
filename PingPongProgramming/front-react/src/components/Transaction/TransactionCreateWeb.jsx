@@ -17,10 +17,8 @@ export const TransactionCreateWeb = (props) => {
             },
             body: JSON.stringify(data)
         });
-        try {
-            const dd = await response.json();
-        } catch(e) {
-
+        if(response.ok) {
+            props.onClose();
         }
     }
 
@@ -34,7 +32,6 @@ export const TransactionCreateWeb = (props) => {
 
         fetchCreateTransaction(data);
 
-        props.onClose();
     }
 
     return (

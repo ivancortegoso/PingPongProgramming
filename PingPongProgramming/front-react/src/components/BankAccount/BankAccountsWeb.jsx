@@ -23,6 +23,7 @@ export const BankAccountsWeb = () => {
         } catch(e) {
 
         }
+
     }
 
     useEffect(() => {fetchList()}, []);

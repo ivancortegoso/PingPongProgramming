@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const BankAccountCreateWeb = (props) => {
     const fetchCreateBankAccount = async (data) => {
-        const response = await fetch("http://localhost:8080/api/user/create/bankaccount", {
+        const response = await fetch("http://localhost:8080/api/bankaccount", {
             method: 'post',
             headers:{
                 'Authorization' : Auth.GetAuth(),
@@ -14,11 +14,8 @@ export const BankAccountCreateWeb = (props) => {
             },
             body: JSON.stringify(data)
         });
-        try {
-            const dd = await response.json();
-
-        } catch(e) {
-
+        if(response.ok) {
+            props.onClose();
         }
     }
 
@@ -30,9 +27,6 @@ export const BankAccountCreateWeb = (props) => {
         };
 
         fetchCreateBankAccount(data);
-
-        props.onClose();
-        console.log(data);
     }
 
 

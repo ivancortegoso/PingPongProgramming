@@ -1,9 +1,11 @@
 import React from 'react'
 import '../styles/FormStyle.css'
 import {useState} from 'react'
+import { useNavigate } from 'react-router';
 
 export const LogInWeb = () => {
     const [errorMessage, setErrorMessage] = useState("");
+    const navigate = useNavigate();
 
     const login = async(data) => {
         try {
@@ -19,7 +21,8 @@ export const LogInWeb = () => {
             {
                 const dd = await response.json();
                 localStorage.setItem("token", "Bearer " + dd["token"]);
-                window.location.reload();
+                navigate('/bankaccounts', {replace:true});
+                //window.location.reload();
             }
             else
             {
