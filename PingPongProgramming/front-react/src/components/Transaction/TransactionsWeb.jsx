@@ -6,6 +6,7 @@ import {useParams, Route, Routes} from "react-router-dom";
 import {useState, useEffect} from 'react'
 import { TransparentBlackBackground } from '../TransparentBlackBackground';
 import { TransactionCreateWeb } from './TransactionCreateWeb';
+import Popup from 'reactjs-popup';
 
 
 export const TransactionsWeb = () => {
@@ -44,7 +45,12 @@ export const TransactionsWeb = () => {
     return (
         <div className={"TransactionsWeb"}>
             <div className={"TransactionsWeb-List ShadowBox"}>
-                <b>Transactions</b>
+                <div>
+                    <Popup trigger ={<button className='Menu-create-transaction StandardButton'>Create</button>} modal nested>
+                        {close => (<TransactionCreateWeb onClose={close}/>)}
+                    </Popup>
+                    <h3>Transactions</h3>
+                </div>
                 { sublist.length > 0 &&
                     sublist.map((item) => {
                         return(
@@ -59,6 +65,7 @@ export const TransactionsWeb = () => {
                 { transactionList.length > 9 &&
                     (<div>
                         <button onClick={prevPage}>{"<<"}</button>
+                        <label> {page} </label>
                         <button onClick={nextPage}>{">>"}</button>
                     </div>)
                 }

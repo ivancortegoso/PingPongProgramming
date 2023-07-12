@@ -1,23 +1,33 @@
 import React from 'react'
+import {useState} from 'react'
 import '../styles/FormStyle.css'
 
-export class SignUpWeb extends React.Component {
-    constructor(props) {
-        super(props);
+export const SignUpWeb = () => {
+    const [errorMessage, setErrorMessage] = useState("");
 
-        this.signup = this.signup.bind(this);
-        this.submit = this.submit.bind(this);
-    }
-
-    async signup(data) {
-        const response = await fetch("http://localhost:8080/api/public/register", {
+    const signup = async(data) => {
+        try {
+            const response = await fetch("http://localhost:8080/api/public/register", {
             method: 'post',
             headers:{'Content-Type' : 'application/json'},
             body: JSON.stringify(data)
-        });
+            });
+
+
+            if(response.ok) {
+
+            }
+            else {
+                setErrorMessage("System error");
+            }
+        } catch(e) {
+            setErrorMessage("Network error");
+        }
+        
+
     }
 
-    submit(e) {
+    const submit = (e) => {
         e.preventDefault();
         const data = {
             firstName: e.target.firstName.value,
@@ -31,47 +41,46 @@ export class SignUpWeb extends React.Component {
             password: e.target.password.value
         };
 
-        this.signup(data);
+        signup(data);
 
         console.log(data);
     }
 
-    render() {
-        return (
-            <div className="SignUpWeb BaseFormBox ShadowBox">
-                <h3>Sign Up</h3>
-                <div className={"HSeparator"}></div>
-                <form className={"BaseForm"} onSubmit={this.submit}>
-                    <div className="FormGroup">
-                        <label>First name</label> <input type="text" name="firstName" defaultValue="" placeholder="First name"/>
-                    </div>
-                    <div className="FormGroup">
-                        <label>Last name</label> <input type="text" name="lastName" defaultValue="" placeholder="Last name"/>
-                    </div>
-                    <div className="FormGroup">
-                        <label>Birth date</label> <input type="date" name="birthDate" defaultValue="" placeholder="Birth date"/>
-                    </div>
-                    <div className="FormGroup">
-                        <label>Address</label> <input type="text" name="address" defaultValue="" placeholder="Address"/>
-                    </div>
-                    <div className="FormGroup">
-                        <label>Document Id</label> <input type="text" name="documentId" defaultValue="" placeholder="Document Id"/>
-                    </div>
-                    <div className="FormGroup">
-                        <label>Phone number</label> <input type="tel" name="phoneNumber"  placeholder="Phone number"/>
-                    </div>
-                    <div className="FormGroup">
-                        <label>Email</label> <input type="text" name="email" defaultValue="" placeholder="Email"/>
-                    </div>
-                    <div className="FormGroup">
-                        <label>Username</label> <input type="text" name="username" defaultValue="" placeholder="Username"/>
-                    </div>
-                    <div className="FormGroup">
-                        <label>Password</label> <input type="password" name="password" defaultValue="" placeholder="Password"/>
-                    </div>
-                    <input className="StandardFormSubmit" type="submit" value={"Register"}/>
-                </form>
-            </div>
-        )
-    }
+    return (
+        <div className="SignUpWeb BaseFormBox ShadowBox">
+            <h3>Sign Up</h3>
+            <div className={"HSeparator"}></div>
+            <form className={"BaseForm"} onSubmit={submit}>
+                <div className="FormGroup">
+                    <label>First name</label> <input type="text" name="firstName" defaultValue="" placeholder="First name"/>
+                </div>
+                <div className="FormGroup">
+                    <label>Last name</label> <input type="text" name="lastName" defaultValue="" placeholder="Last name"/>
+                </div>
+                <div className="FormGroup">
+                    <label>Birth date</label> <input type="date" name="birthDate" defaultValue="" placeholder="Birth date"/>
+                </div>
+                <div className="FormGroup">
+                    <label>Address</label> <input type="text" name="address" defaultValue="" placeholder="Address"/>
+                </div>
+                <div className="FormGroup">
+                    <label>Document Id</label> <input type="text" name="documentId" defaultValue="" placeholder="Document Id"/>
+                </div>
+                <div className="FormGroup">
+                    <label>Phone number</label> <input type="tel" name="phoneNumber"  placeholder="Phone number"/>
+                </div>
+                <div className="FormGroup">
+                    <label>Email</label> <input type="text" name="email" defaultValue="" placeholder="Email"/>
+                </div>
+                <div className="FormGroup">
+                    <label>Username</label> <input type="text" name="username" defaultValue="" placeholder="Username"/>
+                </div>
+                <div className="FormGroup">
+                    <label>Password</label> <input type="password" name="password" defaultValue="" placeholder="Password"/>
+                </div>
+                {errorMessage.length > 0 && <label id="error-message" style={{color:'red'}}>{errorMessage}</label>}
+                <input className="StandardFormSubmit" type="submit" value={"Register"}/>
+            </form>
+        </div>
+    );
 }

@@ -2,14 +2,14 @@ import React from 'react'
 import '../styles/TransactionsStyle.css'
 
 
-export const TransactionItem = () => {
+export const TransactionItem = (props) => {
     return (
         <div className='TransactionItem Space-Between'>
             <div>
-                <div>{this.props.item["senderID"]} paid {this.props.item["receiverID"]}</div>
-                <div>Likes:{this.props.item["likes"]} - Comments:{this.props.item["commentaries"].length}</div>
+                <div>{props.item["senderID"]} paid {props.item["receiverID"]}</div>
+                <div>Likes:{props.item["likes"]} - Comments:{props.item["commentaries"].length}</div>
             </div>
-            <label className={"Balance"}>-{this.props.item["balance"]} €</label>
+            <label className={"Balance"}>-{props.item["balance"]} €</label>
         </div>
     )
 }

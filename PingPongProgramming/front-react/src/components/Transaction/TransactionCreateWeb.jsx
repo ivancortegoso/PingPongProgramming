@@ -34,11 +34,7 @@ export const TransactionCreateWeb = (props) => {
 
         fetchCreateTransaction(data);
 
-        close();
-    }
-
-    const close = () => {
-        navigate(-1);
+        props.onClose();
     }
 
     return (

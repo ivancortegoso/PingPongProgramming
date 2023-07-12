@@ -31,7 +31,7 @@ export const AccountMenu = (props) => {
 
     const LogOut = () => {
         Auth.SetAuth("");
-        navigate("/login", {replace: true});
+        window.location.reload();
     }
 
     const ShowInfo = () => {
