@@ -1,14 +1,21 @@
 package com.solera.bankbackend.controller;
 
+import com.solera.bankbackend.domain.dto.request.CreateCommentaryRequest;
+import com.solera.bankbackend.domain.dto.request.DeleteCommentaryRequest;
 import com.solera.bankbackend.domain.dto.request.TransactionRequest;
+import com.solera.bankbackend.domain.mapper.CreateCommentaryRequestToCommentary;
 import com.solera.bankbackend.domain.mapper.TransactionRequestToTransaction;
 import com.solera.bankbackend.domain.model.BankAccount;
+import com.solera.bankbackend.domain.model.Commentary;
 import com.solera.bankbackend.domain.model.Transaction;
 import com.solera.bankbackend.domain.model.User;
 import com.solera.bankbackend.repository.IBankAccountRepository;
 import com.solera.bankbackend.repository.ITransactionRepository;
+import com.solera.bankbackend.service.BankAccountService;
+import com.solera.bankbackend.service.CommentaryService;
 import com.solera.bankbackend.service.TransactionService;
 import com.solera.bankbackend.service.UserService;
+import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,21 +33,25 @@ public class TransactionController {
     @Autowired
     IBankAccountRepository bankAccountRepository;
     @Autowired
+    BankAccountService bankAccountService;
+    @Autowired
     UserService userService;
     @Autowired
     ITransactionRepository transactionRepository;
     @Autowired
     TransactionService transactionService;
+    @Autowired
+    CommentaryService commentaryService;
     TransactionRequestToTransaction transactionMapper = Mappers.getMapper(TransactionRequestToTransaction.class);
-
-    @GetMapping(path = {"id"})
+    CreateCommentaryRequestToCommentary commentaryMapper = Mappers.getMapper(CreateCommentaryRequestToCommentary.class);
+    @GetMapping(path = "{id}")
     @ResponseBody
     public ResponseEntity<?> getTransactionById(@PathVariable(name = "id") Long transactionId) {
-        if(transactionRepository.findById(transactionId).isPresent()) {
+        if(!transactionService.findById(transactionId).equals(null)) {
             Transaction transaction = transactionRepository.findById(transactionId).get();
             return ResponseEntity.ok(transactionService.transactionToTransactionResponse(transaction));
         } else {
-            return ResponseEntity.badRequest().body("Transaction not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Transaction not found");
         }
     }
     @GetMapping(path = "all")
@@ -101,6 +112,33 @@ public class TransactionController {
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not enough balance");
             }
+        }
+    }
+    @PostMapping(path = "/commentary")
+    @ResponseBody
+    public ResponseEntity<?> createCommentary(@RequestBody CreateCommentaryRequest request) {
+        User user = userService.getLogged();
+        Transaction t = transactionService.findById(request.getTransactionId());
+        if(t != null) {
+            Commentary commentary = commentaryMapper.commentaryRequestToCommentary(request);
+            commentary.setTransaction(transactionService.findById(request.getTransactionId()));
+            commentary.setWriter(user);
+            transactionService.CreateCommentary(commentary);
+            return ResponseEntity.ok().body("Commentary created");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Transaction with id: " + request.getTransactionId() + " not found");
+        }
+    }
+    @DeleteMapping(path = "/commentary")
+    @ResponseBody
+    public ResponseEntity<?> deleteCommentary(@RequestBody DeleteCommentaryRequest request) {
+        User user = userService.getLogged();
+        if(commentaryService.findById(request.getId()).getWriter().equals(user) ||
+                bankAccountService.findById(commentaryService.findById(request.getId()).getTransaction().getSenderID()).getUser().equals(user)) {
+            commentaryService.deleteById(request.getId());
+            return ResponseEntity.ok("Commentary deleted");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User logged is not allowed to delete the commentary.");
         }
     }
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionMiddleResponse {
+    private Long id;
     private Long receiverID;
     private Long senderID;
     private double balance;
