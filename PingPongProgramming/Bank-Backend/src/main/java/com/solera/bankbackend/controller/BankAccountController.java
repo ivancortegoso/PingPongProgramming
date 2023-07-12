@@ -42,9 +42,9 @@ public class BankAccountController {
     }
     @DeleteMapping(path = "/{id}")
     @ResponseBody
-    public ResponseEntity<?> deleteBankAccount(@PathVariable Long bankAccountId) {
+    public ResponseEntity<?> deleteBankAccount(@PathVariable Long id) {
         User user = userService.getLogged();
-        BankAccount bankAccount = bankAccountService.findById(bankAccountId);
+        BankAccount bankAccount = bankAccountService.findById(id);
         if(bankAccount != null) {
             if (bankAccount.getUser().equals(user)) {
                 userService.depositMoney(bankAccount.getBalance(), user);
