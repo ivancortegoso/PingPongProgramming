@@ -50,6 +50,9 @@ public class UserController {
         User user = userService.getLogged();
         if(userRepository.findByUsername(request.getUsername()).isPresent()) {
             User friend = userRepository.findByUsername(request.getUsername()).get();
+            if (friend.getFriends().contains(user)) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Users are already friends");
+            }
             user.getFriends().add(friend);
             friend.getFriends().add(user);
             userRepository.save(user);

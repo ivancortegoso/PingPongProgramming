@@ -23,8 +23,10 @@ public class BankAccount {
 
     @ManyToOne
     private User user;
-    @OneToMany
-    private List<Transaction> transactionList = new ArrayList<>();
+    @OneToMany(mappedBy = "receiver")
+    private List<Transaction> transactionsReceivedList = new ArrayList<>();
+    @OneToMany(mappedBy = "sender")
+    private List<Transaction> transactionsSentList = new ArrayList<>();
 
     @Override
     public int hashCode() {

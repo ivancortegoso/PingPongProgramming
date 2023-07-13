@@ -16,6 +16,7 @@ public class Commentary {
     private User writer;
 
     @ManyToOne
+    @JoinColumn(name = "transaction_id")
     private Transaction transaction;
 
     @Column(nullable = false)

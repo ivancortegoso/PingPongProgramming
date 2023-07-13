@@ -40,6 +40,8 @@ public class User implements UserDetails {
     private double balance;
     private boolean enabled;
     private boolean tokenExpired;
+    @ManyToMany(mappedBy = "usersLiked")
+    Set<Transaction> transactionsLiked;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private  List<User> friends = new ArrayList<>();

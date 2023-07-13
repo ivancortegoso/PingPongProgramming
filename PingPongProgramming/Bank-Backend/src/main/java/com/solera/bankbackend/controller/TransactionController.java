@@ -3,6 +3,8 @@ package com.solera.bankbackend.controller;
 import com.solera.bankbackend.domain.dto.request.CreateCommentaryRequest;
 import com.solera.bankbackend.domain.dto.request.DeleteCommentaryRequest;
 import com.solera.bankbackend.domain.dto.request.TransactionRequest;
+import com.solera.bankbackend.domain.dto.responses.TransactionResponse;
+import com.solera.bankbackend.domain.dto.responses.TransactionResponseListResponse;
 import com.solera.bankbackend.domain.mapper.CreateCommentaryRequestToCommentary;
 import com.solera.bankbackend.domain.mapper.TransactionRequestToTransaction;
 import com.solera.bankbackend.domain.model.BankAccount;
@@ -65,11 +67,12 @@ public class TransactionController {
         User user = userService.getLogged();
         List<Transaction> transactions = new ArrayList<>();
         for (BankAccount b: bankAccountRepository.findAllByUser(user)) {
-            for (Transaction t: b.getTransactionList()) {
+            for (Transaction t: b.getTransactionsSentList()) {
                 transactions.add(t);
             }
         }
-        return ResponseEntity.ok(transactionService.transactionToTransactionResponse(transactions));
+        List<TransactionResponse> result = transactionService.transactionToTransactionResponse(transactions);
+        return ResponseEntity.status(HttpStatus.OK).body(result.toString());
     }
     @GetMapping(path = "friends")
     @ResponseBody
@@ -79,7 +82,7 @@ public class TransactionController {
         List<User> friends = user.getFriends();
         for (User u:friends) {
             for (BankAccount b: bankAccountRepository.findAllByUser(u)) {
-                for (Transaction t: b.getTransactionList()) {
+                for (Transaction t: b.getTransactionsSentList()) {
                     transactions.add(t);
                 }
             }
@@ -93,21 +96,22 @@ public class TransactionController {
         BankAccount sender = bankAccountRepository.findById(request.getSenderID()).isPresent() ? bankAccountRepository.findById(request.getSenderID()).get() : null;
         BankAccount receiver = bankAccountRepository.findById(request.getReceiverID()).isPresent() ? bankAccountRepository.findById(request.getReceiverID()).get() : null;
         if(sender == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sender bank account not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sender bank account not found");
         } else if(receiver == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Receiver bank account not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Receiver bank account not found");
         } else if(!sender.getUser().equals(user)){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User logged is not the owner of the sender bank account");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User logged is not the owner of the sender bank account");
         } else {
             Transaction transaction = transactionMapper.toTransaction(request);
+            transaction.setSender(bankAccountService.findById(request.getSenderID()));
+            transaction.setReceiver(bankAccountService.findById(request.getReceiverID()));
             if (sender.getBalance() >= request.getBalance()) {
                 transactionRepository.save(transaction);
-                sender.getTransactionList().add(transaction);
+                sender.getTransactionsSentList().add(transaction);
                 sender.setBalance(sender.getBalance() - request.getBalance());
                 receiver.setBalance(receiver.getBalance() + request.getBalance());
                 bankAccountRepository.save(sender);
                 bankAccountRepository.save(receiver);
-
                 return ResponseEntity.ok(sender.getBalance());
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not enough balance");
@@ -134,7 +138,7 @@ public class TransactionController {
     public ResponseEntity<?> deleteCommentary(@RequestBody DeleteCommentaryRequest request) {
         User user = userService.getLogged();
         if(commentaryService.findById(request.getId()).getWriter().equals(user) ||
-                bankAccountService.findById(commentaryService.findById(request.getId()).getTransaction().getSenderID()).getUser().equals(user)) {
+                bankAccountService.findById(commentaryService.findById(request.getId()).getTransaction().getSender().getId()).getUser().equals(user)) {
             commentaryService.deleteById(request.getId());
             return ResponseEntity.ok("Commentary deleted");
         } else {
