@@ -1,18 +1,18 @@
 import React from 'react'
 import '../styles/TransactionsStyle.css'
+import '../styles/TableStyle.css'
 import {TransactionItem} from "./TransactionItem";
 import {Auth} from "../../Auth";
-import {useParams, Route, Routes} from "react-router-dom";
 import {useState, useEffect} from 'react'
-import { TransparentBlackBackground } from '../TransparentBlackBackground';
 import { TransactionCreateWeb } from './TransactionCreateWeb';
 import Popup from 'reactjs-popup';
+
 
 
 export const TransactionsWeb = () => {
     const [transactionList, setTransactionList] = useState([]);
     const [page, setPage] = useState(0);
-    const {filter} = useParams();
+    const [filter, setFilter] = useState("all");
     const numberItemsPerPage = 18;
 
     const fetchTransactions = async () => {
@@ -41,6 +41,10 @@ export const TransactionsWeb = () => {
         setPage(old);
     }
 
+    const onFilterChange = (e) => {
+        setFilter(e.target.value);
+    }
+
     let sublist = transactionList.slice(page*numberItemsPerPage, page*numberItemsPerPage + numberItemsPerPage);
 
     return (
@@ -52,14 +56,20 @@ export const TransactionsWeb = () => {
                     </Popup>
                     <h3>Transactions</h3>
                 </div>
-                <table className="TransactionsWeb-Table">
+                <select onChange={onFilterChange}>
+                    <option value="all">all</option>
+                    <option value="friends">friends</option>
+                    <option value="user">mine</option>
+                </select>
+                
+                <table className="Default-Table">
                     <thead>
                         <tr>
                             <th>Sender</th>
                             <th>Receiver</th>
                             <th>Likes</th>
                             <th>Comments</th>
-                            <th>Amount</th>
+                            <th className="Balance-Cell">Amount</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,7 +86,7 @@ export const TransactionsWeb = () => {
                     
                 </table>
                 
-                { sublist.length === 0 && <div>Empty</div>}
+                {sublist.length === 0 && <div>Empty</div>}
                 { transactionList.length > numberItemsPerPage &&
                     (<div>
                         <button onClick={prevPage}>{"<<"}</button>
@@ -86,9 +96,6 @@ export const TransactionsWeb = () => {
                 }
 
             </div>
-            <Routes>
-                <Route path="create" element={<><TransparentBlackBackground/><TransactionCreateWeb/></>}/>
-            </Routes>
         </div>
     )
     

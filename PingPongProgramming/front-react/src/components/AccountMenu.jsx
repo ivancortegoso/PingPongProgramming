@@ -34,23 +34,32 @@ export const AccountMenu = (props) => {
         window.location.reload();
     }
 
-    const ShowInfo = () => {
+    const ShowNoLoggedView = () => {
+        return (
+            <>
+                <div><Link to="/login">Log in</Link></div>
+                <div><Link to="/signup">Sign up</Link></div>
+            </>
+        );
+    }
+
+    const ShowLoggedView = () => {
         return (
             <>
                 <div>Username: {info["username"]}</div>
                 <div>First name: {info["firstName"]}</div>
                 <div>Second name: {info["lastName"]}</div>
+                <button><Link to="/user/settings">My Account</Link></button>
+                <div><button type="button" onClick={LogOut}>Log out</button></div>
             </>
-        )
+        );
     }
+
     return (
         <div className={props.isShown ? "AccountMenu AccountMenu-Enable" : "AccountMenu AccountMenu-Disable"}>
-            <label>Account Menu</label>
-            {Auth.IsLogged() ? <div><button type="button" onClick={LogOut}>Log out</button></div> : <div><Link to="/login">Log in</Link></div>}
-            {Auth.IsLogged() ? "" : <div><Link to="/signup">Sign up</Link></div>}
-            {Auth.IsLogged() ? ShowInfo() : ""}
-            {Auth.IsLogged() ? <div><Link to="/user/settings">My Account</Link></div> : ""}
-            {Auth.IsLogged() ? <div><Link to="/bankaccounts">Bank Accounts</Link></div> : ""}
+            <h3>Account Menu</h3>
+
+            {Auth.IsLogged() ? ShowLoggedView() : ShowNoLoggedView()}
         </div>
     )
 }

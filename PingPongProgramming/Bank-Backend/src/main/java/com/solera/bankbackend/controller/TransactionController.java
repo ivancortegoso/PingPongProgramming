@@ -27,7 +27,7 @@ public class TransactionController {
     ITransactionRepository transactionRepository;
     @Autowired
     TransactionService transactionService;
-    @GetMapping(path = {"id"})
+    @GetMapping(path = {"{id}"})
     @ResponseBody
     public ResponseEntity<?> getTransactionById(@PathVariable(name = "id") Long transactionId) {
         if(transactionRepository.findById(transactionId).isPresent()) {

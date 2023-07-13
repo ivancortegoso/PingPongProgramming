@@ -2,6 +2,7 @@ import React from 'react'
 import '../styles/BankAccountsStyle.css'
 import '../styles/ButtonStyle.css'
 import {Auth} from "../../Auth";
+import Popup from 'reactjs-popup';
 
 
 export const BankAccountItem = (props) => {
@@ -20,14 +21,18 @@ export const BankAccountItem = (props) => {
     }
 
     return (
-        <div className={"BankAccountItem Space-Between"}>
-            <label>[{props.item["id"]}] {props.item["name"]}</label>
-            <div>
-                <div className="BankAccount-Balance">
-                    {props.item["balance"]}€ 
-                </div>
-                <button className={"StandardButton Delete-Button"} onClick={() => fetchDelete()}>--</button>
-            </div>
-        </div>
+        <tr className={"Default-Row-Table"}>
+            <td>{props.item["id"]}</td>
+            <td>{props.item["name"]}</td>
+            <td>{props.item["balance"]}€ </td>
+            <td>
+                <Popup trigger={<button className={"StandardButton Delete-Button"}>-</button>} modal nested>
+                    <div>
+                        Do you want to delete?
+                        <button onClick={() => fetchDelete()}>Delete</button>
+                    </div>
+                </Popup>
+            </td>
+        </tr>
     );
 }

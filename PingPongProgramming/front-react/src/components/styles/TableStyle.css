@@ -1,0 +1,57 @@
+.Default-Table {  
+    border-collapse: collapse;  
+    width: 100%;  
+    margin: 20px auto;  
+    color: #333;  
+    font-size: 0.9rem;  
+    font-weight: 400;  
+    text-align: left;  
+    overflow: hidden;  
+    background: #fff;  
+    border-radius: 10px;  
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);  
+}  
+    
+th, td {  
+    padding: 1.2rem;  
+}  
+    
+thead tr {  
+    background-color: #333;  
+    color: #fff;  
+    text-align: left;  
+}
+
+thead .Balance-Cell {
+    text-align: right;
+}
+    
+th:first-child {  
+    border-top-left-radius: 10px;  
+}  
+    
+th:last-child {  
+    border-top-right-radius: 10px;  
+}  
+    
+tbody .Default-Row-Table:nth-child(even) {  
+    background-color: #f2f2f2;  
+}  
+    
+tbody .Default-Row-Table:hover {  
+    background-color: #ddd;  
+} 
+
+tbody .Balance-Cell {
+    color: red;
+    font-size: 15px;
+    font-weight: bold;
+}
+    
+td:first-child {  
+    font-weight: 500;  
+}  
+
+td:last-child {  
+    text-align: right;  
+}  

@@ -7,6 +7,8 @@ export const LogInWeb = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+
     const login = async(data) => {
         try {
             
@@ -21,7 +23,14 @@ export const LogInWeb = () => {
             {
                 const dd = await response.json();
                 localStorage.setItem("token", "Bearer " + dd["token"]);
-                navigate('/bankaccounts', {replace:true});
+                (function one() {
+                    console.log("baila");
+                    if(localStorage.getItem("token") === ("Bearer " + dd["token"])) {
+                        navigate("/bankaccounts", {replace:true});
+                    } else {
+                        setTimeout(one, 30);
+                    }
+                })();
                 //window.location.reload();
             }
             else

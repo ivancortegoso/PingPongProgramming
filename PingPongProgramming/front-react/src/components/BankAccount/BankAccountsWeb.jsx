@@ -4,6 +4,7 @@ import {BankAccountItem} from "./BankAccountItem";
 import {Auth} from "../../Auth";
 import Popup from 'reactjs-popup';
 import { BankAccountCreateWeb } from './BankAccountCreateWeb';
+import '../styles/TableStyle.css'
 
 
 export const BankAccountsWeb = () => {
@@ -37,9 +38,20 @@ export const BankAccountsWeb = () => {
                         {close => (<BankAccountCreateWeb onClose={close}/>)}
                     </Popup>
                 </div>
-
-                {bankAccountsList.length > 0 ? <div className={"HSeparator"}></div> : ""}
-                {bankAccountsList.map((item) => <BankAccountItem key={item["id"]} item={item}/>)}
+                <table className="Default-Table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Balance</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {bankAccountsList.map((item) => <BankAccountItem key={item["id"]} item={item}/>)}
+                    </tbody>
+                </table>
+                
             </div>
         </div>
     )
