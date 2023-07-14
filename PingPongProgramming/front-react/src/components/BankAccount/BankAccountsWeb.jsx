@@ -33,9 +33,9 @@ export const BankAccountsWeb = () => {
         <div className="BankAccountsWeb">
             <div className={"BankAccountsWeb-List ShadowBox"}>
                 <div className={"BankAccountsWeb-Header Space-Between"}>
-                    <b>Bank Accounts</b>
-                    <Popup trigger={<button className={"StandardButton"}>CREATE</button>} onClose={fetchList} modal nested>
-                        {close => (<BankAccountCreateWeb onClose={close}/>)}
+                    <h2>Bank Accounts</h2>
+                    <Popup trigger={<button className={"Create-Button"}>Create</button>} modal nested>
+                        {close => (<BankAccountCreateWeb onClose={close} onAccept={fetchList}/>)}
                     </Popup>
                 </div>
                 <table className="Default-Table">
@@ -48,7 +48,7 @@ export const BankAccountsWeb = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {bankAccountsList.map((item) => <BankAccountItem key={item["id"]} item={item}/>)}
+                        {bankAccountsList.map((item) => <BankAccountItem key={item["id"]} item={item} onDeleted={fetchList}/>)}
                     </tbody>
                 </table>
                 

@@ -1,20 +1,39 @@
 
+.NoStyleButton {
+    background-color: transparent;
+    border: none;
+}
+
 .StandardButton {
     margin: 5px;
     box-shadow: 0px 2px 4px 0px grey;
     border-radius: 5px;
-  }
+}
+
+.Create-Button {  
+    background-color: #4CAF50; /* Green */  
+    border: none;  
+    color: white;  
+    padding: 12px 20px;  
+    text-align: center;  
+    text-decoration: none;  
+    display: inline-block;  
+    font-size: 16px;  
+    margin: 4px 2px;  
+    cursor: pointer;  
+    border-radius: 5px;  
+    width: 100px;
+    height: 50px;
+}  
 
 .Delete-Button {
-    background-color: red;
-    margin: 5px;
-    height: 30px;
+    font-size: 16px;
 }
 
-.Delete-Button:hover {
-    background-color: rgb(255, 50, 50);
-}
+.Delete-Button svg{ 
+    fill: black;
+}  
 
-.Delete-Button:active {
-    background-color: rgb(220, 0, 0);
+.Delete-Button:hover svg{
+    fill: red;
 }

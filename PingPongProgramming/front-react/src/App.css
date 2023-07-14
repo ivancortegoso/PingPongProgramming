@@ -21,6 +21,8 @@
 }
 
 .App-header {
+  display: flex;;
+  position: relative;
   background-color: #333;
   width: 100%;
   flex-direction: column;
@@ -44,8 +46,21 @@
 }
 
 .AccountMenuButton {
-  display: block;  
+  position: absolute;
   float: left;
+  width: 50px;
+  height: 50px;
+  border: none;
+  background-color: transparent;
+  left: 20px;
+}
+
+.AccountMenuButton svg {
+  fill: white;
+}
+
+.AccountMenuButton:hover svg {
+  fill: grey;
 }
 
 .StandardFormSubmit {

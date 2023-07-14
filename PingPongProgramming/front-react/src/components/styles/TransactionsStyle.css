@@ -13,6 +13,10 @@
 
 }
 
+.TransactionWeb-Header {
+    margin: 10px 20px 10px 20px;
+}
+
 .TransactionItem {
     margin: 5px;
 }
@@ -41,34 +45,9 @@
     float: right;
 }
 
-
-/*.Default-Row-Table {
-    outline: thin solid;
-    border-radius: 5px;
-}
-
-.Default-Row-Table:hover {
-    background-color: lightgray;
-}
-
-.Default-Cell {
-    max-width: 150px;
-    border-right: 1px inset;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-
-.Balance-Cell {
-    text-align: right;
-    width: 100%;
-    padding-right: 10px;
-    color: red;
+.FilterBox {
+    width: 100px;
+    height: 30px;
     font-size: 20px;
-    font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}*/
-
+    border-radius: 7px;
+}

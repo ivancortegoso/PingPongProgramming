@@ -15,6 +15,7 @@ export const TransactionCreateWeb = (props) => {
             body: JSON.stringify(data)
         });
         if(response.ok) {
+            props.onAccept();
             props.onClose();
         }
     }

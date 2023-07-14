@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {Navigate, Route, Routes} from "react-router-dom";
 import {SignUpWeb} from "./components/webs/SignUpWeb";
 import {LogInWeb} from "./components/webs/LogInWeb";
@@ -10,6 +10,7 @@ import {TransactionsWeb} from "./components/Transaction/TransactionsWeb";
 import {TransactionDetailWeb} from "./components/Transaction/TransactionDetailWeb";
 import {Auth} from "./Auth";
 import {UserSettingsWeb} from "./components/webs/UserSettingsWeb";
+import { MenuSvg } from './components/svg-imgs/MenuSvg';
 
 
 export const App = () => {
@@ -24,7 +25,7 @@ export const App = () => {
     const NoLoggedRoutes = () => {
         return (
             <React.Fragment>
-                <Route path="login" element={<LogInWeb/>}/>
+                <Route path="login" element={<LogInWeb onLogin={setIsLogged}/>}/>
                 <Route path="signup" element={<SignUpWeb/>}/>
                 <Route path="*" element={<Navigate to={"login"} replace/>}/>
             </React.Fragment>
@@ -46,10 +47,10 @@ export const App = () => {
 
     return (
         <div className="App">
-            <AccountMenu isShown={showAccountMenu ? true : false}/>
+            <AccountMenu  onLogout={setIsLogged} display={showAccountMenu ? true : false}/>
             <div className="Web">
                 <header className="App-header">
-                    <button className="AccountMenuButton" onClick={updateShowAccountMenu}>Acc menu</button>
+                    <button id="account-menu-id" className="AccountMenuButton" onClick={updateShowAccountMenu}><MenuSvg height="3em"/></button>
                     <h1>Real World App</h1>
                     {Auth.IsLogged() ? <Menu/> : ""}
                 </header>

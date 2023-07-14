@@ -1,17 +1,12 @@
 import React from 'react'
 import '../styles/FormStyle.css'
 import {useState} from 'react'
-import { useNavigate } from 'react-router';
 
-export const LogInWeb = () => {
+export const LogInWeb = (props) => {
     const [errorMessage, setErrorMessage] = useState("");
-    const navigate = useNavigate();
-
-    const delay = ms => new Promise(res => setTimeout(res, ms));
 
     const login = async(data) => {
         try {
-            
             const response = await fetch("http://localhost:8080/api/public/login", {
                 method: 'post',
                 headers:{'Content-Type' : 'application/json'},
@@ -23,15 +18,7 @@ export const LogInWeb = () => {
             {
                 const dd = await response.json();
                 localStorage.setItem("token", "Bearer " + dd["token"]);
-                (function one() {
-                    console.log("baila");
-                    if(localStorage.getItem("token") === ("Bearer " + dd["token"])) {
-                        navigate("/bankaccounts", {replace:true});
-                    } else {
-                        setTimeout(one, 30);
-                    }
-                })();
-                //window.location.reload();
+                props.onLogin(true);
             }
             else
             {
@@ -40,8 +27,6 @@ export const LogInWeb = () => {
         } catch(e) {
             setErrorMessage("Network error");
         }
-
-        
     }
 
     const submit = (e) => {
@@ -51,8 +36,6 @@ export const LogInWeb = () => {
             password: e.target.password.value
         };
         login(data);
-
-        console.log(data);
     }
 
     return (

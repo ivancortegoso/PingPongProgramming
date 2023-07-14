@@ -1,6 +1,6 @@
 import React from 'react'
 import '../styles/TransactionsStyle.css'
-import { LikeHeartSvg } from '../svg-imgs/Like-Heart-Svg'
+import { LikeHeartSvg } from '../svg-imgs/LikeHeartSvg'
 import { useNavigate } from 'react-router-dom'
 
 
