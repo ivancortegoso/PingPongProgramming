@@ -28,19 +28,21 @@ public class BankAccountController {
     CreateBankAccountRequestToBankAccount bankAccountMapper = Mappers.getMapper(CreateBankAccountRequestToBankAccount.class);
 
     BankAccountToBankAccountResponse bankAccountResponseMapper = Mappers.getMapper(BankAccountToBankAccountResponse.class);
+
     @GetMapping("")
     @ResponseBody
     public ResponseEntity<?> getUserBankAccounts() {
         User user = userService.getLogged();
-        Set<BankAccount> bankAccounts = bankAccountService.findAllByUser(user);
+        Set<BankAccount> bankAccounts = bankAccountService.findAllByUserAndEnabled(user);
         return ResponseEntity.ok(bankAccountResponseMapper.toBankAccountResponse(bankAccounts));
     }
+
     @DeleteMapping(path = "/{id}")
     @ResponseBody
     public ResponseEntity<?> deleteBankAccount(@PathVariable Long id) {
         User user = userService.getLogged();
         BankAccount bankAccount = bankAccountService.findById(id);
-        if(bankAccount != null) {
+        if (bankAccount != null) {
             if (bankAccount.getUser().equals(user)) {
                 userService.depositMoney(bankAccount.getBalance(), user);
                 bankAccountService.delete(bankAccount);
@@ -52,11 +54,12 @@ public class BankAccountController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bank account does not exist.");
         }
     }
+
     @PostMapping(path = "")
     @ResponseBody
     public ResponseEntity<?> createBankAccount(@RequestBody CreateBankAccountRequest request) {
         User user = userService.getLogged();
-        if(user.getBalance() >= request.getBalance()) {
+        if (user.getBalance() >= request.getBalance()) {
             BankAccount newBankAccount = bankAccountMapper.toBankAccount(request);
             newBankAccount.setUser(user);
             userService.withdrawMoney(request.getBalance(), user);
@@ -66,14 +69,15 @@ public class BankAccountController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User balance is insufficient");
         }
     }
+
     @PostMapping(path = "/deposit")
     @ResponseBody
     public ResponseEntity<?> depositMoneyBankaccount(@RequestBody DepositMoneyBankaccountRequest request) {
         User user = userService.getLogged();
-        BankAccount bankAccount = bankAccountService.findById(request.getReceiverId());
-        if(bankAccount != null) {
+        BankAccount bankAccount = bankAccountService.findByIdAndEnabled(request.getReceiverId());
+        if (bankAccount != null) {
             if (user.equals(bankAccount.getUser())) {
-                if(user.getBalance() >= request.getBalance()) {
+                if (user.getBalance() >= request.getBalance()) {
                     userService.withdrawMoney(request.getBalance(), user);
                     bankAccountService.depositMoney(request.getBalance(), request.getReceiverId());
                     return ResponseEntity.ok("Deposit made.");
@@ -87,14 +91,15 @@ public class BankAccountController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Bank account with id " + request.getReceiverId() + " doesn't exist.");
         }
     }
+
     @PostMapping(path = "/withdraw")
     @ResponseBody
     public ResponseEntity<?> withdrawMoneyBankaccount(@RequestBody WithdrawMoneyBankaccountRequest request) {
         User user = userService.getLogged();
-        BankAccount bankAccount = bankAccountService.findById(request.getSenderId());
-        if(bankAccount != null) {
+        BankAccount bankAccount = bankAccountService.findByIdAndEnabled(request.getSenderId());
+        if (bankAccount != null) {
             if (user.equals(bankAccount.getUser())) {
-                if(bankAccount.getBalance() >= request.getBalance()) {
+                if (bankAccount.getBalance() >= request.getBalance()) {
                     userService.depositMoney(request.getBalance(), user);
                     bankAccountService.withdrawMoney(request.getBalance(), request.getSenderId());
                     return ResponseEntity.ok("Withdraw made.");

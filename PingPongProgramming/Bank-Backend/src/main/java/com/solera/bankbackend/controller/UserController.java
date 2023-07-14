@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/api/user")
 public class UserController {
     @Autowired
-    BankAccountService bankAccountService;
-    @Autowired
     UserService userService;
     UserAccountInformationToUser userAccountInformationToUserMapper = Mappers.getMapper(UserAccountInformationToUser.class);
-     @GetMapping(path = {""})
+    @GetMapping(path = {""})
     @ResponseBody
     public ResponseEntity<?> getUserAccountInformation() {
         User user = userService.getLogged();

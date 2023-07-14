@@ -26,7 +26,7 @@ public class BankAccount {
     private List<Transaction> transactionsReceivedList = new ArrayList<>();
     @OneToMany(mappedBy = "sender")
     private List<Transaction> transactionsSentList = new ArrayList<>();
-
+    private boolean enabled = true;
     @Override
     public int hashCode() {
         return Objects.hashCode(id);

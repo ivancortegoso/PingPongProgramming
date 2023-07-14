@@ -27,11 +27,19 @@ public class BankAccountService extends CommonService<BankAccount, IBankAccountR
         }
     }
 
+    public Set<BankAccount> findAllByUserAndEnabled(User user) {
+        return repository.findAllByUserAndEnabled(user, true);
+    }
     public Set<BankAccount> findAllByUser(User user) {
         return repository.findAllByUser(user);
     }
 
     public void delete(BankAccount bankAccount) {
-        repository.delete(bankAccount);
+        bankAccount.setEnabled(false);
+        repository.save(bankAccount);
+    }
+
+    public BankAccount findByIdAndEnabled(Long receiverId) {
+        return repository.findByIdAndEnabled(receiverId, true);
     }
 }
