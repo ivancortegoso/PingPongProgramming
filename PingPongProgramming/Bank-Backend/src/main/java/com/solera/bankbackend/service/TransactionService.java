@@ -1,6 +1,5 @@
 package com.solera.bankbackend.service;
 
-import com.solera.bankbackend.domain.dto.request.CreateCommentaryRequest;
 import com.solera.bankbackend.domain.dto.responses.TransactionMiddleResponse;
 import com.solera.bankbackend.domain.dto.responses.TransactionResponse;
 import com.solera.bankbackend.domain.mapper.CommentaryToCommentaryResponse;
@@ -8,14 +7,12 @@ import com.solera.bankbackend.domain.mapper.TransactionMiddleResponseToTransacti
 import com.solera.bankbackend.domain.model.Commentary;
 import com.solera.bankbackend.domain.model.Transaction;
 import com.solera.bankbackend.repository.ITransactionRepository;
-import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class TransactionService extends CommonService<Transaction, ITransactionRepository> {

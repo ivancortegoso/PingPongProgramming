@@ -1,17 +1,14 @@
 package com.solera.bankbackend.controller;
 
 import com.solera.bankbackend.domain.dto.request.CreateBankAccountRequest;
-import com.solera.bankbackend.domain.dto.request.DeleteBankAccountRequest;
 import com.solera.bankbackend.domain.dto.request.DepositMoneyBankaccountRequest;
 import com.solera.bankbackend.domain.dto.request.WithdrawMoneyBankaccountRequest;
 import com.solera.bankbackend.domain.mapper.BankAccountToBankAccountResponse;
 import com.solera.bankbackend.domain.mapper.CreateBankAccountRequestToBankAccount;
 import com.solera.bankbackend.domain.model.BankAccount;
 import com.solera.bankbackend.domain.model.User;
-import com.solera.bankbackend.repository.IBankAccountRepository;
 import com.solera.bankbackend.service.BankAccountService;
 import com.solera.bankbackend.service.UserService;
-import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,8 +22,6 @@ import java.util.Set;
 public class BankAccountController {
     @Autowired
     BankAccountService bankAccountService;
-    @Autowired
-    IBankAccountRepository bankAccountRepository;
     @Autowired
     UserService userService;
 

@@ -1,7 +1,6 @@
 package com.solera.bankbackend.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

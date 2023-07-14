@@ -8,14 +8,13 @@ import com.solera.bankbackend.repository.IUserRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 public class UserService extends CommonService<User, IUserRepository> implements UserDetailsService {
@@ -54,5 +53,9 @@ public class UserService extends CommonService<User, IUserRepository> implements
     public void withdrawMoney(double balance, User user) {
         user.withdrawBalance(balance);
         userRepository.save(user);
+    }
+
+    public Optional<User> findByUsername(String username) {
+        return repository.findByUsername(username);
     }
 }

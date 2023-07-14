@@ -1,7 +1,6 @@
 package com.solera.bankbackend.domain.mapper;
 
 import com.solera.bankbackend.domain.dto.responses.TransactionMiddleResponse;
-import com.solera.bankbackend.domain.dto.responses.TransactionResponse;
 import com.solera.bankbackend.domain.model.Transaction;
 import org.mapstruct.Mapper;
 

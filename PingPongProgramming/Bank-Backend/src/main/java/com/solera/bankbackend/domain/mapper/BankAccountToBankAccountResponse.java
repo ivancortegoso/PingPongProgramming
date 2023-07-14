@@ -4,7 +4,6 @@ import com.solera.bankbackend.domain.dto.responses.BankAccountResponse;
 import com.solera.bankbackend.domain.model.BankAccount;
 import org.mapstruct.Mapper;
 
-import java.util.List;
 import java.util.Set;
 
 @Mapper
