@@ -24,94 +24,41 @@ public class BankAccountController {
     BankAccountService bankAccountService;
     @Autowired
     UserService userService;
-
-    CreateBankAccountRequestToBankAccount bankAccountMapper = Mappers.getMapper(CreateBankAccountRequestToBankAccount.class);
-
     BankAccountToBankAccountResponse bankAccountResponseMapper = Mappers.getMapper(BankAccountToBankAccountResponse.class);
 
     @GetMapping("")
     @ResponseBody
     public ResponseEntity<?> getUserBankAccounts() {
-        User user = userService.getLogged();
-        Set<BankAccount> bankAccounts = bankAccountService.findAllByUserAndEnabled(user);
+        Set<BankAccount> bankAccounts = bankAccountService.findAllByUserAndEnabled();
         return ResponseEntity.ok(bankAccountResponseMapper.toBankAccountResponse(bankAccounts));
     }
 
     @DeleteMapping(path = "/{id}")
     @ResponseBody
     public ResponseEntity<?> deleteBankAccount(@PathVariable Long id) {
-        User user = userService.getLogged();
-        BankAccount bankAccount = bankAccountService.findById(id);
-        if (bankAccount != null) {
-            if (bankAccount.getUser().equals(user)) {
-                userService.depositMoney(bankAccount.getBalance(), user);
-                bankAccountService.delete(bankAccount);
-                return ResponseEntity.ok("Bank account deleted.");
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Logged user is not allowed to delete this bank account.");
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bank account does not exist.");
-        }
+        bankAccountService.delete(id);
+        return ResponseEntity.ok("Bank account deleted successfully.");
     }
 
     @PostMapping(path = "")
     @ResponseBody
     public ResponseEntity<?> createBankAccount(@RequestBody CreateBankAccountRequest request) {
-        User user = userService.getLogged();
-        if (user.getBalance() >= request.getBalance()) {
-            BankAccount newBankAccount = bankAccountMapper.toBankAccount(request);
-            newBankAccount.setUser(user);
-            userService.withdrawMoney(request.getBalance(), user);
-            bankAccountService.save(newBankAccount);
-            return ResponseEntity.ok(newBankAccount.getName());
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User balance is insufficient");
-        }
+        bankAccountService.create(request);
+        return ResponseEntity.ok("Bank account created successfully.");
     }
 
     @PostMapping(path = "/deposit")
     @ResponseBody
     public ResponseEntity<?> depositMoneyBankaccount(@RequestBody DepositMoneyBankaccountRequest request) {
-        User user = userService.getLogged();
-        BankAccount bankAccount = bankAccountService.findByIdAndEnabled(request.getReceiverId());
-        if (bankAccount != null) {
-            if (user.equals(bankAccount.getUser())) {
-                if (user.getBalance() >= request.getBalance()) {
-                    userService.withdrawMoney(request.getBalance(), user);
-                    bankAccountService.depositMoney(request.getBalance(), request.getReceiverId());
-                    return ResponseEntity.ok("Deposit made.");
-                } else {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User logged has not enough balance.");
-                }
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bank account with id " + request.getReceiverId() + " doesn't belong to user logged.");
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Bank account with id " + request.getReceiverId() + " doesn't exist.");
-        }
+        bankAccountService.deposit(request);
+        return ResponseEntity.ok("Deposit made successfully");
     }
 
     @PostMapping(path = "/withdraw")
     @ResponseBody
     public ResponseEntity<?> withdrawMoneyBankaccount(@RequestBody WithdrawMoneyBankaccountRequest request) {
-        User user = userService.getLogged();
-        BankAccount bankAccount = bankAccountService.findByIdAndEnabled(request.getSenderId());
-        if (bankAccount != null) {
-            if (user.equals(bankAccount.getUser())) {
-                if (bankAccount.getBalance() >= request.getBalance()) {
-                    userService.depositMoney(request.getBalance(), user);
-                    bankAccountService.withdrawMoney(request.getBalance(), request.getSenderId());
-                    return ResponseEntity.ok("Withdraw made.");
-                } else {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bank account has not enough balance.");
-                }
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bank account with id " + request.getSenderId() + " doesn't belong to user logged.");
-            }
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Bank account with id " + request.getSenderId() + " doesn't exist.");
-        }
+        bankAccountService.withdraw(request);
+        return ResponseEntity.ok("Withdraw made.");
     }
 
 }

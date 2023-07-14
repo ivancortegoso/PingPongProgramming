@@ -19,43 +19,27 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     UserService userService;
-    UserAccountInformationToUser userAccountInformationToUserMapper = Mappers.getMapper(UserAccountInformationToUser.class);
     @GetMapping(path = {""})
     @ResponseBody
     public ResponseEntity<?> getUserAccountInformation() {
-        User user = userService.getLogged();
-        return ResponseEntity.ok(userAccountInformationToUserMapper.toUserAccountInformation(user));
+        return ResponseEntity.ok(userService.getUserAccountInformation());
     }
     @PostMapping("/addfriend")
     @ResponseBody
     public ResponseEntity<?> addFriend(@RequestBody FriendRequest request) {
-        User user = userService.getLogged();
-        if(userService.findByUsername(request.getUsername()).isPresent()) {
-            User friend = userService.findByUsername(request.getUsername()).get();
-            if (friend.getFriends().contains(user)) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Users are already friends");
-            }
-            user.getFriends().add(friend);
-            friend.getFriends().add(user);
-            userService.save(user);
-            userService.save(friend);
-            return ResponseEntity.ok(new FriendResponse(request.getUsername()));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with username " + request.getUsername() + " does not exist");
-        }
+        userService.addFriend(request);
+        return ResponseEntity.ok("Friend added successfully.");
     }
     @PostMapping(path = "/deposit")
     @ResponseBody
     public ResponseEntity<?> depositMoney(@RequestBody DepositMoneyUserRequest request) {
-        User user = userService.getLogged();
-        userService.depositMoney(request.getBalance(), user);
+        userService.depositMoney(request.getBalance());
         return ResponseEntity.ok("Deposit done.");
     }
     @PostMapping(path = "/withdraw")
     @ResponseBody
     public ResponseEntity<?> withdraw(@RequestBody DepositMoneyUserRequest request) {
-        User user = userService.getLogged();
-        userService.withdrawMoney(request.getBalance(), user);
+        userService.withdrawMoney(request.getBalance());
         return ResponseEntity.ok("withdraw done.");
     }
 }

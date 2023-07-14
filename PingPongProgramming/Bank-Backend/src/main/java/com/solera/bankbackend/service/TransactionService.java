@@ -22,11 +22,9 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
     ITransactionRepository transactionRepository;
     @Autowired
     BankAccountService bankAccountService;
-    @Autowired
     TransactionResponseToTransaction transactionMapper = Mappers.getMapper(TransactionResponseToTransaction.class);
     @Autowired
     CommentaryService commentaryService;
-    @Autowired
     CommentaryToCommentaryResponse commentaryMapper = Mappers.getMapper(CommentaryToCommentaryResponse.class);
     public List<TransactionResponse> transactionToTransactionResponse(List<Transaction> transactions) {
         List<TransactionResponse> transactionResponses = transactionMapper.transactionToTransactionResponse(transactions);

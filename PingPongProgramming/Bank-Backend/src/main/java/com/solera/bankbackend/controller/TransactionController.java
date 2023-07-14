@@ -40,18 +40,15 @@ public class TransactionController {
     @GetMapping(path = "{id}")
     @ResponseBody
     public ResponseEntity<?> getTransactionById(@PathVariable(name = "id") Long transactionId) {
-        if (!transactionService.findById(transactionId).equals(null)) {
-            Transaction transaction = transactionService.findById(transactionId);
-            return ResponseEntity.ok(transactionService.transactionToTransactionResponse(transaction));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Transaction not found");
-        }
+        Transaction  transaction = transactionService.findById(transactionId);
+        return ResponseEntity.ok(transactionService.transactionToTransactionResponse(transaction));
     }
 
     @GetMapping(path = "all")
     @ResponseBody
     public ResponseEntity<?> getTransactionAll() {
-        return ResponseEntity.ok(transactionService.findAllTransactionResponse());
+        List<TransactionResponse> transactionResponses = transactionService.findAllTransactionResponse();
+        return ResponseEntity.ok(transactionResponses);
     }
 
     @GetMapping(path = "user")
