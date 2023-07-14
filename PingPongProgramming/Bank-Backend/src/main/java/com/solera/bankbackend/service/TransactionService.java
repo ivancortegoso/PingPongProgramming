@@ -36,6 +36,7 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
         TransactionResponse transactionResponses = transactionMapper.transactionToTransactionResponse(transactions);
         return transactionResponses;
     }
+
     public List<TransactionResponse> findAllTransactionResponse() {
         List<Transaction> transactions = transactionRepository.findAll();
         return transactionToTransactionResponse(transactions);
