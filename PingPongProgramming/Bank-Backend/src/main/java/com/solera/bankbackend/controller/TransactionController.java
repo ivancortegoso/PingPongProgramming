@@ -72,7 +72,7 @@ public class TransactionController {
             }
         }
         List<TransactionResponse> result = transactionService.transactionToTransactionResponse(transactions);
-        return ResponseEntity.status(HttpStatus.OK).body(result.toString());
+        return ResponseEntity.ok().body(result);
     }
     @GetMapping(path = "friends")
     @ResponseBody

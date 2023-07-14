@@ -1,7 +1,10 @@
 package com.solera.bankbackend.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +32,9 @@ public class Transaction {
             joinColumns = @JoinColumn(name = "transaction_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> usersLiked;
-    @OneToMany(mappedBy = "transaction")
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "transaction", fetch = FetchType.LAZY)
     private List<Commentary> commentaries = new ArrayList<>();
     @Override
     public int hashCode() {

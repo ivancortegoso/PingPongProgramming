@@ -1,12 +1,15 @@
 package com.solera.bankbackend.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Commentary {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,8 +18,9 @@ public class Commentary {
     @ManyToOne
     private User writer;
 
-    @ManyToOne
-    @JoinColumn(name = "transaction_id")
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "transaction_id", nullable = false)
     private Transaction transaction;
 
     @Column(nullable = false)
