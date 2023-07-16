@@ -123,34 +123,16 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
         return result;
     }
 
-    public void CreateTransaction(TransactionRequest request) {
-        User user = userService.getLogged();
-        BankAccount sender = bankAccountService.findById(request.getSenderID());
-        BankAccount receiver = bankAccountService.findById(request.getReceiverID());
-        if (sender == null) {
-            //TODO
-            //return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sender bank account not found");
-        } else if (receiver == null) {
-            //TODO
-            //return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Receiver bank account not found");
-        } else if (!sender.getUser().equals(user)) {
-            //TODO
-            //return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User logged is not the owner of the sender bank account");
-        } else {
-            Transaction transaction = transactionRequestMapper.toTransaction(request);
-            transaction.setSender(bankAccountService.findById(request.getSenderID()));
-            transaction.setReceiver(bankAccountService.findById(request.getReceiverID()));
-            if (sender.getBalance() >= request.getBalance()) {
-                this.save(transaction);
-                sender.getTransactionsSentList().add(transaction);
-                sender.setBalance(sender.getBalance() - request.getBalance());
-                receiver.setBalance(receiver.getBalance() + request.getBalance());
-                bankAccountService.save(sender);
-                bankAccountService.save(receiver);
-            } else {
-                //TODO
-                //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not enough balance");
-            }
-        }
-    }
+    public void CreateTransaction(BankAccount sender, BankAccount receiver, TransactionRequest request) {
+
+        Transaction transaction = transactionRequestMapper.toTransaction(request);
+        transaction.setSender(sender);
+        transaction.setReceiver(receiver);
+        this.save(transaction);
+        sender.getTransactionsSentList().add(transaction);
+        sender.setBalance(sender.getBalance() - request.getBalance());
+        receiver.setBalance(receiver.getBalance() + request.getBalance());
+        bankAccountService.save(sender);
+        bankAccountService.save(receiver);
+
 }
