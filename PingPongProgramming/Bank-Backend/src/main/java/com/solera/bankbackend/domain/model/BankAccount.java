@@ -48,4 +48,10 @@ public class BankAccount {
 
         return false;
     }
+    public void withdrawMoney(double balance) {
+        this.setBalance(this.getBalance() - balance);
+    }
+    public void depositMoney(double balance) {
+        this.setBalance(this.getBalance() + balance);
+    }
 }

@@ -42,21 +42,23 @@ public class UserService extends CommonService<User, IUserRepository> implements
         user = repository.save(user);
         return user;
     }
+
     public User getLogged() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
+
     @Transactional(readOnly = true)
     public User loadUserByUsername(String username) {
         return repository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Username: %s, not found", username)));
     }
-    public void depositMoney(double balance) {
-        User user = this.getLogged();
+
+    public void depositMoney(User user, double balance) {
         user.depositBalance(balance);
         userRepository.save(user);
     }
-    public void withdrawMoney(double balance) {
-        User user = this.getLogged();
+
+    public void withdrawMoney(double balance, User user) {
         user.withdrawBalance(balance);
         userRepository.save(user);
     }
@@ -65,25 +67,19 @@ public class UserService extends CommonService<User, IUserRepository> implements
         return repository.findByUsername(username);
     }
 
+    public Optional<User> findByUsernameAndEnabled(String username) {
+        return repository.findByUsernameAndEnabled(username, true);
+    }
+
     public UserAccountInformation getUserAccountInformation() {
         User user = this.getLogged();
         return userAccountInformationToUserMapper.toUserAccountInformation(user);
     }
-    public void addFriend(FriendRequest request) {
-        User user = this.getLogged();
-        if(this.findByUsername(request.getUsername()).isPresent()) {
-            User friend = this.findByUsername(request.getUsername()).get();
-            if (friend.getFriends().contains(user)) {
-                //TODO
-                //return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Users are already friends");
-            }
-            user.getFriends().add(friend);
-            friend.getFriends().add(user);
-            this.save(user);
-            this.save(friend);
-        } else {
-            //TODO
-            //return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with username " + request.getUsername() + " does not exist");
-        }
+
+    public void addFriend(User user, User friend) {
+        user.getFriends().add(friend);
+        friend.getFriends().add(user);
+        this.save(user);
+        this.save(friend);
     }
 }
