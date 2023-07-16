@@ -54,97 +54,42 @@ public class TransactionController {
     @GetMapping(path = "user")
     @ResponseBody
     public ResponseEntity<?> getTransactionUser() {
-        User user = userService.getLogged();
-        List<Transaction> transactions = new ArrayList<>();
-        for (BankAccount b : bankAccountService.findAllByUser(user)) {
-            for (Transaction t : b.getTransactionsSentList()) {
-                transactions.add(t);
-            }
-        }
-        List<TransactionResponse> result = transactionService.transactionToTransactionResponse(transactions);
-        return ResponseEntity.ok().body(result);
+        List<TransactionResponse> transactionResponsesByUser = transactionService.getTransactionsByUser();
+        return ResponseEntity.ok(transactionResponsesByUser);
     }
 
     @GetMapping(path = "friends")
     @ResponseBody
     public ResponseEntity<?> getTransactionFriends() {
-        User user = userService.getLogged();
-        List<Transaction> transactions = new ArrayList<>();
-        List<User> friends = user.getFriends();
-        for (User u : friends) {
-            for (BankAccount b : bankAccountService.findAllByUser(u)) {
-                for (Transaction t : b.getTransactionsSentList()) {
-                    transactions.add(t);
-                }
-            }
-        }
-        return ResponseEntity.ok(transactionService.transactionToTransactionResponse(transactions));
+        List<TransactionResponse> transactionResponsesByFriend = transactionService.getTransactionsByFriend();
+        return ResponseEntity.ok(transactionResponsesByFriend);
     }
 
     @PostMapping(path = "")
     @ResponseBody
     public ResponseEntity<?> createTransaction(@RequestBody TransactionRequest request) {
-        User user = userService.getLogged();
-        BankAccount sender = bankAccountService.findById(request.getSenderID());
-        BankAccount receiver = bankAccountService.findById(request.getReceiverID());
-        if (sender == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sender bank account not found");
-        } else if (receiver == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Receiver bank account not found");
-        } else if (!sender.getUser().equals(user)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User logged is not the owner of the sender bank account");
-        } else {
-            Transaction transaction = transactionMapper.toTransaction(request);
-            transaction.setSender(bankAccountService.findById(request.getSenderID()));
-            transaction.setReceiver(bankAccountService.findById(request.getReceiverID()));
-            if (sender.getBalance() >= request.getBalance()) {
-                transactionService.save(transaction);
-                sender.getTransactionsSentList().add(transaction);
-                sender.setBalance(sender.getBalance() - request.getBalance());
-                receiver.setBalance(receiver.getBalance() + request.getBalance());
-                bankAccountService.save(sender);
-                bankAccountService.save(receiver);
-                return ResponseEntity.ok(sender.getBalance());
-            } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not enough balance");
-            }
-        }
+        transactionService.CreateTransaction(request);
+        return ResponseEntity.ok("Transaction made successfully.");
     }
 
     @PostMapping(path = "/commentary")
     @ResponseBody
     public ResponseEntity<?> createCommentary(@RequestBody CreateCommentaryRequest request) {
-        User user = userService.getLogged();
-        Transaction t = transactionService.findById(request.getTransactionId());
-        if (t != null) {
-            Commentary commentary = commentaryMapper.commentaryRequestToCommentary(request);
-            commentary.setTransaction(transactionService.findById(request.getTransactionId()));
-            commentary.setWriter(user);
-            transactionService.CreateCommentary(commentary);
-            return ResponseEntity.ok().body("Commentary created");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Transaction with id: " + request.getTransactionId() + " not found");
-        }
+        transactionService.createCommentary(request);
+        return ResponseEntity.ok("Commentary created successfully.");
     }
 
     @DeleteMapping(path = "/commentary")
     @ResponseBody
     public ResponseEntity<?> deleteCommentary(@RequestBody DeleteCommentaryRequest request) {
-        User user = userService.getLogged();
-        if (commentaryService.findById(request.getId()).getWriter().equals(user) ||
-                bankAccountService.findById(commentaryService.findById(request.getId()).getTransaction().getSender().getId()).getUser().equals(user)) {
-            commentaryService.deleteById(request.getId());
-            return ResponseEntity.ok("Commentary deleted");
-        } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User logged is not allowed to delete the commentary.");
-        }
+        transactionService.deleteCommentary(request);
+        return ResponseEntity.ok("Commentary deleted");
     }
 
     @PostMapping(path = "{id}")
     @ResponseBody
     public ResponseEntity<?> likeTransaction(@PathVariable(name = "id") Long transactionId) {
-        User user = userService.getLogged();
-        transactionService.userLikeTransaction(user, transactionId);
+        transactionService.userLikeTransaction(transactionId);
         return ResponseEntity.ok("Like added");
     }
 }
