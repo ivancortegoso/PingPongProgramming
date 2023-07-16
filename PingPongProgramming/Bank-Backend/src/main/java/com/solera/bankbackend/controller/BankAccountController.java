@@ -3,15 +3,10 @@ package com.solera.bankbackend.controller;
 import com.solera.bankbackend.domain.dto.request.CreateBankAccountRequest;
 import com.solera.bankbackend.domain.dto.request.DepositMoneyBankaccountRequest;
 import com.solera.bankbackend.domain.dto.request.WithdrawMoneyBankaccountRequest;
-import com.solera.bankbackend.domain.mapper.BankAccountToBankAccountResponse;
-import com.solera.bankbackend.domain.mapper.CreateBankAccountRequestToBankAccount;
-import com.solera.bankbackend.domain.model.BankAccount;
-import com.solera.bankbackend.domain.model.User;
+import com.solera.bankbackend.domain.dto.responses.BankAccountResponse;
 import com.solera.bankbackend.service.BankAccountService;
 import com.solera.bankbackend.service.UserService;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,13 +19,12 @@ public class BankAccountController {
     BankAccountService bankAccountService;
     @Autowired
     UserService userService;
-    BankAccountToBankAccountResponse bankAccountResponseMapper = Mappers.getMapper(BankAccountToBankAccountResponse.class);
 
     @GetMapping("")
     @ResponseBody
     public ResponseEntity<?> getUserBankAccounts() {
-        Set<BankAccount> bankAccounts = bankAccountService.findAllByUserAndEnabled();
-        return ResponseEntity.ok(bankAccountResponseMapper.toBankAccountResponse(bankAccounts));
+        Set<BankAccountResponse> bankAccounts = bankAccountService.findAllByUserAndEnabled();
+        return ResponseEntity.ok(bankAccounts);
     }
 
     @DeleteMapping(path = "/{id}")

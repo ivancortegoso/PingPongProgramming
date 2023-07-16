@@ -4,7 +4,7 @@ import com.solera.bankbackend.domain.dto.LoginDto;
 import com.solera.bankbackend.domain.dto.exceptions.ApiErrorException;
 import com.solera.bankbackend.domain.dto.request.CreateUserRequest;
 import com.solera.bankbackend.domain.dto.responses.JWTAuthResponse;
-import com.solera.bankbackend.domain.mapper.CreateUserRequestToUser;
+import com.solera.bankbackend.domain.mapper.UserMapper;
 import com.solera.bankbackend.service.AuthServiceImpl;
 import com.solera.bankbackend.service.UserService;
 import org.mapstruct.factory.Mappers;
@@ -23,7 +23,7 @@ public class AuthenticationController {
     protected UserService userService;
     @Autowired
     private AuthServiceImpl authService;
-    CreateUserRequestToUser mapper = Mappers.getMapper(CreateUserRequestToUser.class);
+    UserMapper mapper = Mappers.getMapper(UserMapper.class);
 
     // Build Login REST API
     @PostMapping("login")

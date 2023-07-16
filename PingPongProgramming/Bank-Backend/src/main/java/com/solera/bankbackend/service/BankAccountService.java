@@ -3,17 +3,16 @@ package com.solera.bankbackend.service;
 import com.solera.bankbackend.domain.dto.request.CreateBankAccountRequest;
 import com.solera.bankbackend.domain.dto.request.DepositMoneyBankaccountRequest;
 import com.solera.bankbackend.domain.dto.request.WithdrawMoneyBankaccountRequest;
-import com.solera.bankbackend.domain.mapper.CreateBankAccountRequestToBankAccount;
+import com.solera.bankbackend.domain.dto.responses.BankAccountResponse;
+import com.solera.bankbackend.domain.mapper.BankAccountMapper;
 import com.solera.bankbackend.domain.model.BankAccount;
 import com.solera.bankbackend.domain.model.User;
 import com.solera.bankbackend.repository.IBankAccountRepository;
-import jakarta.persistence.Access;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -21,7 +20,9 @@ import java.util.Set;
 public class BankAccountService extends CommonService<BankAccount, IBankAccountRepository> {
     @Autowired
     UserService userService;
-    CreateBankAccountRequestToBankAccount bankAccountMapper = Mappers.getMapper(CreateBankAccountRequestToBankAccount.class);
+    @Autowired
+    BankAccountMapper bankAccountMapper;
+    //BankAccountMapper bankAccountMapper = Mappers.getMapper(BankAccountMapper.class);
 
     public void depositMoney(double balance, Long id) {
         Optional<BankAccount> query = repository.findById(id);
@@ -39,9 +40,10 @@ public class BankAccountService extends CommonService<BankAccount, IBankAccountR
         }
     }
 
-    public Set<BankAccount> findAllByUserAndEnabled() {
+    public Set<BankAccountResponse> findAllByUserAndEnabled() {
         User user = userService.getLogged();
-        return repository.findAllByUserAndEnabled(user, true);
+        Set<BankAccountResponse> bankAccountsByUser = bankAccountMapper.toBankAccountResponse(repository.findAllByUserAndEnabled(user, true));
+        return bankAccountsByUser;
     }
 
     public Set<BankAccount> findAllByUser(User user) {
@@ -104,6 +106,7 @@ public class BankAccountService extends CommonService<BankAccount, IBankAccountR
             //return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Bank account with id " + request.getReceiverId() + " doesn't exist.");
         }
     }
+
     public void withdraw(WithdrawMoneyBankaccountRequest request) {
         User user = userService.getLogged();
         BankAccount bankAccount = this.findByIdAndEnabled(request.getSenderId());

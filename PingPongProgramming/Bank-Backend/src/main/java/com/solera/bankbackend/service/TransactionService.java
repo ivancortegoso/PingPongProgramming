@@ -1,23 +1,17 @@
 package com.solera.bankbackend.service;
 
-import com.solera.bankbackend.domain.dto.exceptions.ApiErrorException;
 import com.solera.bankbackend.domain.dto.request.CreateCommentaryRequest;
 import com.solera.bankbackend.domain.dto.request.DeleteCommentaryRequest;
 import com.solera.bankbackend.domain.dto.request.TransactionRequest;
 import com.solera.bankbackend.domain.dto.responses.TransactionResponse;
-import com.solera.bankbackend.domain.mapper.CommentaryToCommentaryResponse;
-import com.solera.bankbackend.domain.mapper.CreateCommentaryRequestToCommentary;
-import com.solera.bankbackend.domain.mapper.TransactionRequestToTransaction;
-import com.solera.bankbackend.domain.mapper.TransactionResponseToTransaction;
+import com.solera.bankbackend.domain.mapper.CommentaryMapper;
+import com.solera.bankbackend.domain.mapper.TransactionMapper;
 import com.solera.bankbackend.domain.model.BankAccount;
 import com.solera.bankbackend.domain.model.Commentary;
 import com.solera.bankbackend.domain.model.Transaction;
 import com.solera.bankbackend.domain.model.User;
 import com.solera.bankbackend.repository.ITransactionRepository;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,16 +24,18 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
     ITransactionRepository transactionRepository;
     @Autowired
     BankAccountService bankAccountService;
-    TransactionResponseToTransaction transactionMapper = Mappers.getMapper(TransactionResponseToTransaction.class);
-    TransactionRequestToTransaction transactionRequestMapper = Mappers.getMapper(TransactionRequestToTransaction.class);
+    @Autowired
+    TransactionMapper transactionMapper;
+    @Autowired
+    TransactionMapper transactionRequestMapper;
+    @Autowired
+    CommentaryMapper commentaryMapper;
     @Autowired
     CommentaryService commentaryService;
     @Autowired
     UserService userService;
     @Autowired
     TransactionService transactionService;
-    CommentaryToCommentaryResponse commentaryMapper = Mappers.getMapper(CommentaryToCommentaryResponse.class);
-    CreateCommentaryRequestToCommentary commentaryRequestMapper = Mappers.getMapper(CreateCommentaryRequestToCommentary.class);
 
     public List<TransactionResponse> transactionToTransactionResponse(List<Transaction> transactions) {
         List<TransactionResponse> transactionResponses = transactionMapper.transactionToTransactionResponse(transactions);
@@ -80,7 +76,7 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
         User user = userService.getLogged();
         Transaction t = transactionService.findById(request.getTransactionId());
         if (t != null) {
-            Commentary commentary = commentaryRequestMapper.commentaryRequestToCommentary(request);
+            Commentary commentary = commentaryMapper.commentaryRequestToCommentary(request);
             commentary.setTransaction(transactionService.findById(request.getTransactionId()));
             commentary.setWriter(user);
             commentaryService.save(commentary);
@@ -113,6 +109,7 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
         List<TransactionResponse> result = transactionService.transactionToTransactionResponse(transactions);
         return result;
     }
+
     public List<TransactionResponse> getTransactionsByFriend() {
         User user = userService.getLogged();
         List<Transaction> transactions = new ArrayList<>();
@@ -127,6 +124,7 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
         List<TransactionResponse> result = transactionService.transactionToTransactionResponse(transactions);
         return result;
     }
+
     public void CreateTransaction(TransactionRequest request) {
         User user = userService.getLogged();
         BankAccount sender = bankAccountService.findById(request.getSenderID());

@@ -2,17 +2,13 @@ package com.solera.bankbackend.service;
 
 import com.solera.bankbackend.domain.dto.request.CreateUserRequest;
 import com.solera.bankbackend.domain.dto.request.FriendRequest;
-import com.solera.bankbackend.domain.dto.responses.FriendResponse;
 import com.solera.bankbackend.domain.dto.responses.UserAccountInformation;
-import com.solera.bankbackend.domain.mapper.CreateUserRequestToUser;
-import com.solera.bankbackend.domain.mapper.UserAccountInformationToUser;
+import com.solera.bankbackend.domain.mapper.UserMapper;
 import com.solera.bankbackend.domain.model.User;
 import com.solera.bankbackend.repository.IRoleRepository;
 import com.solera.bankbackend.repository.IUserRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,8 +26,8 @@ public class UserService extends CommonService<User, IUserRepository> implements
     protected PasswordEncoder passwordEncoder;
     @Autowired
     protected IUserRepository userRepository;
-    CreateUserRequestToUser mapper = Mappers.getMapper(CreateUserRequestToUser.class);
-    UserAccountInformationToUser userAccountInformationToUserMapper = Mappers.getMapper(UserAccountInformationToUser.class);
+    UserMapper mapper = Mappers.getMapper(UserMapper.class);
+    UserMapper userAccountInformationToUserMapper = Mappers.getMapper(UserMapper.class);
 
 
     public User findByEmail(String email) {

@@ -1,5 +1,6 @@
 package com.solera.bankbackend.domain.mapper;
 
+import com.solera.bankbackend.domain.dto.request.TransactionRequest;
 import com.solera.bankbackend.domain.dto.responses.TransactionResponse;
 import com.solera.bankbackend.domain.model.Transaction;
 import org.mapstruct.Mapper;
@@ -8,8 +9,8 @@ import org.mapstruct.Mappings;
 
 import java.util.List;
 
-@Mapper(uses = CommentaryToCommentaryResponse.class)
-public abstract class TransactionResponseToTransaction {
+@Mapper(uses = CommentaryMapper.class, componentModel = "spring")
+public abstract class TransactionMapper {
     @Mappings({
             @Mapping(target = "bankAccountSenderId", expression = "java(transaction.getSender().getId())"),
             @Mapping(target = "bankAccountReceiverId", expression = "java(transaction.getReceiver().getId())"),
@@ -30,4 +31,5 @@ public abstract class TransactionResponseToTransaction {
             @Mapping(target = "likes", expression = "java(transaction.getUsersLiked().size())")
     })
     public abstract TransactionResponse transactionToTransactionResponse(Transaction transaction);
+    public abstract Transaction toTransaction(TransactionRequest transactionDTO);
 }

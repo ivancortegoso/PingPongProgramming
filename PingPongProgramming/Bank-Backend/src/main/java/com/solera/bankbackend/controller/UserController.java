@@ -2,14 +2,8 @@ package com.solera.bankbackend.controller;
 
 import com.solera.bankbackend.domain.dto.request.DepositMoneyUserRequest;
 import com.solera.bankbackend.domain.dto.request.FriendRequest;
-import com.solera.bankbackend.domain.dto.responses.FriendResponse;
-import com.solera.bankbackend.domain.mapper.UserAccountInformationToUser;
-import com.solera.bankbackend.domain.model.User;
-import com.solera.bankbackend.service.BankAccountService;
 import com.solera.bankbackend.service.UserService;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

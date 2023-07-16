@@ -4,23 +4,15 @@ import com.solera.bankbackend.domain.dto.request.CreateCommentaryRequest;
 import com.solera.bankbackend.domain.dto.request.DeleteCommentaryRequest;
 import com.solera.bankbackend.domain.dto.request.TransactionRequest;
 import com.solera.bankbackend.domain.dto.responses.TransactionResponse;
-import com.solera.bankbackend.domain.mapper.CreateCommentaryRequestToCommentary;
-import com.solera.bankbackend.domain.mapper.TransactionRequestToTransaction;
-import com.solera.bankbackend.domain.model.BankAccount;
-import com.solera.bankbackend.domain.model.Commentary;
 import com.solera.bankbackend.domain.model.Transaction;
-import com.solera.bankbackend.domain.model.User;
 import com.solera.bankbackend.service.BankAccountService;
 import com.solera.bankbackend.service.CommentaryService;
 import com.solera.bankbackend.service.TransactionService;
 import com.solera.bankbackend.service.UserService;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,8 +26,6 @@ public class TransactionController {
     TransactionService transactionService;
     @Autowired
     CommentaryService commentaryService;
-    TransactionRequestToTransaction transactionMapper = Mappers.getMapper(TransactionRequestToTransaction.class);
-    CreateCommentaryRequestToCommentary commentaryMapper = Mappers.getMapper(CreateCommentaryRequestToCommentary.class);
 
     @GetMapping(path = "{id}")
     @ResponseBody
