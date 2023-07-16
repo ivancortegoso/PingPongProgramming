@@ -23,7 +23,8 @@ public class AuthenticationController {
     protected UserService userService;
     @Autowired
     private AuthServiceImpl authService;
-    UserMapper mapper = Mappers.getMapper(UserMapper.class);
+    @Autowired
+    UserMapper mapper;
 
     // Build Login REST API
     @PostMapping("login")

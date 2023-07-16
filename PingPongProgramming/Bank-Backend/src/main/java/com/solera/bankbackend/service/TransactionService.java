@@ -34,8 +34,6 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
     CommentaryService commentaryService;
     @Autowired
     UserService userService;
-    @Autowired
-    TransactionService transactionService;
 
     public List<TransactionResponse> transactionToTransactionResponse(List<Transaction> transactions) {
         List<TransactionResponse> transactionResponses = transactionMapper.transactionToTransactionResponse(transactions);
@@ -74,10 +72,10 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
 
     public void createCommentary(CreateCommentaryRequest request) {
         User user = userService.getLogged();
-        Transaction t = transactionService.findById(request.getTransactionId());
+        Transaction t = this.findById(request.getTransactionId());
         if (t != null) {
             Commentary commentary = commentaryMapper.commentaryRequestToCommentary(request);
-            commentary.setTransaction(transactionService.findById(request.getTransactionId()));
+            commentary.setTransaction(this.findById(request.getTransactionId()));
             commentary.setWriter(user);
             commentaryService.save(commentary);
         } else {
@@ -106,7 +104,7 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
                 transactions.add(t);
             }
         }
-        List<TransactionResponse> result = transactionService.transactionToTransactionResponse(transactions);
+        List<TransactionResponse> result = this.transactionToTransactionResponse(transactions);
         return result;
     }
 
@@ -121,7 +119,7 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
                 }
             }
         }
-        List<TransactionResponse> result = transactionService.transactionToTransactionResponse(transactions);
+        List<TransactionResponse> result = this.transactionToTransactionResponse(transactions);
         return result;
     }
 
@@ -143,7 +141,7 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
             transaction.setSender(bankAccountService.findById(request.getSenderID()));
             transaction.setReceiver(bankAccountService.findById(request.getReceiverID()));
             if (sender.getBalance() >= request.getBalance()) {
-                transactionService.save(transaction);
+                this.save(transaction);
                 sender.getTransactionsSentList().add(transaction);
                 sender.setBalance(sender.getBalance() - request.getBalance());
                 receiver.setBalance(receiver.getBalance() + request.getBalance());
