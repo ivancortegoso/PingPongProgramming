@@ -6,12 +6,14 @@ import com.solera.bankbackend.domain.dto.request.DeleteCommentaryRequest;
 import com.solera.bankbackend.domain.dto.request.TransactionRequest;
 import com.solera.bankbackend.domain.dto.responses.TransactionResponse;
 import com.solera.bankbackend.domain.model.BankAccount;
+import com.solera.bankbackend.domain.model.Commentary;
 import com.solera.bankbackend.domain.model.Transaction;
 import com.solera.bankbackend.domain.model.User;
 import com.solera.bankbackend.service.BankAccountService;
 import com.solera.bankbackend.service.CommentaryService;
 import com.solera.bankbackend.service.TransactionService;
 import com.solera.bankbackend.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
@@ -33,10 +35,10 @@ public class TransactionController {
 
     @GetMapping(path = "{id}")
     @ResponseBody
-    public ResponseEntity<?> getTransactionById(@PathVariable(name = "id") Long transactionId) throws ChangeSetPersister.NotFoundException {
+    public ResponseEntity<?> getTransactionById(@PathVariable(name = "id") Long transactionId) {
         Transaction transaction = transactionService.findById(transactionId);
         if (transaction == null) {
-            throw new ChangeSetPersister.NotFoundException();
+            throw new EntityNotFoundException("Transaction not found.");
         }
         return ResponseEntity.ok(transactionService.transactionToTransactionResponse(transaction));
     }
@@ -68,41 +70,74 @@ public class TransactionController {
 
     @PostMapping(path = "")
     @ResponseBody
-    public ResponseEntity<?> createTransaction(@RequestBody TransactionRequest request) throws ChangeSetPersister.NotFoundException, ApiErrorException {
+    public ResponseEntity<?> createTransaction(@RequestBody TransactionRequest request) throws ApiErrorException {
         User user = userService.getLogged();
         BankAccount sender = bankAccountService.findById(request.getSenderID());
         BankAccount receiver = bankAccountService.findById(request.getReceiverID());
         if (sender == null) {
-            throw new ChangeSetPersister.NotFoundException();
+            throw new EntityNotFoundException("Sender bank account not found.");
         } else if (receiver == null) {
-            throw new ChangeSetPersister.NotFoundException();
+            throw new EntityNotFoundException("Receiver bank account not found.");
         } else if(!sender.getUser().equals(user)) {
             throw new ApiErrorException("User logged is not the owner of the sender bank account");
         } else if (sender.getBalance() < request.getBalance()) {
             throw new ApiErrorException("Not enough balance");
         }
-        transactionService.CreateTransaction(request);
+        transactionService.CreateTransaction(sender, receiver, request);
         return ResponseEntity.ok("Transaction made successfully.");
     }
 
-    @PostMapping(path = "/commentary")
+    @PostMapping(path = "commentary")
     @ResponseBody
     public ResponseEntity<?> createCommentary(@RequestBody CreateCommentaryRequest request) {
-        transactionService.createCommentary(request);
+        User user = userService.getLogged();
+        Transaction transaction = transactionService.findById(request.getTransactionId());
+        if(transaction == null) {
+            throw new EntityNotFoundException("Transaction not found.");
+        }
+        transactionService.createCommentary(transaction, user, request);
         return ResponseEntity.ok("Commentary created successfully.");
     }
 
-    @DeleteMapping(path = "/commentary")
+    @DeleteMapping(path = "commentary")
     @ResponseBody
-    public ResponseEntity<?> deleteCommentary(@RequestBody DeleteCommentaryRequest request) {
+    public ResponseEntity<?> deleteCommentary(@RequestBody DeleteCommentaryRequest request) throws ApiErrorException {
+        User user = userService.getLogged();
+        Commentary commentary = commentaryService.findById(request.getId());
+        User writer = commentary.getWriter();
+        if(commentary == null) {
+            throw new EntityNotFoundException("Commentary not found");
+        } else if (!writer.equals(user) && !commentary.getTransaction().getSender().getUser().equals(user)) {
+            throw new ApiErrorException("User logged is not allowed to delete the commentary.");
+        }
         transactionService.deleteCommentary(request);
         return ResponseEntity.ok("Commentary deleted");
     }
 
     @PostMapping(path = "{id}")
     @ResponseBody
-    public ResponseEntity<?> likeTransaction(@PathVariable(name = "id") Long transactionId) {
-        transactionService.userLikeTransaction(transactionId);
+    public ResponseEntity<?> likeTransaction(@PathVariable(name = "id") Long transactionId) throws ApiErrorException {
+        User user = userService.getLogged();
+        Transaction transaction = transactionService.findById(transactionId);
+        if (transaction == null) {
+            throw new EntityNotFoundException("Transaction not found.");
+        } else if (transaction.getUsersLiked().contains(user)) {
+            throw new ApiErrorException("User already liked the transaction.");
+        }
+        transactionService.userLikeTransaction(transaction, user);
+        return ResponseEntity.ok("Like added");
+    }
+    @DeleteMapping(path = "{id}")
+    @ResponseBody
+    public ResponseEntity<?> deleteLikeTransaction(@PathVariable(name = "id") Long transactionId) throws ApiErrorException {
+        User user = userService.getLogged();
+        Transaction transaction = transactionService.findById(transactionId);
+        if (transaction == null) {
+            throw new EntityNotFoundException("Transaction not found.");
+        } else if (!transaction.getUsersLiked().contains(user)) {
+            throw new ApiErrorException("User does not like the transaction.");
+        }
+        transactionService.deleteUserLikeTransaction(transaction, user);
         return ResponseEntity.ok("Like added");
     }
 }

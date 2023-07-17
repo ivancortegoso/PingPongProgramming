@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TransactionService extends CommonService<Transaction, ITransactionRepository> {
@@ -50,50 +49,15 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
         return transactionToTransactionResponse(transactions);
     }
 
-    public void userLikeTransaction(Long transactionId) {
-        User user = userService.getLogged();
-        if (user == null) {
-            //TODO
-        } else {
-            Optional<Transaction> t = repository.findById(transactionId);
-            if (t.isPresent()) {
-                Transaction transaction = t.get();
-                if (transaction.getUsersLiked().contains(user)) {
-                    //TODO
-                } else {
-                    transaction.getUsersLiked().add(user);
-                    repository.save(transaction);
-                }
-            } else {
-                //TODO
-            }
-        }
-    }
-
-    public void createCommentary(CreateCommentaryRequest request) {
-        User user = userService.getLogged();
-        Transaction t = this.findById(request.getTransactionId());
-        if (t != null) {
-            Commentary commentary = commentaryMapper.commentaryRequestToCommentary(request);
-            commentary.setTransaction(this.findById(request.getTransactionId()));
-            commentary.setWriter(user);
-            commentaryService.save(commentary);
-        } else {
-            //TODO
-            //return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Transaction with id: " + request.getTransactionId() + " not found");
-        }
+    public void createCommentary(Transaction transaction, User user, CreateCommentaryRequest request) {
+        Commentary commentary = commentaryMapper.commentaryRequestToCommentary(request);
+        commentary.setTransaction(transaction);
+        commentary.setWriter(user);
+        commentaryService.save(commentary);
     }
 
     public void deleteCommentary(DeleteCommentaryRequest request) {
-        User user = userService.getLogged();
-        if (commentaryService.findById(request.getId()).getWriter().equals(user) ||
-                bankAccountService.findById(commentaryService.findById(request.getId()).getTransaction().getSender().getId()).getUser().equals(user)) {
-            commentaryService.deleteById(request.getId());
-
-        } else {
-            //TODO
-            //return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User logged is not allowed to delete the commentary.");
-        }
+       commentaryService.deleteById(request.getId());
     }
 
     public List<TransactionResponse> getTransactionsByUser() {
@@ -124,7 +88,6 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
     }
 
     public void CreateTransaction(BankAccount sender, BankAccount receiver, TransactionRequest request) {
-
         Transaction transaction = transactionRequestMapper.toTransaction(request);
         transaction.setSender(sender);
         transaction.setReceiver(receiver);
@@ -134,5 +97,13 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
         receiver.setBalance(receiver.getBalance() + request.getBalance());
         bankAccountService.save(sender);
         bankAccountService.save(receiver);
-
+    }
+    public void userLikeTransaction(Transaction transaction, User user) {
+        transaction.getUsersLiked().add(user);
+        repository.save(transaction);
+    }
+    public void deleteUserLikeTransaction(Transaction transaction, User user) {
+        transaction.getUsersLiked().remove(user);
+        repository.save(transaction);
+    }
 }

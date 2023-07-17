@@ -9,6 +9,7 @@ import com.solera.bankbackend.domain.model.BankAccount;
 import com.solera.bankbackend.domain.model.User;
 import com.solera.bankbackend.service.BankAccountService;
 import com.solera.bankbackend.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
@@ -33,11 +34,11 @@ public class BankAccountController {
 
     @DeleteMapping(path = "/{id}")
     @ResponseBody
-    public ResponseEntity<?> deleteBankAccount(@PathVariable Long id) throws ApiErrorException, ChangeSetPersister.NotFoundException {
+    public ResponseEntity<?> deleteBankAccount(@PathVariable Long id) throws ApiErrorException {
         User user = userService.getLogged();
         BankAccount bankAccount = bankAccountService.findByIdAndEnabled(id);
         if(bankAccount == null) {
-            throw new ChangeSetPersister.NotFoundException();
+            throw new EntityNotFoundException("Bank account not found.");
         } else if (!bankAccount.getUser().equals(user)){
             throw new ApiErrorException("Logged user is not the bank account owner");
         }
@@ -58,11 +59,11 @@ public class BankAccountController {
 
     @PostMapping(path = "/deposit")
     @ResponseBody
-    public ResponseEntity<?> depositMoneyBankaccount(@RequestBody DepositMoneyBankaccountRequest request) throws ChangeSetPersister.NotFoundException, ApiErrorException {
+    public ResponseEntity<?> depositMoneyBankaccount(@RequestBody DepositMoneyBankaccountRequest request) throws ApiErrorException {
         User user = userService.getLogged();
         BankAccount bankAccount = bankAccountService.findByIdAndEnabled(request.getReceiverId());
         if(bankAccount == null) {
-            throw new ChangeSetPersister.NotFoundException();
+            throw new EntityNotFoundException("Bank account not found.");
         } else if (!user.equals(bankAccount.getUser())) {
             throw new ApiErrorException("Logged user is not the owner of the bank account");
         } else if (user.getBalance() < request.getBalance()) {
@@ -74,11 +75,11 @@ public class BankAccountController {
 
     @PostMapping(path = "/withdraw")
     @ResponseBody
-    public ResponseEntity<?> withdrawMoneyBankaccount(@RequestBody WithdrawMoneyBankaccountRequest request) throws ChangeSetPersister.NotFoundException, ApiErrorException {
+    public ResponseEntity<?> withdrawMoneyBankaccount(@RequestBody WithdrawMoneyBankaccountRequest request) throws ApiErrorException {
         User user = userService.getLogged();
         BankAccount bankAccount = bankAccountService.findByIdAndEnabled(request.getSenderId());
         if(bankAccount == null) {
-            throw new ChangeSetPersister.NotFoundException();
+            throw new EntityNotFoundException("Bank account not found.");
         } else if (!user.equals(bankAccount.getUser())) {
             throw new ApiErrorException("Logged user is not the owner of the bank account");
         } else if (bankAccount.getBalance() < request.getBalance()) {

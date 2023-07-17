@@ -3,6 +3,7 @@ package com.solera.bankbackend.controller.advice;
 import com.solera.bankbackend.domain.dto.exceptions.ApiErrorException;
 import com.solera.bankbackend.domain.dto.responses.ApiError;
 import com.solera.bankbackend.domain.dto.responses.ApiErrorResponse;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,15 @@ public class ControllerErrorHandlerAdvice {
 		ApiErrorResponse response = new ApiErrorResponse();
 	    response.getErrors().add(new ApiError("", e.getMessage()));
 	    return response;
+	}
+	@ExceptionHandler(EntityNotFoundException.class)
+	@ResponseStatus(code = HttpStatus.NOT_FOUND)
+	@ResponseBody
+	public ApiErrorResponse onEntityNotFoundException(EntityNotFoundException e) {
+		LOG.error("", e);
+		ApiErrorResponse response = new ApiErrorResponse();
+		response.getErrors().add(new ApiError("NOT_FOUND", e.getMessage()));
+		return response;
 	}
 	
 	@ExceptionHandler(RuntimeException.class)
