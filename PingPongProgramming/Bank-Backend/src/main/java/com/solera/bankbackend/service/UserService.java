@@ -2,6 +2,7 @@ package com.solera.bankbackend.service;
 
 import com.solera.bankbackend.domain.dto.request.CreateUserRequest;
 import com.solera.bankbackend.domain.dto.request.FriendRequest;
+import com.solera.bankbackend.domain.dto.request.UpdateUserRequest;
 import com.solera.bankbackend.domain.dto.responses.UserAccountInformation;
 import com.solera.bankbackend.domain.mapper.UserMapper;
 import com.solera.bankbackend.domain.model.User;
@@ -26,8 +27,8 @@ public class UserService extends CommonService<User, IUserRepository> implements
     protected PasswordEncoder passwordEncoder;
     @Autowired
     protected IUserRepository userRepository;
-    UserMapper mapper = Mappers.getMapper(UserMapper.class);
-    UserMapper userAccountInformationToUserMapper = Mappers.getMapper(UserMapper.class);
+    @Autowired
+    UserMapper mapper;
 
 
     public User findByEmail(String email) {
@@ -36,7 +37,6 @@ public class UserService extends CommonService<User, IUserRepository> implements
 
     public User create(CreateUserRequest request) {
         User user = mapper.toUser(request);
-        user.setEnabled(true);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setBalance(20000);
         user = repository.save(user);
@@ -73,7 +73,7 @@ public class UserService extends CommonService<User, IUserRepository> implements
 
     public UserAccountInformation getUserAccountInformation() {
         User user = this.getLogged();
-        return userAccountInformationToUserMapper.toUserAccountInformation(user);
+        return mapper.toUserAccountInformation(user);
     }
 
     public void addFriend(User user, User friend) {
@@ -81,5 +81,12 @@ public class UserService extends CommonService<User, IUserRepository> implements
         friend.getFriends().add(user);
         this.save(user);
         this.save(friend);
+    }
+    public void updateUser(User user, UpdateUserRequest request) {
+        mapper.updateUserRequestToUser(request, user);
+        if (request.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+        repository.save(user);
     }
 }

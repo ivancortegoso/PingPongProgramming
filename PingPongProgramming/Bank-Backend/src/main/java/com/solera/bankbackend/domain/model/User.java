@@ -37,8 +37,8 @@ public class User implements UserDetails {
     private String email;
     @Column(nullable = false)
     private double balance;
-    private boolean enabled;
-    private boolean tokenExpired;
+    private boolean enabled = true;
+    private boolean tokenExpired = false;
     @ManyToMany(mappedBy = "usersLiked")
     Set<Transaction> transactionsLiked;
 

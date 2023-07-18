@@ -3,10 +3,13 @@ package com.solera.bankbackend.controller;
 import com.solera.bankbackend.domain.dto.exceptions.ApiErrorException;
 import com.solera.bankbackend.domain.dto.request.DepositMoneyUserRequest;
 import com.solera.bankbackend.domain.dto.request.FriendRequest;
+import com.solera.bankbackend.domain.dto.request.UpdateUserRequest;
 import com.solera.bankbackend.domain.model.User;
 import com.solera.bankbackend.service.UserService;
+import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -17,8 +20,15 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     UserService userService;
+    @PutMapping
+    @ResponseBody
+    public ResponseEntity<?> putUserAccountInformation(@RequestBody UpdateUserRequest request) {
+        User user = userService.getLogged();
+        userService.updateUser(user, request);
+        return ResponseEntity.ok("User updated successfully");
+    }
 
-    @GetMapping(path = {""})
+    @GetMapping
     @ResponseBody
     public ResponseEntity<?> getUserAccountInformation() {
         return ResponseEntity.ok(userService.getUserAccountInformation());
