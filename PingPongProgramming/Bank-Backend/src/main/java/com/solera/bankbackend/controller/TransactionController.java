@@ -72,8 +72,8 @@ public class TransactionController {
     @ResponseBody
     public ResponseEntity<?> createTransaction(@RequestBody TransactionRequest request) throws ApiErrorException {
         User user = userService.getLogged();
-        BankAccount sender = bankAccountService.findById(request.getSenderID());
-        BankAccount receiver = bankAccountService.findById(request.getReceiverID());
+        BankAccount sender = bankAccountService.findByIdAndEnabled(request.getSenderID());
+        BankAccount receiver = bankAccountService.findByIdAndEnabled(request.getReceiverID());
         if (sender == null) {
             throw new EntityNotFoundException("Sender bank account not found.");
         } else if (receiver == null) {
