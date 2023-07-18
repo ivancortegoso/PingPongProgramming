@@ -23,7 +23,7 @@ export const UserSettingsWeb = () => {
                 <ul>
                     {friendList.map((item) => {
                         return (
-                            <li><img src="https://th.bing.com/th/id/OIP._eiPTOPDhIdzMSO6092xdwHaHa?pid=ImgDet&rs=1"/>{item}<button>Delete</button></li>
+                            <li><img src="https://th.bing.com/th/id/OIP._eiPTOPDhIdzMSO6092xdwHaHa?pid=ImgDet&rs=1" alt="Nothing"/>{item}<button>Delete</button></li>
                         );
                     })}
                 </ul>

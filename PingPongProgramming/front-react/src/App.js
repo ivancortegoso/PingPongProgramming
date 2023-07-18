@@ -15,7 +15,7 @@ import { MenuSvg } from './components/svg-imgs/MenuSvg';
 
 export const App = () => {
     const [showAccountMenu, setShowAccountMenu] = useState();
-    const [isLogged, setIsLogged] = useState(false);
+    const [isLogged, setIsLogged] = useState(Auth.IsLogged());
 
     const updateShowAccountMenu = () => {
         const lastShow = showAccountMenu;
