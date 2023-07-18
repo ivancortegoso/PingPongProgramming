@@ -1,10 +1,4 @@
 
-
-.Menu {
-    display: flex;
-    flex-wrap: wrap;
-}
-
 .links-styles {
     color: white;
     border: 1px solid white;
@@ -27,4 +21,8 @@
 
 .popup-arrow {
     background-color: transparent;
+}
+
+.Menu a {
+    text-decoration: none;
 }

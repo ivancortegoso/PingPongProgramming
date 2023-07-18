@@ -8,22 +8,23 @@
     border-radius: 5px;
     margin: 20px auto;
     background-color: white;
-    
+    overflow-x: auto;
+    padding: 20px;
 
+}
+
+.TransactionWeb-Header {
+    margin: 10px 20px 10px 20px;
 }
 
 .TransactionItem {
-    margin: 10px 20px 10px 20px
+    margin: 5px;
 }
+
 
 .TransactionItem label {
     display: inline-block;
-}
-
-.Balance {
-    color: red;
-    font-size: 20px;
-    font-weight: bold;
+    margin: 0px 2px 0px 2px; /* TOP RIGHT BOTTOM LEFT */
 }
 
 .TransactionCreateWeb {
@@ -42,4 +43,11 @@
     margin-right: 30px;
     background-color: green;
     float: right;
+}
+
+.FilterBox {
+    width: 100px;
+    height: 30px;
+    font-size: 20px;
+    border-radius: 7px;
 }

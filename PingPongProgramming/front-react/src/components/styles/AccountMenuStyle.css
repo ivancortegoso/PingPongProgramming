@@ -2,6 +2,8 @@
 .AccountMenu {
     transition: 0.5s;
     border: 1px solid lightgrey;
+    background-color: #333;
+    color: white;
 }
 
 .AccountMenu-Enable {
@@ -15,4 +17,9 @@
 
 .AccountMenu-Disable>* {
     display: none;
+}
+
+.AccountMenu a {
+    text-decoration: none;
+    color: black;
 }

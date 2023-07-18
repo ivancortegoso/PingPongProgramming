@@ -2,12 +2,11 @@ import React from 'react'
 import '../styles/FormStyle.css'
 import {useState} from 'react'
 
-export const LogInWeb = () => {
+export const LogInWeb = (props) => {
     const [errorMessage, setErrorMessage] = useState("");
 
     const login = async(data) => {
         try {
-            
             const response = await fetch("http://localhost:8080/api/public/login", {
                 method: 'post',
                 headers:{'Content-Type' : 'application/json'},
@@ -19,7 +18,7 @@ export const LogInWeb = () => {
             {
                 const dd = await response.json();
                 localStorage.setItem("token", "Bearer " + dd["token"]);
-                window.location.reload();
+                props.onLogin(true);
             }
             else
             {
@@ -28,8 +27,6 @@ export const LogInWeb = () => {
         } catch(e) {
             setErrorMessage("Network error");
         }
-
-        
     }
 
     const submit = (e) => {
@@ -39,8 +36,6 @@ export const LogInWeb = () => {
             password: e.target.password.value
         };
         login(data);
-
-        console.log(data);
     }
 
     return (
