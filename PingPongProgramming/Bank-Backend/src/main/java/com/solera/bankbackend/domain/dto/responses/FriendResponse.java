@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FriendResponse {
-    private String username;
+    private Long id;
+    private String name;
 }
