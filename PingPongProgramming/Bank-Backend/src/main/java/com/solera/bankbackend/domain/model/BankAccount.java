@@ -1,7 +1,6 @@
 package com.solera.bankbackend.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,9 +22,11 @@ public class BankAccount {
 
     @ManyToOne
     private User user;
-    @OneToMany
-    private List<Transaction> transactionList = new ArrayList<>();
-
+    @OneToMany(mappedBy = "receiver")
+    private List<Transaction> transactionsReceivedList = new ArrayList<>();
+    @OneToMany(mappedBy = "sender")
+    private List<Transaction> transactionsSentList = new ArrayList<>();
+    private boolean enabled = true;
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
@@ -46,5 +47,11 @@ public class BankAccount {
         }
 
         return false;
+    }
+    public void withdrawMoney(double balance) {
+        this.setBalance(this.getBalance() - balance);
+    }
+    public void depositMoney(double balance) {
+        this.setBalance(this.getBalance() + balance);
     }
 }

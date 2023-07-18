@@ -4,14 +4,17 @@ import com.solera.bankbackend.domain.dto.LoginDto;
 import com.solera.bankbackend.domain.dto.exceptions.ApiErrorException;
 import com.solera.bankbackend.domain.dto.request.CreateUserRequest;
 import com.solera.bankbackend.domain.dto.responses.JWTAuthResponse;
-import com.solera.bankbackend.domain.mapper.CreateUserRequestToUser;
+import com.solera.bankbackend.domain.mapper.UserMapper;
 import com.solera.bankbackend.service.AuthServiceImpl;
 import com.solera.bankbackend.service.UserService;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/api/public/")
@@ -20,7 +23,8 @@ public class AuthenticationController {
     protected UserService userService;
     @Autowired
     private AuthServiceImpl authService;
-    CreateUserRequestToUser mapper = Mappers.getMapper(CreateUserRequestToUser.class);
+    @Autowired
+    UserMapper mapper;
 
     // Build Login REST API
     @PostMapping("login")

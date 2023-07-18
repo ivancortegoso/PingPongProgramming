@@ -1,27 +1,37 @@
 package com.solera.bankbackend.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(nullable = false)
-    private Long receiverID;
-    @Column(nullable = false)
-    private Long senderID;
+    @ManyToOne
+    private BankAccount receiver;
+    @ManyToOne
+    private BankAccount sender;
     @Column(nullable = false)
     private double balance;
-    @Column(nullable = false)
-    private int likes;
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "users_likes",
+            joinColumns = @JoinColumn(name = "transaction_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> usersLiked;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "transaction", fetch = FetchType.LAZY)
     private List<Commentary> commentaries = new ArrayList<>();
     @Override
     public int hashCode() {
