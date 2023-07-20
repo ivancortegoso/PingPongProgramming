@@ -2,5 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/PingPongProgramming/ParentBankBackend" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/PingPongProgramming/ParentBankBackend/BankBackendIT" vcs="Git" />
   </component>
 </project>
