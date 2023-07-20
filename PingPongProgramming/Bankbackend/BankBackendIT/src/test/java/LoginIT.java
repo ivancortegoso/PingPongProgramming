@@ -20,4 +20,8 @@ public class LoginIT {
         ValidatableResponse validatableResponse = response.then();
         validatableResponse.statusCode(200);
     }
+    @Test
+    public void loginCorrectUsernameEmptyPassword() throws JSONException {
+
+    }
 }
