@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -52,12 +53,15 @@ public class SecurityConfig {
     }
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http.csrf(csrf -> csrf.disable()).cors(withDefaults())
                 .authorizeHttpRequests((authorize) -> {
+                    authorize.requestMatchers(new AntPathRequestMatcher("/h2-console/**"))
+                            .permitAll();
                     authorize.requestMatchers("/api/public/**", "/error").permitAll();
                     authorize.anyRequest().authenticated();
                 }).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http
+                .headers((headers) -> headers.disable());
         return http.build();
     }
 
