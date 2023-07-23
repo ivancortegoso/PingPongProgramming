@@ -15,25 +15,11 @@ public class LoginIT {
 
     @Test
     public void loginCorrectUsernameCorrectPassword() throws JSONException {
-        JSONObject requestParams = new JSONObject();
-        requestParams.put("username", "testusername");
-        requestParams.put("password", "password");
-        RequestSpecification request = RestAssured.given();
-        request.header("Content-Type", "application/json");
-        request.body(requestParams.toString());
-        Response response = request.post("api/public/login");
-        ValidatableResponse validatableResponse = response.then();
+        ValidatableResponse validatableResponse = LogIn.login("testusername", "password").then();
         validatableResponse.statusCode(200);
     }
     @Test
     public void loginCorrectUsernameEmptyPassword() throws JSONException {
-        JSONObject requestParams = new JSONObject();
-        requestParams.put("username", "testusername");
-        RequestSpecification request = RestAssured.given();
-        request.header("Content-Type", "application/json");
-        request.body(requestParams.toString());
-        Response response = request.post("api/public/login");
-        ValidatableResponse validatableResponse = response.then();
-        validatableResponse.statusCode(500);
+        LogIn.loginEmptyPassword("testusername").statusCode(500);
     }
 }
