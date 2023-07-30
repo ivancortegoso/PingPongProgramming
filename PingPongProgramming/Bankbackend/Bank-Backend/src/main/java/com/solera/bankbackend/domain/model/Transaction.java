@@ -15,7 +15,7 @@ import java.util.Set;
 @Entity
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     private BankAccount receiver;

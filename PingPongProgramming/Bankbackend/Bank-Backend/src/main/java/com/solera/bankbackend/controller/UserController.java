@@ -4,7 +4,11 @@ import com.solera.bankbackend.domain.dto.exceptions.ApiErrorException;
 import com.solera.bankbackend.domain.dto.request.DepositMoneyUserRequest;
 import com.solera.bankbackend.domain.dto.request.FriendRequest;
 import com.solera.bankbackend.domain.dto.request.UpdateUserRequest;
+import com.solera.bankbackend.domain.model.Privilege;
+import com.solera.bankbackend.domain.model.Role;
 import com.solera.bankbackend.domain.model.User;
+import com.solera.bankbackend.service.PrivilegeService;
+import com.solera.bankbackend.service.RoleService;
 import com.solera.bankbackend.service.UserService;
 import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 @RestController
@@ -19,7 +24,11 @@ import java.util.Optional;
 @RequestMapping(path = "/api/user")
 public class UserController {
     @Autowired
-    UserService userService;
+    private UserService userService;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private PrivilegeService privilegeService;
     @PutMapping
     @ResponseBody
     public ResponseEntity<?> putUserAccountInformation(@RequestBody UpdateUserRequest request) {
@@ -70,5 +79,23 @@ public class UserController {
         }
         userService.withdrawMoney(request.getBalance(), user);
         return ResponseEntity.ok("withdraw done.");
+    }
+
+    @PutMapping(path = "/upgrade")
+    @ResponseBody
+    public ResponseEntity<?> upgradePremiumUser() throws ApiErrorException {
+        User user = userService.getLogged();
+        Privilege premiumUserPrivilege
+                = privilegeService.createPrivilegeIfNotFound("PREMIUM_USER_PRIVILEGE");
+        Role premiumUserRole = roleService.createRoleIfNotFound("ROLE_PREMIUM_USER", Arrays.asList(premiumUserPrivilege));
+        if (user.getRoles().contains(premiumUserRole)) {
+            throw new ApiErrorException("This user is already a premium user");
+        }
+        else if (user.getBalance() >= 50) {
+            userService.upgradePremiumUser(user, 50, premiumUserRole);
+            return ResponseEntity.ok("User upgraded successfully");
+        } else {
+            throw new ApiErrorException("Insufficient balance.");
+        }
     }
 }

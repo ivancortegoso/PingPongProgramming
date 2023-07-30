@@ -40,7 +40,7 @@ public class SecurityConfig {
     @Bean
     public RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        String hierarchy = "ROLE_ADMIN > ROLE_STAFF \n ROLE_STAFF > ROLE_USER";
+        String hierarchy = "ROLE_PREMIUM_USER > ROLE_USER";
         roleHierarchy.setHierarchy(hierarchy);
         return roleHierarchy;
     }
@@ -58,7 +58,14 @@ public class SecurityConfig {
                     authorize.requestMatchers(new AntPathRequestMatcher("/h2-console/**"))
                             .permitAll();
                     authorize.requestMatchers("/api/public/**", "/error").permitAll();
-                    authorize.anyRequest().authenticated();
+                    authorize.requestMatchers("/api/bankaccount**")
+                            .hasRole("USER");
+                    authorize.requestMatchers("/api/transaction/**")
+                            .hasRole("USER");
+                    authorize.requestMatchers("/api/user**/**")
+                            .authenticated();
+                    authorize.requestMatchers("/api/admin/**")
+                            .hasRole("ADMIN");
                 }).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http
                 .headers((headers) -> headers.disable());

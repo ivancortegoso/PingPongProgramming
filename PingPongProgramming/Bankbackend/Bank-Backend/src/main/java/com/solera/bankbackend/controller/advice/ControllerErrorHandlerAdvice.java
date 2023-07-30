@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -59,6 +60,16 @@ public class ControllerErrorHandlerAdvice {
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	@ResponseBody
 	public ApiErrorResponse onEntityNotFoundException(EntityNotFoundException e) {
+		LOG.error("", e);
+		ApiErrorResponse response = new ApiErrorResponse();
+		response.getErrors().add(new ApiError("NOT_FOUND", e.getMessage()));
+		return response;
+	}
+
+	@ExceptionHandler(UsernameNotFoundException.class)
+	@ResponseStatus(code = HttpStatus.NOT_FOUND)
+	@ResponseBody
+	public ApiErrorResponse usernameNotFound(UsernameNotFoundException e) {
 		LOG.error("", e);
 		ApiErrorResponse response = new ApiErrorResponse();
 		response.getErrors().add(new ApiError("NOT_FOUND", e.getMessage()));

@@ -12,7 +12,7 @@ import java.util.Objects;
 @Setter
 public class Commentary {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

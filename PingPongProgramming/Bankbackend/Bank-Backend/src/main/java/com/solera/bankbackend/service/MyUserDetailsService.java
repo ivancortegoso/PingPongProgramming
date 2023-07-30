@@ -30,19 +30,20 @@ public class MyUserDetailsService implements UserDetailsService {
     private IRoleRepository roleRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String usernameOrEmail)
+    public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
 
-        User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
-                .orElseThrow(() -> new UsernameNotFoundException("User not exists by Username or Email"));
+        User user = userRepository.findByUsernameAndEnabled(username, true)
+                .orElseThrow(() -> new UsernameNotFoundException("User not exists or is disabled"));
 
+        /*
         if (user == null) {
             return new org.springframework.security.core.userdetails.User(
                     " ", " ", true, true, true, true,
                     getAuthorities(Collections.singletonList(
                             roleRepository.findByName("ROLE_USER"))));
         }
-
+         */
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(), user.getPassword(), user.isEnabled(), true, true,
                 true, getAuthorities(user.getRoles()));
