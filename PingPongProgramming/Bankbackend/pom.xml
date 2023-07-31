@@ -203,6 +203,5 @@
     <modules>
         <module>bank-backend</module>
         <module>BankBackendIT</module>
-        <module>BankBackendIT</module>
     </modules>
 </project>
