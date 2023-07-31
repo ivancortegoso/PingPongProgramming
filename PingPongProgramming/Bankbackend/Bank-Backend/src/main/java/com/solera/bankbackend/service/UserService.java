@@ -5,10 +5,12 @@ import com.solera.bankbackend.domain.dto.request.FriendRequest;
 import com.solera.bankbackend.domain.dto.request.UpdateUserRequest;
 import com.solera.bankbackend.domain.dto.responses.UserAccountInformation;
 import com.solera.bankbackend.domain.mapper.UserMapper;
+import com.solera.bankbackend.domain.model.BankAccount;
 import com.solera.bankbackend.domain.model.Role;
 import com.solera.bankbackend.domain.model.User;
 import com.solera.bankbackend.repository.IRoleRepository;
 import com.solera.bankbackend.repository.IUserRepository;
+import java.util.List;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -107,4 +109,5 @@ public class UserService extends CommonService<User, IUserRepository> implements
         user.getRoles().add(role);
         repository.save(user);
     }
+
 }

@@ -7,7 +7,6 @@ import com.solera.bankbackend.domain.dto.responses.JWTAuthResponse;
 import com.solera.bankbackend.domain.mapper.UserMapper;
 import com.solera.bankbackend.service.AuthServiceImpl;
 import com.solera.bankbackend.service.UserService;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

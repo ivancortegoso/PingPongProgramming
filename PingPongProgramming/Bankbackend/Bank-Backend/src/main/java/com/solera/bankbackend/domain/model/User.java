@@ -54,6 +54,9 @@ public class User implements UserDetails {
                     name = "role_id", referencedColumnName = "id"))
     private List<Role> roles = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private List<BankAccount> bankAccounts = new ArrayList<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()

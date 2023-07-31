@@ -16,7 +16,7 @@ public class AdminController {
 
     @DeleteMapping("deleteuser/{username}")
     @ResponseBody
-    public ResponseEntity<?> deleteUserAccount(@PathVariable String username) throws ApiErrorException {
+    public ResponseEntity<?> deleteUserAccount(@PathVariable String username) {
         User userDelete = userService.findByUsernameAndEnabled(username)
                 .orElseThrow(() -> new EntityNotFoundException("Bank account not found."));
         userService.deleteUser(userDelete);

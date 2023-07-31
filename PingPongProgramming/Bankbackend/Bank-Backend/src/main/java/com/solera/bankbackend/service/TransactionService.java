@@ -34,11 +34,6 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
     @Autowired
     UserService userService;
 
-    public List<TransactionResponse> transactionToTransactionResponse(List<Transaction> transactions) {
-        List<TransactionResponse> transactionResponses = transactionMapper.transactionToTransactionResponse(transactions);
-        return transactionResponses;
-    }
-
     public TransactionResponse transactionToTransactionResponse(Transaction transactions) {
         TransactionResponse transactionResponses = transactionMapper.transactionToTransactionResponse(transactions);
         return transactionResponses;
@@ -46,7 +41,7 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
 
     public List<TransactionResponse> findAllTransactionResponse() {
         List<Transaction> transactions = transactionRepository.findAll();
-        return transactionToTransactionResponse(transactions);
+        return transactionMapper.transactionToTransactionResponse(transactions);
     }
 
     public void createCommentary(Transaction transaction, User user, CreateCommentaryRequest request) {
@@ -68,7 +63,7 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
                 transactions.add(t);
             }
         }
-        List<TransactionResponse> result = this.transactionToTransactionResponse(transactions);
+        List<TransactionResponse> result = transactionMapper.transactionToTransactionResponse(transactions);
         return result;
     }
 
@@ -83,7 +78,7 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
                 }
             }
         }
-        List<TransactionResponse> result = this.transactionToTransactionResponse(transactions);
+        List<TransactionResponse> result = transactionMapper.transactionToTransactionResponse(transactions);
         return result;
     }
 
@@ -91,10 +86,11 @@ public class TransactionService extends CommonService<Transaction, ITransactionR
         Transaction transaction = transactionRequestMapper.toTransaction(request);
         transaction.setSender(sender);
         transaction.setReceiver(receiver);
-        this.save(transaction);
+        repository.save(transaction);
         sender.getTransactionsSentList().add(transaction);
         sender.setBalance(sender.getBalance() - request.getBalance());
         receiver.setBalance(receiver.getBalance() + request.getBalance());
+        receiver.getTransactionsReceivedList().add(transaction);
         bankAccountService.save(sender);
         bankAccountService.save(receiver);
     }

@@ -54,11 +54,11 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()).cors(withDefaults())
-                .authorizeHttpRequests((authorize) -> {
+                .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers(new AntPathRequestMatcher("/h2-console/**"))
                             .permitAll();
                     authorize.requestMatchers("/api/public/**", "/error").permitAll();
-                    authorize.requestMatchers("/api/bankaccount**")
+                    authorize.requestMatchers("/api/bankaccount**/**")
                             .hasRole("USER");
                     authorize.requestMatchers("/api/transaction/**")
                             .hasRole("USER");
@@ -68,7 +68,7 @@ public class SecurityConfig {
                             .hasRole("ADMIN");
                 }).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http
-                .headers((headers) -> headers.disable());
+                .headers(headers -> headers.disable());
         return http.build();
     }
 

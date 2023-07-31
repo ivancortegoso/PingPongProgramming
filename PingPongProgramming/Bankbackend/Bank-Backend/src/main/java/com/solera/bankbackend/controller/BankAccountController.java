@@ -8,10 +8,10 @@ import com.solera.bankbackend.domain.dto.responses.BankAccountResponse;
 import com.solera.bankbackend.domain.model.BankAccount;
 import com.solera.bankbackend.domain.model.User;
 import com.solera.bankbackend.service.BankAccountService;
+import com.solera.bankbackend.service.RoleService;
 import com.solera.bankbackend.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,10 +20,13 @@ import java.util.Set;
 @RestController
 @RequestMapping(path = "/api/bankaccount")
 public class BankAccountController {
+
     @Autowired
-    BankAccountService bankAccountService;
+    private BankAccountService bankAccountService;
     @Autowired
-    UserService userService;
+    private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     @GetMapping("")
     @ResponseBody
@@ -37,9 +40,9 @@ public class BankAccountController {
     public ResponseEntity<?> deleteBankAccount(@PathVariable Long id) throws ApiErrorException {
         User user = userService.getLogged();
         BankAccount bankAccount = bankAccountService.findByIdAndEnabled(id);
-        if(bankAccount == null) {
+        if (bankAccount == null) {
             throw new EntityNotFoundException("Bank account not found.");
-        } else if (!bankAccount.getUser().equals(user)){
+        } else if (!bankAccount.getUser().equals(user)) {
             throw new ApiErrorException("Logged user is not the bank account owner");
         }
         bankAccountService.delete(bankAccount, user);
@@ -52,6 +55,8 @@ public class BankAccountController {
         User user = userService.getLogged();
         if (user.getBalance() < request.getBalance()) {
             throw new ApiErrorException("Not enough balance.");
+        } else if (!user.getRoles().contains(roleService.findByName("ROLE_PREMIUM_USER"))  && bankAccountService.findAllByUserAndEnabled().size() >= 3) {
+            throw new ApiErrorException("Maximum number of bank accounts reached.");
         }
         bankAccountService.create(request, user);
         return ResponseEntity.ok("Bank account created successfully.");
@@ -59,10 +64,11 @@ public class BankAccountController {
 
     @PostMapping(path = "/deposit")
     @ResponseBody
-    public ResponseEntity<?> depositMoneyBankaccount(@RequestBody DepositMoneyBankaccountRequest request) throws ApiErrorException {
+    public ResponseEntity<?> depositMoneyBankaccount(@RequestBody DepositMoneyBankaccountRequest request)
+            throws ApiErrorException {
         User user = userService.getLogged();
         BankAccount bankAccount = bankAccountService.findByIdAndEnabled(request.getReceiverId());
-        if(bankAccount == null) {
+        if (bankAccount == null) {
             throw new EntityNotFoundException("Bank account not found.");
         } else if (!user.equals(bankAccount.getUser())) {
             throw new ApiErrorException("Logged user is not the owner of the bank account");
@@ -75,10 +81,11 @@ public class BankAccountController {
 
     @PostMapping(path = "/withdraw")
     @ResponseBody
-    public ResponseEntity<?> withdrawMoneyBankaccount(@RequestBody WithdrawMoneyBankaccountRequest request) throws ApiErrorException {
+    public ResponseEntity<?> withdrawMoneyBankaccount(@RequestBody WithdrawMoneyBankaccountRequest request)
+            throws ApiErrorException {
         User user = userService.getLogged();
         BankAccount bankAccount = bankAccountService.findByIdAndEnabled(request.getSenderId());
-        if(bankAccount == null) {
+        if (bankAccount == null) {
             throw new EntityNotFoundException("Bank account not found.");
         } else if (!user.equals(bankAccount.getUser())) {
             throw new ApiErrorException("Logged user is not the owner of the bank account");
