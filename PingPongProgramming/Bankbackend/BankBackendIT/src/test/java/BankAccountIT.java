@@ -11,7 +11,7 @@ public class BankAccountIT {
     }
     @Test
     public void createCorrectBankAccount() throws JSONException {
-        ValidatableResponse validatableResponse = BankAccount.createBankAccount("testName", 330, "testusername", "password");
+        ValidatableResponse validatableResponse = BankAccount.createBankAccount("testName", 330, "testusername1", "password");
         validatableResponse.statusCode(200);
     }
 }

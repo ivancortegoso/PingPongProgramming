@@ -15,11 +15,11 @@ public class LoginIT {
 
     @Test
     public void loginCorrectUsernameCorrectPassword() throws JSONException {
-        ValidatableResponse validatableResponse = LogIn.login("testusername", "password").then();
+        ValidatableResponse validatableResponse = LogIn.login("testusername1", "password").then();
         validatableResponse.statusCode(200);
     }
     @Test
     public void loginCorrectUsernameEmptyPassword() throws JSONException {
-        LogIn.loginEmptyPassword("testusername").statusCode(500);
+        LogIn.loginEmptyPassword("testusername1").statusCode(500);
     }
 }

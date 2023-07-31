@@ -43,7 +43,7 @@ public class Register {
         createUserRequestBuilder.setPhoneNumber(123456789);
         createUserRequestBuilder.setAddress("test address 4");
         createUserRequestBuilder.setDocumentId("12345678D");
-        createUserRequestBuilder.setEmail("testuser@solera.com");
+        createUserRequestBuilder.setEmail("testuser1@solera.com");
         createUserRequestBuilder.setUsername("testusername4");
         createUserRequestBuilder.setPassword("password");
         CreateUserRequest userRequest = createUserRequestBuilder.createCreateUserRequest();
