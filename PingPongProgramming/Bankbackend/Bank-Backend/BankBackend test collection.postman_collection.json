@@ -1,0 +1,1143 @@
+{
+	"info": {
+		"_postman_id": "45525a54-b1c5-44fd-8b96-08ff133787f9",
+		"name": "BankBackend test collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28271315"
+	},
+	"item": [
+		{
+			"name": "Register user ivanucci",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\" : \"ivan\",\n    \"lastName\" : \"ucci\",\n    \"birthDate\" : \"1998-04-04\",\n    \"phoneNumber\" : \"666111777\",\n    \"address\" : \"carrer major\",\n    \"documentId\" : \"48192038A\",\n\t\"email\" : \"ivanucci@solera.com\",\n    \"username\" : \"ivanucci\",\n\t\"password\" : \"password\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/public/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"public",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login user ivanucci",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"ivanucci\",\r\n\t\"password\" : \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/public/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"public",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"admin\",\r\n\t\"password\" : \"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/public/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"public",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get generic information",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDU3NjM3OCwiZXhwIjoxNjkxMTgxMTc4fQ.etZiWiuxJRg7Gjk4vaBOf3s0IVZJ76zR-z3_lKfNAtMDFJDxuKK7WU-v-pOv6ZPP",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get generic information admin",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5MDU3MzQ0OCwiZXhwIjoxNjkxMTc4MjQ4fQ.oyKDjK8m6lWj-qnLgBhNoqanCHb1zxdfK781smcra8hGOZnK-HwTDX_EnmOo4Z-2",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create bank account 1 user ivanucci",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDU3MzM2NSwiZXhwIjoxNjkxMTc4MTY1fQ.TnSdhENB361mfww_I6ezWBPZzK9kSg-TlKUN6U2_pCgQLZE_mCclSDcJCzdb8dBA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"accountivanucci1\",\r\n    \"balance\" : \"500\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/bankaccount",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bankaccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create bank account 1 user ivanucci Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDU3MzM2NSwiZXhwIjoxNjkxMTc4MTY1fQ.TnSdhENB361mfww_I6ezWBPZzK9kSg-TlKUN6U2_pCgQLZE_mCclSDcJCzdb8dBA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"accountivanucci2\",\r\n    \"balance\" : \"500\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/bankaccount",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bankaccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create bank account 1 user ivanucci Copy 2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDU3MzM2NSwiZXhwIjoxNjkxMTc4MTY1fQ.TnSdhENB361mfww_I6ezWBPZzK9kSg-TlKUN6U2_pCgQLZE_mCclSDcJCzdb8dBA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"accountivanucci3\",\r\n    \"balance\" : \"500\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/bankaccount",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bankaccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete bankaccount ivanucci 2 Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODc4NywiZXhwIjoxNjkxNDAzNTg3fQ.9LyBXi5AAEiVRYJ1HiIV1dk6L0TE4kO69QedvXEnkeaqSw1eNlj97OPATFmjx17E",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/bankaccount/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bankaccount",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create bank account 1 user ivanucci Copy 3",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDU3MzM2NSwiZXhwIjoxNjkxMTc4MTY1fQ.TnSdhENB361mfww_I6ezWBPZzK9kSg-TlKUN6U2_pCgQLZE_mCclSDcJCzdb8dBA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"accountivanucci4\",\r\n    \"balance\" : \"500\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/bankaccount",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bankaccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create bank account 1 user ivanucci Copy 4",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDU3MzM2NSwiZXhwIjoxNjkxMTc4MTY1fQ.TnSdhENB361mfww_I6ezWBPZzK9kSg-TlKUN6U2_pCgQLZE_mCclSDcJCzdb8dBA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"accountivanucci5\",\r\n    \"balance\" : \"500\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/bankaccount",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bankaccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register user ralus",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\" : \"rauw\",\r\n    \"lastName\" : \"marcos\",\r\n    \"birthDate\" : \"1997-11-03\",\r\n    \"phoneNumber\" : \"666111777\",\r\n    \"address\" : \"toledo\",\r\n    \"documentId\" : \"48192038B\",\r\n\t\"email\" : \"ralus@solera.com\",\r\n    \"username\" : \"ralus\",\r\n\t\"password\" : \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/public/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"public",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login user ralus",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"ralus\",\r\n\t\"password\" : \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/public/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"public",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create bank account 2 user ralus",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYWx1cyIsImlhdCI6MTY5MDc5ODUxNywiZXhwIjoxNjkxNDAzMzE3fQ.kxjozza2iJtOMeW_hkoHv_ZwzrYG6Fw2LzWGBArekXAbytlMkrUVkDN37KgP9u17",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"accountralus0\",\r\n    \"balance\" : \"1000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/bankaccount",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bankaccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get bankaccounts user ralus",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYWx1cyIsImlhdCI6MTY5MDc5ODUxNywiZXhwIjoxNjkxNDAzMzE3fQ.kxjozza2iJtOMeW_hkoHv_ZwzrYG6Fw2LzWGBArekXAbytlMkrUVkDN37KgP9u17",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/bankaccount",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bankaccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create transaction 200 ivanucci to ralus",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODQxMCwiZXhwIjoxNjkxNDAzMjEwfQ.bajXy7tE623hueAhTCRPTA8EGm4uNGQtq0vt7RSf3Eqrz4-D8KKomOqwBAZhQ4h4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"receiverID\" : \"7\",\r\n    \"senderID\" : \"6\",\r\n    \"balance\" : \"200.0\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/transaction/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transaction",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create transaction 200 ralus to ivanucci",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYWx1cyIsImlhdCI6MTY5MDc5ODUxNywiZXhwIjoxNjkxNDAzMzE3fQ.kxjozza2iJtOMeW_hkoHv_ZwzrYG6Fw2LzWGBArekXAbytlMkrUVkDN37KgP9u17",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"receiverID\" : \"5\",\r\n    \"senderID\" : \"7\",\r\n    \"balance\" : \"200.0\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/transaction/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transaction",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get bankaccounts user ivanucci",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODQxMCwiZXhwIjoxNjkxNDAzMjEwfQ.bajXy7tE623hueAhTCRPTA8EGm4uNGQtq0vt7RSf3Eqrz4-D8KKomOqwBAZhQ4h4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/bankaccount",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bankaccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add friend ivanucci a ralus",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODQxMCwiZXhwIjoxNjkxNDAzMjEwfQ.bajXy7tE623hueAhTCRPTA8EGm4uNGQtq0vt7RSf3Eqrz4-D8KKomOqwBAZhQ4h4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"ralus\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/user/addfriend",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"addfriend"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addfriend ralus to ivanucci",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJyYWx1cyIsImlhdCI6MTY5MDc5ODUxNywiZXhwIjoxNjkxNDAzMzE3fQ.kxjozza2iJtOMeW_hkoHv_ZwzrYG6Fw2LzWGBArekXAbytlMkrUVkDN37KgP9u17",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"ivanucci\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/user/addfriend",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"addfriend"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all transactions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODQxMCwiZXhwIjoxNjkxNDAzMjEwfQ.bajXy7tE623hueAhTCRPTA8EGm4uNGQtq0vt7RSf3Eqrz4-D8KKomOqwBAZhQ4h4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/transaction/all",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transaction",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get transactions by user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODQxMCwiZXhwIjoxNjkxNDAzMjEwfQ.bajXy7tE623hueAhTCRPTA8EGm4uNGQtq0vt7RSf3Eqrz4-D8KKomOqwBAZhQ4h4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/transaction/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transaction",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get transactions by friends",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODQxMCwiZXhwIjoxNjkxNDAzMjEwfQ.bajXy7tE623hueAhTCRPTA8EGm4uNGQtq0vt7RSf3Eqrz4-D8KKomOqwBAZhQ4h4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/transaction/friends",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transaction",
+						"friends"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deposit user ivanucci",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODQxMCwiZXhwIjoxNjkxNDAzMjEwfQ.bajXy7tE623hueAhTCRPTA8EGm4uNGQtq0vt7RSf3Eqrz4-D8KKomOqwBAZhQ4h4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"balance\" : \"250\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/user/deposit",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"deposit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "withdraw 250 ivanucci",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODQxMCwiZXhwIjoxNjkxNDAzMjEwfQ.bajXy7tE623hueAhTCRPTA8EGm4uNGQtq0vt7RSf3Eqrz4-D8KKomOqwBAZhQ4h4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"balance\" : \"3333\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/user/withdraw",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"withdraw"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deposit bankaccount 1 ivanucci",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODQxMCwiZXhwIjoxNjkxNDAzMjEwfQ.bajXy7tE623hueAhTCRPTA8EGm4uNGQtq0vt7RSf3Eqrz4-D8KKomOqwBAZhQ4h4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"receiverId\" : \"3\",\r\n    \"balance\" : \"5000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/bankaccount/deposit",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bankaccount",
+						"deposit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Withdraw 3500 bank account",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODQxMCwiZXhwIjoxNjkxNDAzMjEwfQ.bajXy7tE623hueAhTCRPTA8EGm4uNGQtq0vt7RSf3Eqrz4-D8KKomOqwBAZhQ4h4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"senderId\" : \"3\",\r\n    \"balance\" : \"3500\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/bankaccount/withdraw",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bankaccount",
+						"withdraw"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create commentary user 1 transaction 2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODQxMCwiZXhwIjoxNjkxNDAzMjEwfQ.bajXy7tE623hueAhTCRPTA8EGm4uNGQtq0vt7RSf3Eqrz4-D8KKomOqwBAZhQ4h4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"commentary\" : \"intelligent commentary23\",\r\n    \"transactionId\" : \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/transaction/commentary",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transaction",
+						"commentary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upgrade user",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODQxMCwiZXhwIjoxNjkxNDAzMjEwfQ.bajXy7tE623hueAhTCRPTA8EGm4uNGQtq0vt7RSf3Eqrz4-D8KKomOqwBAZhQ4h4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/user/upgrade",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"upgrade"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create bank account 1 user ivanucci Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDU3MzM2NSwiZXhwIjoxNjkxMTc4MTY1fQ.TnSdhENB361mfww_I6ezWBPZzK9kSg-TlKUN6U2_pCgQLZE_mCclSDcJCzdb8dBA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"accountivanucci99\",\r\n    \"balance\" : \"500\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/bankaccount",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bankaccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete bankaccount ivanucci 2",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODc4NywiZXhwIjoxNjkxNDAzNTg3fQ.9LyBXi5AAEiVRYJ1HiIV1dk6L0TE4kO69QedvXEnkeaqSw1eNlj97OPATFmjx17E",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/bankaccount/3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"bankaccount",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete commentary user 1 transaction 2",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODc4NywiZXhwIjoxNjkxNDAzNTg3fQ.9LyBXi5AAEiVRYJ1HiIV1dk6L0TE4kO69QedvXEnkeaqSw1eNlj97OPATFmjx17E",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\" : \"4\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/transaction/commentary",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transaction",
+						"commentary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get transaction id 1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODQxMCwiZXhwIjoxNjkxNDAzMjEwfQ.bajXy7tE623hueAhTCRPTA8EGm4uNGQtq0vt7RSf3Eqrz4-D8KKomOqwBAZhQ4h4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/transaction/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transaction",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "like transaction id 1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODQxMCwiZXhwIjoxNjkxNDAzMjEwfQ.bajXy7tE623hueAhTCRPTA8EGm4uNGQtq0vt7RSf3Eqrz4-D8KKomOqwBAZhQ4h4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8080/api/transaction/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transaction",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJpdmFudWNjaSIsImlhdCI6MTY5MDc5ODQxMCwiZXhwIjoxNjkxNDAzMjEwfQ.bajXy7tE623hueAhTCRPTA8EGm4uNGQtq0vt7RSf3Eqrz4-D8KKomOqwBAZhQ4h4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\" : \"ivan\",\r\n    \"lastName\" : \"ucci\",\r\n    \"phoneNumber\" : \"666111222\",\r\n    \"address\" : \"carrer major, 22\",\r\n\t\"email\" : \"ivanucci@solera.dev.com\",\r\n\t\"password\" : \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/user",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete user",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY5MDU3MzQ0OCwiZXhwIjoxNjkxMTc4MjQ4fQ.oyKDjK8m6lWj-qnLgBhNoqanCHb1zxdfK781smcra8hGOZnK-HwTDX_EnmOo4Z-2",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/admin/deleteuser/ivanucci",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"admin",
+						"deleteuser",
+						"ivanucci"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
