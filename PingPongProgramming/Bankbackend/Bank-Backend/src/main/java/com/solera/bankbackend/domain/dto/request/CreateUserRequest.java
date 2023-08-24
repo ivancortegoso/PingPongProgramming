@@ -1,5 +1,6 @@
 package com.solera.bankbackend.domain.dto.request;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateUserRequest implements Serializable {
+    @NotNull(message = "First name cannot be null")
     private String firstName;
     private String lastName;
     private String birthDate;
