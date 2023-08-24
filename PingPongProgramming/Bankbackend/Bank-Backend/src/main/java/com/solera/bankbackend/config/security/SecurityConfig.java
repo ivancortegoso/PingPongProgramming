@@ -66,11 +66,19 @@ public class SecurityConfig {
                             .authenticated();
                     authorize.requestMatchers("/api/admin/**")
                             .hasRole("ADMIN");
+                    authorize.requestMatchers(AUTH_WHITELIST).permitAll();
                 }).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http
                 .headers(headers -> headers.disable());
         return http.build();
     }
+
+    private static final String[] AUTH_WHITELIST = {
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
+            "/swagger-ui/**",
+            "/swagger-bankAPI.html"
+    };
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
