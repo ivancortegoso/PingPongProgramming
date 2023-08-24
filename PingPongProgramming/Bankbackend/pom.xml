@@ -32,8 +32,9 @@
         <h2.version>2.2.220</h2.version>
         <springdoc.version>2.2.0</springdoc.version>
         <springfox.version>3.0.0</springfox.version>
-        <spring-boot-starter-parent.version>2.4.0</spring-boot-starter-parent.version>
+        <spring-boot-starter-parent.version>3.1.2</spring-boot-starter-parent.version>
         <springfox-bean-validators>2.9.2</springfox-bean-validators>
+        <springdoc-openapi-ui.version>1.7.0</springdoc-openapi-ui.version>
     </properties>
     <dependencies>
         <dependency>
@@ -171,14 +172,14 @@
                 <version>${springfox.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-parent</artifactId>
-                <version>${spring-boot-starter-parent.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-bean-validators</artifactId>
                 <version>${springfox-bean-validators}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc-openapi-ui.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
