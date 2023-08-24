@@ -10,6 +10,7 @@ import com.solera.bankbackend.domain.model.User;
 import com.solera.bankbackend.service.BankAccountService;
 import com.solera.bankbackend.service.RoleService;
 import com.solera.bankbackend.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/api/bankaccount")
+@Tag(name = "Bank account", description = "API operations related with bank accounts")
 public class BankAccountController {
 
     @Autowired
