@@ -2,6 +2,13 @@ package com.solera.bankbackend.config.security;
 
 import com.solera.bankbackend.config.security.filters.JwtAuthenticationFilter;
 import com.solera.bankbackend.service.UserService;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -66,10 +73,37 @@ public class SecurityConfig {
                             .authenticated();
                     authorize.requestMatchers("/api/admin/**")
                             .hasRole("ADMIN");
+                    authorize.requestMatchers(AUTH_WHITELIST).permitAll();
                 }).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http
                 .headers(headers -> headers.disable());
         return http.build();
+    }
+
+    private static final String[] AUTH_WHITELIST = {
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
+            "/swagger-ui/**",
+            "/swagger-bankAPI.html"
+    };
+
+    private SecurityScheme createAPIKeyScheme() {
+        return new SecurityScheme().type(SecurityScheme.Type.HTTP)
+                .bearerFormat("JWT")
+                .scheme("bearer");
+    }
+    @Bean
+    public OpenAPI openAPI() {
+        return new OpenAPI().addSecurityItem(new SecurityRequirement().
+                        addList("Bearer Authentication"))
+                .components(new Components().addSecuritySchemes
+                        ("Bearer Authentication", createAPIKeyScheme()))
+                .info(new Info().title("Bank API")
+                        .description("Bank functions.")
+                        .version("1.0").contact(new Contact().name("Ivan Cortegoso")
+                                .email( "ivancortegoso@hotmail.com"))
+                        .license(new License().name("License of API")
+                                .url("API license URL")));
     }
 
     @Bean

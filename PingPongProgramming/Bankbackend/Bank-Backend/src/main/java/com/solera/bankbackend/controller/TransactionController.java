@@ -13,6 +13,7 @@ import com.solera.bankbackend.service.BankAccountService;
 import com.solera.bankbackend.service.CommentaryService;
 import com.solera.bankbackend.service.TransactionService;
 import com.solera.bankbackend.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -23,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/transaction/")
+@Tag(name = "Transaction", description = "API operations related with transactions")
 public class TransactionController {
     @Autowired
     BankAccountService bankAccountService;

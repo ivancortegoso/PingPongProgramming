@@ -7,6 +7,7 @@ import com.solera.bankbackend.domain.dto.responses.JWTAuthResponse;
 import com.solera.bankbackend.domain.mapper.UserMapper;
 import com.solera.bankbackend.service.AuthServiceImpl;
 import com.solera.bankbackend.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/api/public/")
+@Tag(name = "Authentication", description = "API authentication functions, register and login")
 public class AuthenticationController {
     @Autowired
     protected UserService userService;

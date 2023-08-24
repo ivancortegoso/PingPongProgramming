@@ -56,6 +56,7 @@ public class ControllerErrorHandlerAdvice {
 	    response.getErrors().add(new ApiError("", e.getMessage()));
 	    return response;
 	}
+
 	@ExceptionHandler(EntityNotFoundException.class)
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	@ResponseBody
