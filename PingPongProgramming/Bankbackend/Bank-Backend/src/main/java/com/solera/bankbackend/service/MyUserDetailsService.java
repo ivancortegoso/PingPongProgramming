@@ -36,14 +36,6 @@ public class MyUserDetailsService implements UserDetailsService {
         User user = userRepository.findByUsernameAndEnabled(username, true)
                 .orElseThrow(() -> new UsernameNotFoundException("User not exists or is disabled"));
 
-        /*
-        if (user == null) {
-            return new org.springframework.security.core.userdetails.User(
-                    " ", " ", true, true, true, true,
-                    getAuthorities(Collections.singletonList(
-                            roleRepository.findByName("ROLE_USER"))));
-        }
-         */
         return new org.springframework.security.core.userdetails.User(
                 user.getEmail(), user.getPassword(), user.isEnabled(), true, true,
                 true, getAuthorities(user.getRoles()));
