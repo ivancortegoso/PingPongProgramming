@@ -16,7 +16,6 @@ import com.solera.bankbackend.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +36,7 @@ public class TransactionController {
 
     @GetMapping(path = "{id}")
     @ResponseBody
-    public ResponseEntity<?> getTransactionById(@PathVariable(name = "id") Long transactionId) {
+    public ResponseEntity<TransactionResponse> getTransactionById(@PathVariable(name = "id") Long transactionId) {
         Transaction transaction = transactionService.findById(transactionId);
         if (transaction == null) {
             throw new EntityNotFoundException("Transaction not found.");
@@ -47,21 +46,21 @@ public class TransactionController {
 
     @GetMapping(path = "all")
     @ResponseBody
-    public ResponseEntity<?> getTransactionAll() {
+    public ResponseEntity<List<TransactionResponse>> getTransactionAll() {
         List<TransactionResponse> transactionResponses = transactionService.findAllTransactionResponse();
         return ResponseEntity.ok(transactionResponses);
     }
 
     @GetMapping(path = "user")
     @ResponseBody
-    public ResponseEntity<?> getTransactionUser() {
+    public ResponseEntity<List<TransactionResponse>> getTransactionUser() {
         List<TransactionResponse> transactionResponsesByUser = transactionService.getTransactionsByUser();
         return ResponseEntity.ok(transactionResponsesByUser);
     }
 
     @GetMapping(path = "friends")
     @ResponseBody
-    public ResponseEntity<?> getTransactionFriends() throws ApiErrorException {
+    public ResponseEntity<List<TransactionResponse>> getTransactionFriends() throws ApiErrorException {
         User user = userService.getLogged();
         if (user.getFriends().size() == 0) {
             throw new ApiErrorException("User has no friends.");
@@ -72,7 +71,7 @@ public class TransactionController {
 
     @PostMapping(path = "")
     @ResponseBody
-    public ResponseEntity<?> createTransaction(@RequestBody TransactionRequest request) throws ApiErrorException {
+    public ResponseEntity<Void> createTransaction(@RequestBody TransactionRequest request) throws ApiErrorException {
         User user = userService.getLogged();
         BankAccount sender = bankAccountService.findByIdAndEnabled(request.getSenderID());
         BankAccount receiver = bankAccountService.findByIdAndEnabled(request.getReceiverID());
@@ -86,24 +85,24 @@ public class TransactionController {
             throw new ApiErrorException("Not enough balance");
         }
         transactionService.CreateTransaction(sender, receiver, request);
-        return ResponseEntity.ok("Transaction made successfully.");
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path = "commentary")
     @ResponseBody
-    public ResponseEntity<?> createCommentary(@RequestBody CreateCommentaryRequest request) {
+    public ResponseEntity<Void> createCommentary(@RequestBody CreateCommentaryRequest request) {
         User user = userService.getLogged();
         Transaction transaction = transactionService.findById(request.getTransactionId());
         if(transaction == null) {
             throw new EntityNotFoundException("Transaction not found.");
         }
         transactionService.createCommentary(transaction, user, request);
-        return ResponseEntity.ok("Commentary created successfully.");
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "commentary")
     @ResponseBody
-    public ResponseEntity<?> deleteCommentary(@RequestBody DeleteCommentaryRequest request) throws ApiErrorException {
+    public ResponseEntity<Void> deleteCommentary(@RequestBody DeleteCommentaryRequest request) throws ApiErrorException {
         User user = userService.getLogged();
         Commentary commentary = commentaryService.findById(request.getId());
         User writer = commentary.getWriter();
@@ -113,12 +112,12 @@ public class TransactionController {
             throw new ApiErrorException("User logged is not allowed to delete the commentary.");
         }
         transactionService.deleteCommentary(request);
-        return ResponseEntity.ok("Commentary deleted");
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path = "{id}")
     @ResponseBody
-    public ResponseEntity<?> likeTransaction(@PathVariable(name = "id") Long transactionId) throws ApiErrorException {
+    public ResponseEntity<Void> likeTransaction(@PathVariable(name = "id") Long transactionId) throws ApiErrorException {
         User user = userService.getLogged();
         Transaction transaction = transactionService.findById(transactionId);
         if (transaction == null) {
@@ -127,11 +126,11 @@ public class TransactionController {
             throw new ApiErrorException("User already liked the transaction.");
         }
         transactionService.userLikeTransaction(transaction, user);
-        return ResponseEntity.ok("Like added");
+        return ResponseEntity.ok().build();
     }
     @DeleteMapping(path = "{id}")
     @ResponseBody
-    public ResponseEntity<?> deleteLikeTransaction(@PathVariable(name = "id") Long transactionId) throws ApiErrorException {
+    public ResponseEntity<Void> deleteLikeTransaction(@PathVariable(name = "id") Long transactionId) throws ApiErrorException {
         User user = userService.getLogged();
         Transaction transaction = transactionService.findById(transactionId);
         if (transaction == null) {
@@ -140,6 +139,6 @@ public class TransactionController {
             throw new ApiErrorException("User does not like the transaction.");
         }
         transactionService.deleteUserLikeTransaction(transaction, user);
-        return ResponseEntity.ok("Like added");
+        return ResponseEntity.ok().build();
     }
 }

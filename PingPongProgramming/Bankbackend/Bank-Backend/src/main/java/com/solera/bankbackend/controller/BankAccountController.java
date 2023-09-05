@@ -32,14 +32,14 @@ public class BankAccountController {
 
     @GetMapping("")
     @ResponseBody
-    public ResponseEntity<?> getUserBankAccounts() {
+    public ResponseEntity<Set<BankAccountResponse>> getUserBankAccounts() {
         Set<BankAccountResponse> bankAccounts = bankAccountService.findAllByUserAndEnabled();
         return ResponseEntity.ok(bankAccounts);
     }
 
     @DeleteMapping(path = "/{id}")
     @ResponseBody
-    public ResponseEntity<?> deleteBankAccount(@PathVariable Long id) throws ApiErrorException {
+    public ResponseEntity<Void> deleteBankAccount(@PathVariable Long id) throws ApiErrorException {
         User user = userService.getLogged();
         BankAccount bankAccount = bankAccountService.findByIdAndEnabled(id);
         if (bankAccount == null) {
@@ -48,12 +48,12 @@ public class BankAccountController {
             throw new ApiErrorException("Logged user is not the bank account owner");
         }
         bankAccountService.delete(bankAccount, user);
-        return ResponseEntity.ok("Bank account deleted successfully.");
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path = "")
     @ResponseBody
-    public ResponseEntity<?> createBankAccount(@RequestBody CreateBankAccountRequest request) throws ApiErrorException {
+    public ResponseEntity<Void> createBankAccount(@RequestBody CreateBankAccountRequest request) throws ApiErrorException {
         User user = userService.getLogged();
         if (user.getBalance() < request.getBalance()) {
             throw new ApiErrorException("Not enough balance.");
@@ -61,12 +61,12 @@ public class BankAccountController {
             throw new ApiErrorException("Maximum number of bank accounts reached.");
         }
         bankAccountService.create(request, user);
-        return ResponseEntity.ok("Bank account created successfully.");
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path = "/deposit")
     @ResponseBody
-    public ResponseEntity<?> depositMoneyBankaccount(@RequestBody DepositMoneyBankaccountRequest request)
+    public ResponseEntity<Void> depositMoneyBankaccount(@RequestBody DepositMoneyBankaccountRequest request)
             throws ApiErrorException {
         User user = userService.getLogged();
         BankAccount bankAccount = bankAccountService.findByIdAndEnabled(request.getReceiverId());
@@ -78,12 +78,12 @@ public class BankAccountController {
             throw new ApiErrorException("Insufficient balance");
         }
         bankAccountService.deposit(bankAccount, user, request.getBalance());
-        return ResponseEntity.ok("Deposit made successfully");
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path = "/withdraw")
     @ResponseBody
-    public ResponseEntity<?> withdrawMoneyBankaccount(@RequestBody WithdrawMoneyBankaccountRequest request)
+    public ResponseEntity<Void> withdrawMoneyBankaccount(@RequestBody WithdrawMoneyBankaccountRequest request)
             throws ApiErrorException {
         User user = userService.getLogged();
         BankAccount bankAccount = bankAccountService.findByIdAndEnabled(request.getSenderId());
@@ -95,7 +95,7 @@ public class BankAccountController {
             throw new ApiErrorException("Insufficient balance");
         }
         bankAccountService.withdraw(bankAccount, user, request.getBalance());
-        return ResponseEntity.ok("Withdraw made.");
+        return ResponseEntity.ok().build();
     }
 
 }

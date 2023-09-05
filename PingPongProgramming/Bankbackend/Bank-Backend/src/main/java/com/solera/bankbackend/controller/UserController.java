@@ -48,10 +48,10 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") })
     })
-    public ResponseEntity<?> putUserAccountInformation(@RequestBody UpdateUserRequest request) {
+    public ResponseEntity<Void> putUserAccountInformation(@RequestBody UpdateUserRequest request) {
         User user = userService.getLogged();
         userService.updateUser(user, request);
-        return ResponseEntity.ok("User updated successfully");
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
@@ -67,7 +67,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") })
     })
-    public ResponseEntity<?> getUserAccountInformation() {
+    public ResponseEntity<UserAccountInformation> getUserAccountInformation() {
         return ResponseEntity.ok(userService.getUserAccountInformation());
     }
 
@@ -84,7 +84,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") })
     })
-    public ResponseEntity<?> addFriend(@RequestBody FriendRequest request) throws ApiErrorException {
+    public ResponseEntity<Void> addFriend(@RequestBody FriendRequest request) throws ApiErrorException {
         User user = userService.getLogged();
         Optional<User> friend = userService.findByUsernameAndEnabled(request.getUsername());
         if (!friend.isPresent()) {
@@ -93,7 +93,7 @@ public class UserController {
             throw new ApiErrorException("Users are already friends");
         }
         userService.addFriend(user, friend.get());
-        return ResponseEntity.ok("Friend added successfully.");
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path = "/deposit")
@@ -109,13 +109,13 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") })
     })
-    public ResponseEntity<?> depositMoney(@RequestBody DepositMoneyUserRequest request) throws ApiErrorException {
+    public ResponseEntity<Void> depositMoney(@RequestBody DepositMoneyUserRequest request) throws ApiErrorException {
         User user = userService.getLogged();
         if (request.getBalance() < 0) {
             throw new ApiErrorException("Negative balance deposit");
         }
         userService.depositMoney(user, request.getBalance());
-        return ResponseEntity.ok("Deposit done.");
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path = "/withdraw")
@@ -131,7 +131,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") })
     })
-    public ResponseEntity<?> withdraw(@RequestBody DepositMoneyUserRequest request) throws ApiErrorException {
+    public ResponseEntity<Void> withdraw(@RequestBody DepositMoneyUserRequest request) throws ApiErrorException {
         User user = userService.getLogged();
         if (user.getBalance() < request.getBalance()) {
             throw new ApiErrorException("Insufficient balance.");
@@ -139,7 +139,7 @@ public class UserController {
             throw new ApiErrorException("Negative balance withdraw.");
         }
         userService.withdrawMoney(request.getBalance(), user);
-        return ResponseEntity.ok("withdraw done.");
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping(path = "/upgrade")
@@ -155,7 +155,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") }),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = { @Content(schema = @Schema(implementation = ApiError.class), mediaType = "application/json") })
     })
-    public ResponseEntity<?> upgradePremiumUser() throws ApiErrorException {
+    public ResponseEntity<Void> upgradePremiumUser() throws ApiErrorException {
         User user = userService.getLogged();
         Privilege premiumUserPrivilege
                 = privilegeService.createPrivilegeIfNotFound("PREMIUM_USER_PRIVILEGE");
@@ -165,7 +165,7 @@ public class UserController {
         }
         else if (user.getBalance() >= 50) {
             userService.upgradePremiumUser(user, 50, premiumUserRole);
-            return ResponseEntity.ok("User upgraded successfully");
+            return ResponseEntity.ok().build();
         } else {
             throw new ApiErrorException("Insufficient balance.");
         }

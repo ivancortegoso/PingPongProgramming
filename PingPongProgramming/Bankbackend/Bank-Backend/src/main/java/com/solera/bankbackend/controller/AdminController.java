@@ -1,6 +1,5 @@
 package com.solera.bankbackend.controller;
 
-import com.solera.bankbackend.domain.dto.exceptions.ApiErrorException;
 import com.solera.bankbackend.domain.model.User;
 import com.solera.bankbackend.service.UserService;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -18,10 +17,10 @@ public class AdminController {
 
     @DeleteMapping("deleteuser/{username}")
     @ResponseBody
-    public ResponseEntity<?> deleteUserAccount(@PathVariable String username) {
+    public ResponseEntity<Void> deleteUserAccount(@PathVariable String username) {
         User userDelete = userService.findByUsernameAndEnabled(username)
                 .orElseThrow(() -> new EntityNotFoundException("Bank account not found."));
         userService.deleteUser(userDelete);
-        return ResponseEntity.ok("User deleted successfully.");
+        return ResponseEntity.ok().build();
     }
 }

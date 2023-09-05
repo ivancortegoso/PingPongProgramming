@@ -4,6 +4,7 @@ import com.solera.bankbackend.domain.dto.LoginDto;
 import com.solera.bankbackend.domain.dto.exceptions.ApiErrorException;
 import com.solera.bankbackend.domain.dto.request.CreateUserRequest;
 import com.solera.bankbackend.domain.dto.responses.JWTAuthResponse;
+import com.solera.bankbackend.domain.dto.responses.UserAccountInformation;
 import com.solera.bankbackend.domain.mapper.UserMapper;
 import com.solera.bankbackend.service.AuthServiceImpl;
 import com.solera.bankbackend.service.UserService;
@@ -38,7 +39,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(jwtAuthResponse);
     }
     @PostMapping(path = "register")
-    public ResponseEntity<?> register(@RequestBody CreateUserRequest request) throws ApiErrorException {
+    public ResponseEntity<UserAccountInformation> register(@RequestBody CreateUserRequest request) throws ApiErrorException {
         if (userService.findByEmail(request.getEmail()) != null) {
             throw new ApiErrorException("Email already exists!");
         }
