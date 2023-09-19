@@ -19,6 +19,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
@@ -60,7 +61,7 @@ public class SecurityConfig {
     }
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable()).cors(withDefaults())
+        http.csrf(AbstractHttpConfigurer::disable).cors(withDefaults())
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers(new AntPathRequestMatcher("/h2-console/**"))
                             .permitAll();
@@ -74,11 +75,18 @@ public class SecurityConfig {
                     authorize.requestMatchers("/api/admin/**")
                             .hasRole("ADMIN");
                     authorize.requestMatchers(AUTH_WHITELIST).permitAll();
+                    authorize.requestMatchers(ACTUATOR_HAL).permitAll();
                 }).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http
-                .headers(headers -> headers.disable());
+                .headers(AbstractHttpConfigurer::disable);
         return http.build();
     }
+
+    private static final String[] ACTUATOR_HAL = {
+            "/actuator/**",
+            "/explorer/**",
+            "/"
+    };
 
     private static final String[] AUTH_WHITELIST = {
             "/v3/api-docs/**",
